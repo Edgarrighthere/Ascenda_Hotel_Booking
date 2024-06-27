@@ -1,0 +1,94 @@
+.listContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.listWrapper {
+    width: 100%;
+    max-width: 1024px;
+    display: flex;
+    gap: 20px;
+}
+
+.listSearch {
+    flex: 1;
+    background-color: orange;
+    padding: 10px;
+    position: sticky;
+    border-radius: 20px;
+    top: 10px;
+    height: max-content;
+    font-family: 'Lato';
+}
+
+.listTitle {
+    font-size: 25px;
+    color: midnightblue;
+    margin-bottom: 10px;
+}
+
+.listItem {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.listItem>label {
+    font-size: 20px;
+}
+
+.listItem>input {
+    height: 30px;
+    border: none;
+    padding: 5px;
+    font-weight: 500;
+    font-family: 'Lato';
+    font-size: medium;
+}
+
+.listItem>span {
+    height: 30px;
+    padding: 5px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.listOptions {
+    padding: 10px;
+}
+
+.listOptionItem {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: midnightblue;
+    font-size: 15px;
+}
+
+.listOptionInput {
+    width: 50px;
+    font-size: medium;
+    text-align: center;
+}
+
+.listSearch>button {
+    padding: 10px;
+    background-color: midnightblue;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+    font-size: medium;
+    font-weight: 500;
+    font-family: 'Lato';
+    cursor: pointer;
+}
+
+.listResult {
+    flex: 3;
+}

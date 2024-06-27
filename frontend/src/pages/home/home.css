@@ -1,0 +1,32 @@
+.homeContainer {
+    margin-top: 5vh; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2vh; 
+}
+
+.homeTitle {
+    width: 97vw; 
+    max-width: 1024px; 
+    font-size: 1.5rem; 
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    .homeTitle {
+        font-size: 1.5rem; /* Adjust font size for smaller screens */
+    }
+}
+
+/* Media query for extra small screens */
+@media (max-width: 480px) {
+    .homeTitle {
+        font-size: 1.2rem; /* Adjust font size for extra small screens */
+        width: 90vw; 
+    }
+
+    .homeContainer {
+        gap: 1.5vh; /* Adjust gap for smaller screens */
+    }
+}

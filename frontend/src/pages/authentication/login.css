@@ -1,0 +1,42 @@
+.login {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+.loginContainer {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.loginTitle {
+    color: midnightblue;
+    font-family: 'Lato';
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.loginInput{
+    height: 30px;
+    padding: 10px;
+    font-family: 'Lato';
+    width: 100%;
+    align-self: center;
+}
+
+.loginButton {
+    align-self: center;
+    width: 60%;
+    border: none;
+    padding: 10px 20px;
+    background-color: midnightblue;
+    color: white;
+    font-weight: bold;
+    font-size: medium;
+    font-family: 'Lato';
+    cursor: pointer;
+    border-radius: 10px;
+}

@@ -1,0 +1,32 @@
+.navbar {
+    height: 80px;
+    background-color: midnightblue;
+    display: flex;
+    justify-content: center;
+    font-family: 'Lato';
+}
+
+.navContainer {
+    width: 100%;
+    max-width: 1024px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    width: 25%;
+}
+
+.navButton {
+    width: 120px;
+    margin-left: 20px;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    cursor: pointer;
+    color: black;
+    font-family: 'Lato';
+    font-size: large;
+}
