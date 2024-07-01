@@ -9,6 +9,7 @@ import List from "./pages/list/List";
 import Hotel from "./pages/hotel/Hotel";
 import Login from "./pages/authentication/Login";
 import Register from "./pages/authentication/Register";
+import ForgotPwd from "./pages/authentication/ForgotPwd";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/hotels/:id" element={<Hotel/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
+        <Route path="/forgotPassword" element={<ForgotPwd/>}/>
       </Routes>
     </BrowserRouter>
   );

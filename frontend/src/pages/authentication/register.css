@@ -93,6 +93,7 @@
     cursor: pointer;
     border-radius: 10px;
     text-align: center;
+    align-self: center;
 }
 
 .registerButton:hover {

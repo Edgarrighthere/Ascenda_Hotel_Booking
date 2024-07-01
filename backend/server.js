@@ -9,7 +9,10 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000', // Replace with your frontend URL
+    credentials: true,
+}));
 
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost:27017/myapp', {
@@ -56,6 +59,29 @@ app.post('/register', async (req, res) => {
         res.status(500).json({ message: "An error occurred. Please try again." });
     }
 });
+
+app.post("/login", async (req, res) => {
+    const { identifier, password } = req.body;
+
+    try {
+        const user = await User.findOne({ $or: [{ email: identifier }, { username: identifier }] });
+        if (!user) {
+            return res.status(400).json({ message: "Invalid email/username." });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: "Invalid password." });
+        }
+
+        res.status(200).json({ message: "Login successful. Redirecting to home page..." });
+    } catch (error) {
+        console.error("Error during login:", error);
+        res.status(500).json({ message: "An error occurred. Please try again." });
+    }
+});
+
+
 
 // Start the server
 app.listen(PORT, () => {
