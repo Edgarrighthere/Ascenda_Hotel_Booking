@@ -57,7 +57,10 @@
     border-radius: 20px;
     padding: 10px;
     cursor: pointer;
-    
+}
+
+.headerBtn:hover {
+    background-color: darkorange;
 }
 
 .headerSearch {
