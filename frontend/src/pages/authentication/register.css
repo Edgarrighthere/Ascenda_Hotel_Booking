@@ -58,22 +58,6 @@
     color: black;
 }
 
-.error {
-    color: red;
-    margin-top: 10px;
-    text-align: center;
-    font-family: 'Lato';
-    font-size: medium;
-}
-
-.success {
-    color: green;
-    margin-top: 10px;
-    text-align: center;
-    font-family: 'Lato';
-    font-size: medium;
-}
-
 .buttonContainer {
     display: flex;
     justify-content: center;
@@ -98,4 +82,20 @@
 
 .registerButton:hover {
     background-color: #4b4b8c; /* Slightly different color on hover */
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+    text-align: center;
+    font-family: 'Lato';
+    font-size: medium;
+}
+
+.success {
+    color: green;
+    margin-top: 10px;
+    text-align: center;
+    font-family: 'Lato';
+    font-size: medium;
 }

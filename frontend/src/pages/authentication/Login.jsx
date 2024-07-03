@@ -78,12 +78,12 @@ const Login = () => {
                             {passwordVisible ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                         </span>
                     </div>
-                    {error && <div className="error">{error}</div>}
-                    {success && <div className="success">{success}</div>}
                     <div className="buttonContainer">
                         <button className="loginButton" onClick={handleLogin}>Login</button>
                         <button className="forgotPassword" onClick={handleForgotPassword}>Forgot Password?</button>
                     </div>
+                    {error && <div className="error">{error}</div>}
+                    {success && <div className="success">{success}</div>}
                 </div>
             </div> 
             <Footer />

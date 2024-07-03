@@ -9,7 +9,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./header.css";
 import { DateRange } from "react-date-range";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Autosuggest from 'react-autosuggest';
+import didYouMean from 'didyoumean2';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { format } from "date-fns";
@@ -18,6 +20,9 @@ import { useNavigate } from "react-router-dom";
 const Header =({ type }) => {
     const [destination, setDestination] = useState("");
     const [openDate, setOpenDate] = useState(false);
+    const [suggestions, setSuggestions] = useState([]);
+    const [destinations, setDestinations] = useState([]);
+
     const [date, setDate] = useState([
         {
             startDate: new Date(),
@@ -35,6 +40,13 @@ const Header =({ type }) => {
 
     const navigate = useNavigate(); //use to redirect between pages
 
+    useEffect(() => {
+        // Fetch destinations from JSON file
+        fetch('/destinations.json')
+          .then(response => response.json())
+          .then(data => setDestinations(data));
+      }, []);
+
     const handleOption = (name, operation) => {
         setOptions((prev) => {
             return {
@@ -51,6 +63,43 @@ const Header =({ type }) => {
     const handleLogin = () => {
         navigate("/login");
     };
+
+    const getSuggestions = value => {
+        const inputValue = value.trim().toLowerCase();
+        const inputLength = inputValue.length;
+    
+        if (inputLength === 0) {
+            return [];
+        }
+    
+        // Get the terms from the destinations and apply didYouMean2
+        const terms = destinations.map(dest => dest.term);
+        const suggestions = didYouMean(inputValue, terms, { 
+            returnType: 'all-sorted-matches' 
+        });
+
+        return suggestions
+        .map(suggestion => destinations.find(dest => dest.term && dest.term.toLowerCase() === suggestion.toLowerCase()))
+        .filter(Boolean); // Filter out any undefined results
+    };
+
+    const onSuggestionsFetchRequested = ({ value }) => {
+        setSuggestions(getSuggestions(value));
+    };
+
+    const onSuggestionsClearRequested = () => {
+        setSuggestions([]);
+    };
+
+    const onChange = (event, { newValue }) => {
+        setDestination(newValue);
+    };
+
+    const renderSuggestion = suggestion => (
+        <div className="autosuggestSuggestion">
+            {suggestion.term}
+        </div>
+    );
 
     return (
         <div className="header">
@@ -81,11 +130,25 @@ const Header =({ type }) => {
                     <div className="headerSearch">
                         <div className="headerSearchItem">
                             <FontAwesomeIcon icon={faBed} className="headerIcon" />
-                            <input 
-                                type="text"
-                                placeholder="Where are you going?"
-                                className="headerSearchInput" 
-                                onChange={e=>setDestination(e.target.value)}
+                            <Autosuggest
+                                suggestions={suggestions}
+                                onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                                onSuggestionsClearRequested={onSuggestionsClearRequested}
+                                getSuggestionValue={suggestion => suggestion.term}
+                                renderSuggestion={renderSuggestion}
+                                inputProps={{
+                                    placeholder: 'Where are you going?',
+                                    value: destination,
+                                    onChange: onChange,
+                                    className: "headerSearchInput"
+                                }}
+                                className="headerSearchInput"
+                                theme={{
+                                    suggestionsContainer: "autosuggestSuggestionsContainer",
+                                    suggestionsList: "autosuggestSuggestions",
+                                    suggestion: "autosuggestSuggestion",
+                                    suggestionHighlighted: "autosuggestSuggestion--highlighted"
+                                }}
                             />
                         </div>
                         <div className="headerSearchItem">

@@ -120,11 +120,11 @@ const Register = () => {
                             {confirmPasswordVisible ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                         </span>
                     </div>
-                    {error && <div className="error">{error}</div>}
-                    {success && <div className="success">{success}</div>}
                     <div className="buttonContainer">
                         <button className="registerButton" onClick={handleRegister}>Register Now!</button>
                     </div>
+                    {error && <div className="error">{error}</div>}
+                    {success && <div className="success">{success}</div>}
                 </div>
             </div> 
             <Footer />
