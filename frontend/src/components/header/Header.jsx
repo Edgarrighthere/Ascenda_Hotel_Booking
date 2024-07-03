@@ -147,7 +147,8 @@ const Header =({ type }) => {
                                     suggestionsContainer: "autosuggestSuggestionsContainer",
                                     suggestionsList: "autosuggestSuggestions",
                                     suggestion: "autosuggestSuggestion",
-                                    suggestionHighlighted: "autosuggestSuggestion--highlighted"
+                                    suggestionHighlighted: "autosuggestSuggestion--highlighted",
+                                    container: "autosuggestContainer"
                                 }}
                             />
                         </div>

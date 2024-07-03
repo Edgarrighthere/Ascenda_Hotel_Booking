@@ -99,19 +99,19 @@
 .autosuggestSuggestionsContainer {
     position: absolute;
     top: 80%;
-    right: 75%;
     background-color: white;
     border-radius: 4px;
-    border-color: black;
     z-index: 2;
     max-height: 400px; 
     overflow-y: auto;
+    border: 1px solid grey; /* Border around suggestions */
 }
 
 .autosuggestSuggestions {
     list-style-type: none;
     padding: 0;
     margin: 0;
+    width: 220px;
 }
 
 .autosuggestSuggestion {
