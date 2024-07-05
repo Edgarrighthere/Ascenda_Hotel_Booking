@@ -17,7 +17,7 @@ app.use(cors({
 }));
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/myapp', {
+mongoose.connect('mongodb://localhost:27017/validUsers', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });

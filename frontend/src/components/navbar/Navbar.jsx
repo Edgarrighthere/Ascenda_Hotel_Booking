@@ -1,9 +1,10 @@
 import "./navbar.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Navbar = () => {
 
     const navigate = useNavigate(); //use to redirect between pages
+    const location = useLocation();
 
     const handleLogin = () => {
         navigate("/login");
@@ -13,10 +14,21 @@ const Navbar = () => {
         navigate("/register");
     };
 
+    const handleLogoClick = () => {
+        if (location.pathname !== "/") {
+            navigate("/");
+        }
+    };
+
     return (
         <div className="navbar"> 
             <div className="navContainer">
-                <img src="images/logo_ascenda.png" className="logo"></img>
+                <img 
+                    src="images/logo_ascenda.png" 
+                    className="logo"
+                    onClick={handleLogoClick}
+                    alt="Ascenda Logo">
+                </img>
                 <div className="navItems">
                     <button className="navButton" onClick={handleRegister}>Register</button>
                     <button className="navButton" onClick={handleLogin}>Log in</button>
