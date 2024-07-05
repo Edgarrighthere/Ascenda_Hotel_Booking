@@ -11,6 +11,17 @@
     gap: 20px;
 }
 
+.searchAndMapContainer {
+    position: sticky;
+}
+
+.mapContainer {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
 .listSearch {
     flex: 1;
     background-color: orange;

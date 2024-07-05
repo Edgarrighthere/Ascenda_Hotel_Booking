@@ -56,7 +56,7 @@ const Hotel = () => {
 
     return (
         <div>
-            <Navbar/>
+            <Navbar />
             <Header type="list"/>
             <div className="hotelContainer">
                 {open && (
