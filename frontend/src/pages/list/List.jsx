@@ -39,6 +39,35 @@ const List = () => {
         console.log('Search button clicked');
     };
 
+    const [priceListings, setPriceListings] = useState(location.state.priceListings);
+    const [destinationId, setDestinationId] = useState(location.state.retrievedId);
+    const [checkin, setCheckin] = useState(location.state.checkin);
+    const [checkout, setCheckout] = useState(location.state.checkout);
+    const [guests, setGuests] = useState(location.state.guests);
+    const [hotelInformation, setHotelInformation] = useState([]);
+    const [hotelPrice, setHotelPrice] = useState([]);
+
+    useEffect(() => {
+        setHotelPrice(priceListings);
+        retrieveHotelInformation();
+    },[])
+    
+    // need to implement the completed:true check, if complete:false, try again
+    async function retrieveHotelInformation() {
+        console.log(hotelPrice);
+        console.log("RETRIEVED ID 2: " + destinationId);
+        const response = await fetch(`http://localhost:3000/hotel_search/${destinationId}/${checkin}/${checkout}/${guests}`, {
+            headers: {
+                "Content-type": "application/x-www-form-urlencoded",
+            }
+        })
+        const json = await response.json();
+        setHotelInformation(json);
+
+        console.log(hotelPrice.length);
+        console.log(json.length);
+    }
+
     return (
         <div>
             <Navbar />
@@ -128,15 +157,14 @@ const List = () => {
                         </div>
                     </div>
                     <div className="listResult">
-                        <SearchItem />
-                        <SearchItem />
-                        <SearchItem />
-                        <SearchItem />
-                        <SearchItem />
-                        <SearchItem />
-                        <SearchItem />
-                        <SearchItem />
-                        <SearchItem />
+                        {/* <SearchItem hotelName="HOTEL NAME" hotelAddress="HOTEL ADDRESS" hotelPrice="$400"/> */}
+                        {hotelPrice.map(price =>
+                            <SearchItem 
+                                hotelId={price.id}
+                                hotelInformation={hotelInformation}
+                                hotelPrice={price.price}
+                            />
+                        )}
                     </div>
                 </div>
             </div>

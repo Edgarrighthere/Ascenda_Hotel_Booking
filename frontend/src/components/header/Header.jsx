@@ -18,10 +18,12 @@ import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
 const Header =({ type }) => {
-    const [destination, setDestination] = useState("");
+    const [destination, setDestination] = useState(""); // what you enter into search bar
     const [openDate, setOpenDate] = useState(false);
     const [suggestions, setSuggestions] = useState([]);
-    const [destinations, setDestinations] = useState([]);
+    const [destinations, setDestinations] = useState([]); // for the suggestions
+
+    const [destinationId, setDestinationId] = useState("");
 
     const [date, setDate] = useState([
         {
@@ -38,14 +40,67 @@ const Header =({ type }) => {
         rooms:1
     });
 
+    const [checkin, setCheckin] = useState([]);
+    const [checkout, setCheckout] = useState([]);
+    const [guests, setGuests] = useState([]);
+
     const navigate = useNavigate(); //use to redirect between pages
 
     useEffect(() => {
         // Fetch destinations from JSON file
-        fetch('/destinations.json')
+        fetch("/destinations.json")
           .then(response => response.json())
           .then(data => setDestinations(data));
-      }, []);
+    }, []);
+
+    useEffect(() => {
+        setCheckin(format(date[0].startDate,"yyyy-MM-dd"));
+        setCheckout(format(date[0].endDate, "yyyy-MM-dd"));
+        setGuests(countGuestsAndRooms());
+    })
+
+
+    // Get destination ID
+    async function getId() {
+        console.log("destination: " + destination + ", checkin: " + checkin + ", checkout: " + checkout + ", guests: " + guests);
+        var retrievedId;
+        for (let getDestination of destinations) {
+            if (destination.includes(getDestination.term)) {
+                retrievedId = getDestination.uid;
+                console.log(retrievedId);
+                setDestinationId(retrievedId);
+                retrieveHotelListings(retrievedId);
+                break
+            }
+        }
+    }
+
+    // need to implement the completed:true check, if complete:false, try again
+    async function retrieveHotelListings(retrievedId) {
+        //console.log("Going to fetch from backend server with id: " + retrievedId);
+        const response = await fetch(`http://localhost:3000/hotel_price/${retrievedId}/${checkin}/${checkout}/${guests}`, {
+            headers: {
+                "Content-type": "application/x-www-form-urlencoded",
+            }
+        })
+        const price_listings_json = await response.json();
+        console.log(price_listings_json);
+        console.log("pric length: " + price_listings_json.length);
+        handleSearch(price_listings_json, retrievedId);
+    }
+
+    function countGuestsAndRooms() {
+        var guest_count = options.adult + options.children;
+        console.log("GUEST COUNT: " + guest_count);
+        var room_count = options.rooms;
+        console.log("ROOM COUNT: " + room_count);
+        var guest_input = `${guest_count}`
+        if (room_count > 1) {
+            guest_input += `|${guest_count}` 
+        }
+        console.log(guest_input);
+        return guest_input;
+    }
 
     const handleOption = (name, operation) => {
         setOptions((prev) => {
@@ -56,8 +111,9 @@ const Header =({ type }) => {
         });
     };
 
-    const handleSearch = () => {
-        navigate("/hotels", {state: {destination, date, options}});
+    const handleSearch = (priceListings, retrievedId) => {
+        console.log("RETRIEVED ID: " + retrievedId);
+        navigate("/hotels", {state: {destination, date, options, priceListings, retrievedId, checkin, checkout, guests}});
     };
 
     const handleLogin = () => {
@@ -213,7 +269,7 @@ const Header =({ type }) => {
                                 </div>}
                         </div>
                         <div className="headerSearchItem">
-                            <button className="headerBtn" onClick={handleSearch}>Search</button>
+                            <button className="headerBtn" onClick={getId}>Search</button>
                         </div>
                     </div>
                 </>}
