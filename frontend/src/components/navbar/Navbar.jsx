@@ -24,7 +24,7 @@ const Navbar = () => {
         <div className="navbar"> 
             <div className="navContainer">
                 <img 
-                    src="images/logo_ascenda.png" 
+                    src="/images/logo_ascenda.png" 
                     className="logo"
                     onClick={handleLogoClick}
                     alt="Ascenda Logo"

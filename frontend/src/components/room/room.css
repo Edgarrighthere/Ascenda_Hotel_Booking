@@ -1,0 +1,75 @@
+.room-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+.room {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.room-image img {
+    width: 100px;
+    height: auto;
+    border-radius: 10px;
+}
+
+.room-info {
+    flex: 1;
+    margin-left: 20px;
+}
+
+.room-type {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.room-pricing {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.price-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.room-plan {
+    font-size: 1em;
+}
+
+.room-price {
+    font-weight: bold;
+}
+
+.non-refundable {
+    color: red;
+}
+
+.cancel-policy {
+    color: green;
+}
+
+.select-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.select-button:hover {
+    background-color: #0056b3;
+}
+

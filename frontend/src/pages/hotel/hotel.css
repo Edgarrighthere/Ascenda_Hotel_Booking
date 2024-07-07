@@ -32,7 +32,7 @@
 
 .hotelTitle {
     font-size: 30px;
-    font-family: 'Lota';
+    font-family: 'Lato';
 }
 
 .hotelAddress {
@@ -161,3 +161,24 @@
     color: lightgray;
     cursor: pointer;
 }
+
+.centeredContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Adjust margin as needed */
+  }
+  
+  .centeredContent {
+    width: 100%; /* Ensure content takes full width */
+    max-width: 1050px; /* Adjust max-width as per design */
+  }
+
+  .amenitiesContainer {
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+  }
+  
+  .amenitiesContainer .centeredContent {
+    max-width: 79%; /* Adjust max-width as needed */
+    margin-left: auto; /* Push content to the right */
+  }
