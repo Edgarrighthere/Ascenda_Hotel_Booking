@@ -21,6 +21,7 @@
     margin-bottom: 20px;
     border-radius: 20px;
     overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .listSearch {
@@ -29,15 +30,16 @@
     padding: 10px;
     position: sticky;
     border-radius: 20px;
-    top: 10px;
     height: max-content;
     font-family: 'Lato';
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .listTitle {
     font-size: 25px;
     color: midnightblue;
-    margin-bottom: 10px;
+    margin-bottom: 5%;
+    margin-top: 3%;
 }
 
 .listItem {
@@ -70,7 +72,7 @@
     background-color: white;
     margin-top: 6px;
     overflow-y: auto;
-    z-index: 2;
+    z-index: 5;
     max-height: 400px; 
     border-color: transparent;
 }
@@ -131,7 +133,7 @@
 }
 
 .listOptions {
-    padding: 10px;
+    padding: 15px;
 }
 
 .listOptionItem {
@@ -139,7 +141,7 @@
     justify-content: space-between;
     margin-bottom: 10px;
     color: midnightblue;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .listOptionInput {
@@ -163,6 +165,43 @@
 
 .listResult {
     flex: 3;
+}
+
+.rangeSlider {
+    margin-top: 15px;
+}
+
+.priceRangeValues {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.priceRangeMin, .priceRangeMax {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.priceRangeMin {
+    align-items: flex-start;
+}
+
+.priceRangeMax {
+    align-items: flex-end;
+}
+
+.priceRangeMin label, .priceRangeMax label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: small;
+    font-family: 'Lato';
+}
+
+.priceRangeMin span, .priceRangeMax span {
+    font-family: 'Lato';
 }
 
 .optionCounter {

@@ -98,6 +98,7 @@
 
 .autosuggestSuggestionsContainer {
     position: absolute;
+    width: 100%;
     top: 80%;
     background-color: white;
     border-radius: 4px;
@@ -111,7 +112,6 @@
     list-style-type: none;
     padding: 0;
     margin: 0;
-    width: 220px;
 }
 
 .autosuggestSuggestion {

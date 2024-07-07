@@ -1,17 +1,20 @@
-import "./list.css";
-import Header from "../../components/header/Header";
+import React from 'react';
+import './list.css';
+import Header from '../../components/header/Header';
 import Navbar from '../../components/navbar/Navbar';
-import { useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { format } from "date-fns";
-import { DateRange } from "react-date-range";
-import SearchItem from "../../components/searchItem/SearchItem";
-import Map from "../../components/maps/Map";
+import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { format } from 'date-fns';
+import { DateRange } from 'react-date-range';
+import SearchItem from '../../components/searchItem/SearchItem';
+import Map from '../../components/maps/Map';
 import Autosuggest from 'react-autosuggest';
 import didYouMean from 'didyoumean2';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
+import RangeSlider from 'react-range-slider-input';
+import 'react-range-slider-input/dist/style.css'; // Import the slider CSS
 
 const List = () => {
     const location = useLocation();
@@ -30,6 +33,7 @@ const List = () => {
         2: false,
         1: false
     });
+    const [priceRange, setPriceRange] = useState([0, 2500]); // State for price range
 
     useEffect(() => {
         fetch('/destinations.json')
@@ -98,7 +102,7 @@ const List = () => {
 
     const renderStars = (rating) => {
         const stars = [];
-        for (let i = 1; i <= 5; i++) {
+        for (let i = 5; i >= 1; i--) {
             stars.push(
                 <FontAwesomeIcon
                     key={i}
@@ -108,6 +112,10 @@ const List = () => {
             );
         }
         return stars;
+    };
+
+    const handlePriceRangeChange = (newRange) => {
+        setPriceRange(newRange);
     };
 
     return (
@@ -162,20 +170,28 @@ const List = () => {
                                 )}
                             </div>
                             <div className="listItem">
+                                <label>Price <small>per night</small></label>
+                                <RangeSlider
+                                    min={0}
+                                    max={2500}
+                                    defaultValue={priceRange}
+                                    onInput={handlePriceRangeChange}
+                                    className="rangeSlider"
+                                />
+                                <div className="priceRangeValues">
+                                    <div className="priceRangeMin">
+                                        <label>MIN</label>
+                                        <span>SGD {priceRange[0]}</span>
+                                    </div>
+                                    <div className="priceRangeMax">
+                                        <label>MAX</label>
+                                        <span>SGD {priceRange[1]}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="listItem">
                                 <label>Options</label>
                                 <div className="listOptions">
-                                    <div className="listOptionItem">
-                                        <span className="listOptionText">
-                                            Min. Price <small>per night</small>
-                                        </span>
-                                        <input type="number" className="listOptionInput" />
-                                    </div>
-                                    <div className="listOptionItem">
-                                        <span className="listOptionText">
-                                            Max. Price <small>per night</small>
-                                        </span>
-                                        <input type="number" className="listOptionInput" />
-                                    </div>
                                     <div className="listOptionItem">
                                         <span className="listOptionText">
                                             Adult 
@@ -226,13 +242,10 @@ const List = () => {
                                     ))}
                                 </div>
                             </div>
-                            <button onClick={handleSearch}>Search</button>
+                            <button className="listSearchButton" onClick={handleSearch}>Search</button>
                         </div>
                     </div>
                     <div className="listResult">
-                        <SearchItem />
-                        <SearchItem />
-                        <SearchItem />
                         <SearchItem />
                         <SearchItem />
                         <SearchItem />
@@ -247,4 +260,3 @@ const List = () => {
 };
 
 export default List;
-
