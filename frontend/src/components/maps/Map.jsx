@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import './map.css';
 
 const containerStyle = {
   width: '100%',
-  height: '250px',
+  height: '100%',
 };
 
 const center = {
@@ -20,16 +20,25 @@ const Map = ({ lat, lng }) => {
 
   const mapOptions = {
     disableDefaultUI: true,
-    zoomControl: true,
+    zoomControl: false,
+    draggable: true, // Disable dragging the map
+    scrollwheel: true, // Disable zooming using scrollwheel
+    disableDoubleClickZoom: false, // Disable zooming using double click
+  };
+
+  const [isMapEnlarged, setIsMapEnlarged] = useState(false);
+
+  const toggleMapSize = () => {
+    setIsMapEnlarged(!isMapEnlarged);
   };
 
   return isLoaded ? (
-    <div>
+    <div className={`map-container ${isMapEnlarged ? 'enlarged' : ''}`}>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={{ lat: lat || center.lat, lng: lng || center.lng }}
         zoom={10}
-        options={mapOptions}
+        options={isMapEnlarged ? mapOptions : { ...mapOptions, draggable: false, scrollwheel: false, disableDoubleClickZoom: true }}
       >
         {lat && lng && (
           <Marker 
@@ -37,6 +46,16 @@ const Map = ({ lat, lng }) => {
           />
         )}
       </GoogleMap>
+      {!isMapEnlarged && (
+        <button className="toggle-map-button-map" onClick={toggleMapSize}>
+          View Map
+        </button>
+      )}
+      {isMapEnlarged && (
+        <button className="toggle-map-button-list" onClick={toggleMapSize}>
+          View List
+        </button>
+      )}
     </div>
   ) : <></>;
 };

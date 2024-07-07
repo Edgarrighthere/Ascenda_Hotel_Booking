@@ -7,6 +7,8 @@ import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import SearchItem from "../../components/searchItem/SearchItem";
 import Map from "../../components/maps/Map";
+import Autosuggest from 'react-autosuggest';
+import didYouMean from 'didyoumean2';
 
 const List = () => {
     const location = useLocation();
@@ -16,24 +18,57 @@ const List = () => {
     const [options, setOptions] = useState(location.state.options);
     const [lat, setLat] = useState(null);
     const [lng, setLng] = useState(null);
+    const [suggestions, setSuggestions] = useState([]);
+    const [destinations, setDestinations] = useState([]);
 
     useEffect(() => {
         fetch('/destinations.json')
             .then(response => response.json())
-            .then(data => {
-                const dest = data.find(dest => dest.term === destination);
-                if (dest) {
-                    setLat(dest.lat);
-                    setLng(dest.lng);
-                }
-            })
-            .catch(error => console.error('Error fetching destinations:', error));
-    }, [destination]);
+            .then(data => setDestinations(data));
+    }, []);
 
-    const handleDestinationChange = (event) => {
-        setDestination(event.target.value);
+    useEffect(() => {
+        const dest = destinations.find(dest => dest.term === destination);
+        if (dest) {
+            setLat(dest.lat);
+            setLng(dest.lng);
+        }
+    }, [destination, destinations]);
+
+    const getSuggestions = value => {
+        const inputValue = value.trim().toLowerCase();
+        const inputLength = inputValue.length;
+
+        if (inputLength === 0) {
+            return [];
+        }
+
+        const terms = destinations.map(dest => dest.term);
+        const suggestions = didYouMean(inputValue, terms, { returnType: 'all-sorted-matches' });
+
+        return suggestions
+            .map(suggestion => destinations.find(dest => dest.term && dest.term.toLowerCase() === suggestion.toLowerCase()))
+            .filter(Boolean);
     };
-    
+
+    const onSuggestionsFetchRequested = ({ value }) => {
+        setSuggestions(getSuggestions(value));
+    };
+
+    const onSuggestionsClearRequested = () => {
+        setSuggestions([]);
+    };
+
+    const onChange = (event, { newValue }) => {
+        setDestination(newValue);
+    };
+
+    const renderSuggestion = suggestion => (
+        <div className="autosuggestSuggestion">
+            {suggestion.term}
+        </div>
+    );
+
     const handleSearch = () => {
         // Implement your search functionality here
         console.log('Search button clicked');
@@ -53,16 +88,30 @@ const List = () => {
                             <h1 className="listTitle">Search</h1>
                             <div className="listItem">
                                 <label>Destination</label>
-                                <input 
-                                    value={destination}
-                                    onChange={handleDestinationChange}
-                                    placeholder="Enter destination"
-                                    type="text" 
+                                <Autosuggest
+                                    suggestions={suggestions}
+                                    onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                                    onSuggestionsClearRequested={onSuggestionsClearRequested}
+                                    getSuggestionValue={suggestion => suggestion.term}
+                                    renderSuggestion={renderSuggestion}
+                                    inputProps={{
+                                        placeholder: 'Enter destination',
+                                        value: destination,
+                                        onChange: onChange,
+                                        className: "listSearchInput"
+                                    }}
+                                    theme={{
+                                        suggestionsContainer: "autosuggestSuggestionsContainer",
+                                        suggestionsList: "autosuggestSuggestions",
+                                        suggestion: "autosuggestSuggestion",
+                                        suggestionHighlighted: "autosuggestSuggestion--highlighted",
+                                        container: "autosuggestContainer"
+                                    }}
                                 />
                             </div>
                             <div className="listItem">
                                 <label>Check-in Date</label>
-                                <span onClick={() => setOpenDate(!openDate)}>
+                                <span className="listDatepicker" onClick={() => setOpenDate(!openDate)}>
                                     {`${format(date[0].startDate, "dd/MM/yyyy")} to 
                                     ${format(date[0].endDate, "dd/MM/yyyy")}`}
                                 </span>
@@ -124,7 +173,7 @@ const List = () => {
                                     </div>
                                 </div>
                             </div>
-                            <button>Search</button>
+                            <button onClick={handleSearch}>Search</button>
                         </div>
                     </div>
                     <div className="listResult">
@@ -145,3 +194,4 @@ const List = () => {
 };
 
 export default List;
+

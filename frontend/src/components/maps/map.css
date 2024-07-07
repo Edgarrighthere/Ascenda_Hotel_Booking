@@ -1,4 +1,43 @@
 .map-container {
-    height: 400px; 
+    height: 250px;
     width: 100%;
+    position: relative;
+    transition: height 0.3s ease;
 }
+  
+.map-container.enlarged {
+    height: 60vh;
+    width: 41%;
+    position: fixed;
+    top: 26%;
+    left: 35.9%;
+    z-index: 1000; /* Adjust z-index as needed */
+}
+  
+.toggle-map-button-map {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 1100; /* Ensure button appears above map */
+    background-color: midnightblue;
+    border-radius: 10px;
+    color: white;
+    font-style: "Lato";
+    padding: 10px;
+    cursor: pointer;
+}
+
+.toggle-map-button-list {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1100; /* Ensure button appears above map */
+    background-color: midnightblue;
+    border-radius: 10px;
+    color: white;
+    font-style: "Lato";
+    padding: 10px;
+    cursor: pointer;
+}
+
+  
