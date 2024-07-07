@@ -9,6 +9,9 @@ import SearchItem from "../../components/searchItem/SearchItem";
 import Map from "../../components/maps/Map";
 import Autosuggest from 'react-autosuggest';
 import didYouMean from 'didyoumean2';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 
 const List = () => {
     const location = useLocation();
@@ -20,6 +23,13 @@ const List = () => {
     const [lng, setLng] = useState(null);
     const [suggestions, setSuggestions] = useState([]);
     const [destinations, setDestinations] = useState([]);
+    const [starRatings, setStarRatings] = useState({
+        5: false,
+        4: false,
+        3: false,
+        2: false,
+        1: false
+    });
 
     useEffect(() => {
         fetch('/destinations.json')
@@ -80,6 +90,24 @@ const List = () => {
 
     const decrementOption = (option) => {
         setOptions(prev => ({ ...prev, [option]: prev[option] > 0 ? prev[option] - 1 : 0 }));
+    };
+
+    const handleStarRatingChange = (star) => {
+        setStarRatings(prev => ({ ...prev, [star]: !prev[star] }));
+    };
+
+    const renderStars = (rating) => {
+        const stars = [];
+        for (let i = 1; i <= 5; i++) {
+            stars.push(
+                <FontAwesomeIcon
+                    key={i}
+                    icon={i <= rating ? faStar : faStarRegular}
+                    className={i <= rating ? "star-icon yellow" : "star-icon grey"}
+                />
+            );
+        }
+        return stars;
     };
 
     return (
@@ -178,6 +206,24 @@ const List = () => {
                                             <button onClick={() => incrementOption('rooms')} className="optionCounterButton">+</button>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div className="listItem">
+                                <label>Hotel Star Rating</label>
+                                <div className="listStarRatings">
+                                    {Object.keys(starRatings).map(star => (
+                                        <div key={star} className="listStarRatingItem">
+                                            <input
+                                                type="checkbox"
+                                                id={`star-${star}`}
+                                                checked={starRatings[star]}
+                                                onChange={() => handleStarRatingChange(star)}
+                                            />
+                                            <label htmlFor={`star-${star}`}>
+                                                {renderStars(star)}
+                                            </label>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                             <button onClick={handleSearch}>Search</button>

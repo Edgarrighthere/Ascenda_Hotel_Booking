@@ -6,14 +6,14 @@
 
 .listWrapper {
     width: 100%;
-    max-width: 1024px;
+    max-width: 1200px;
     display: flex;
     gap: 20px;
 }
 
 .searchAndMapContainer {
     position: sticky;
-    width: 250px;
+    flex: 1;
 }
 
 .mapContainer {
@@ -25,7 +25,7 @@
 
 .listSearch {
     flex: 1;
-    background-color: orange;
+    background-color: whitesmoke;
     padding: 10px;
     position: sticky;
     border-radius: 20px;
@@ -191,3 +191,16 @@
     font-family: 'Lato';
 }
 
+.listStarRatingItem {
+    padding: 5px;
+}
+
+.star-icon.yellow {
+    color: gold;
+    padding: 1%;
+}
+
+.star-icon.grey {
+    color: grey;
+    padding: 1%;
+}
