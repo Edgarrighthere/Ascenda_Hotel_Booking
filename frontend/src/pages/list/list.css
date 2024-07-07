@@ -13,6 +13,7 @@
 
 .searchAndMapContainer {
     position: sticky;
+    width: 250px;
 }
 
 .mapContainer {
@@ -44,6 +45,7 @@
     flex-direction: column;
     gap: 5px;
     margin-bottom: 10px;
+    position: relative;
 }
 
 .listItem>label {
@@ -70,13 +72,14 @@
     overflow-y: auto;
     z-index: 2;
     max-height: 400px; 
+    border-color: transparent;
 }
 
 .autosuggestSuggestions {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 180px;
+    width: 100%;
 }
 
 .autosuggestSuggestion {
@@ -116,6 +119,17 @@
     font-weight: 500;
 }
 
+.datePickerOverlay {
+    position: absolute;
+    top: 101%; /* Adjust based on the position you need */
+    left: 0;
+    z-index: 1000;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 .listOptions {
     padding: 10px;
 }
@@ -149,5 +163,31 @@
 
 .listResult {
     flex: 3;
+}
+
+.optionCounter {
+    display: flex;
+    align-items: center;
+}
+
+.optionCounterButton {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: midnightblue;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.optionCounterNumber {
+    margin: 0 10px;
+    font-size: 18px;
+    color: black;
+    font-family: 'Lato';
 }
 

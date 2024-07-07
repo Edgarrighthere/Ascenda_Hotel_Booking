@@ -74,6 +74,14 @@ const List = () => {
         console.log('Search button clicked');
     };
 
+    const incrementOption = (option) => {
+        setOptions(prev => ({ ...prev, [option]: prev[option] + 1 }));
+    };
+
+    const decrementOption = (option) => {
+        setOptions(prev => ({ ...prev, [option]: prev[option] > 0 ? prev[option] - 1 : 0 }));
+    };
+
     return (
         <div>
             <Navbar />
@@ -116,11 +124,13 @@ const List = () => {
                                     ${format(date[0].endDate, "dd/MM/yyyy")}`}
                                 </span>
                                 {openDate && (
-                                    <DateRange
-                                        onChange={(item)=>setDate([item.selection])}
-                                        minDate={new Date()}
-                                        ranges={date}
-                                    />
+                                    <div className="datePickerOverlay">
+                                        <DateRange
+                                            onChange={(item)=>setDate([item.selection])}
+                                            minDate={new Date()}
+                                            ranges={date}
+                                        />
+                                    </div>
                                 )}
                             </div>
                             <div className="listItem">
@@ -142,34 +152,31 @@ const List = () => {
                                         <span className="listOptionText">
                                             Adult 
                                         </span>
-                                        <input 
-                                            type="number" 
-                                            min={1} 
-                                            className="listOptionInput" 
-                                            placeholder={options.adult}
-                                        />
+                                        <div className="optionCounter">
+                                            <button disabled={options.adult <= 1} onClick={() => decrementOption('adult')} className="optionCounterButton">-</button>
+                                            <span className="optionCounterNumber">{options.adult}</span>
+                                            <button onClick={() => incrementOption('adult')} className="optionCounterButton">+</button>
+                                        </div>
                                     </div>
                                     <div className="listOptionItem">
                                         <span className="listOptionText">
                                             Children 
                                         </span>
-                                        <input 
-                                            type="number" 
-                                            min={0} 
-                                            className="listOptionInput" 
-                                            placeholder={options.children}
-                                        />
+                                        <div className="optionCounter">
+                                            <button disabled={options.children <= 0} onClick={() => decrementOption('children')} className="optionCounterButton">-</button>
+                                            <span className="optionCounterNumber">{options.children}</span>
+                                            <button onClick={() => incrementOption('children')} className="optionCounterButton">+</button>
+                                        </div>
                                     </div>
                                     <div className="listOptionItem">
                                         <span className="listOptionText">
                                             Rooms 
                                         </span>
-                                        <input 
-                                            type="number" 
-                                            min={1} 
-                                            className="listOptionInput" 
-                                            placeholder={options.rooms}
-                                        />
+                                        <div className="optionCounter">
+                                            <button disabled={options.rooms <= 1} onClick={() => decrementOption('rooms')} className="optionCounterButton">-</button>
+                                            <span className="optionCounterNumber">{options.rooms}</span>
+                                            <button onClick={() => incrementOption('rooms')} className="optionCounterButton">+</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
