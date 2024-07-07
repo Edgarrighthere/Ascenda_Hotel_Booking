@@ -12,8 +12,8 @@
 }
 
 .searchAndMapContainer {
-    position: sticky;
     flex: 1;
+    position: sticky;
 }
 
 .mapContainer {
@@ -29,6 +29,7 @@
     background-color: whitesmoke;
     padding: 10px;
     position: sticky;
+    top: 10px; /* Adjust the top value as needed */
     border-radius: 20px;
     height: max-content;
     font-family: 'Lato';

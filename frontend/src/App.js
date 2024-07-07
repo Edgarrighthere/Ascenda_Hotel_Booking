@@ -11,8 +11,12 @@ import Login from "./pages/authentication/Login";
 import Register from "./pages/authentication/Register";
 import ForgotPwd from "./pages/authentication/ForgotPwd";
 import ResetPwd from "./pages/authentication/ResetPwd";
+import { useState } from 'react';
 
 function App() {
+  const [email, setEmail] = useState();
+  const [opt, setOTP] = useState();
+
   return (
     <BrowserRouter>
       <Routes>
