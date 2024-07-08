@@ -135,7 +135,7 @@ const List = () => {
     async function retrieveHotelInformation() {
         console.log(hotelPrice);
         console.log("RETRIEVED ID 2: " + destinationId);
-        const response = await fetch(`http://localhost:3000/hotel_search/${destinationId}/${checkin}/${checkout}/${guests}`, {
+        const response = await fetch(`http://localhost:5000/hotel_search/${destinationId}/${checkin}/${checkout}/${guests}`, {
             headers: {
                 "Content-type": "application/x-www-form-urlencoded",
             }

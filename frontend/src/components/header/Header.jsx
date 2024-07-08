@@ -78,7 +78,7 @@ const Header =({ type }) => {
     // need to implement the completed:true check, if complete:false, try again
     async function retrieveHotelListings(retrievedId) {
         //console.log("Going to fetch from backend server with id: " + retrievedId);
-        const response = await fetch(`http://localhost:3000/hotel_price/${retrievedId}/${checkin}/${checkout}/${guests}`, {
+        const response = await fetch(`http://localhost:5000/hotel_price/${retrievedId}/${checkin}/${checkout}/${guests}`, {
             headers: {
                 "Content-type": "application/x-www-form-urlencoded",
             }

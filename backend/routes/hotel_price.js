@@ -25,7 +25,7 @@ router.get("/:id/:checkin/:checkout/:guests", async function (req, res, next) {
         completed = json["completed"];
     }
 
-    res.set("Access-Control-Allow-Origin", "http://localhost:3001");
+    res.set("Access-Control-Allow-Origin", "http://localhost:3000");
     res.send(`${JSON.stringify(json["hotels"].slice(0, 10))}`);
 });
 
