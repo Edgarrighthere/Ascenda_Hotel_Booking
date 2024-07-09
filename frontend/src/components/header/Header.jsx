@@ -57,7 +57,7 @@ const Header =({ type }) => {
         setCheckin(format(date[0].startDate,"yyyy-MM-dd"));
         setCheckout(format(date[0].endDate, "yyyy-MM-dd"));
         setGuests(countGuestsAndRooms());
-    })
+    });
 
 
     // Get destination ID
@@ -91,14 +91,14 @@ const Header =({ type }) => {
 
     function countGuestsAndRooms() {
         var guest_count = options.adult + options.children;
-        console.log("GUEST COUNT: " + guest_count);
+        //console.log("GUEST COUNT: " + guest_count);
         var room_count = options.rooms;
-        console.log("ROOM COUNT: " + room_count);
+        //console.log("ROOM COUNT: " + room_count);
         var guest_input = `${guest_count}`
         if (room_count > 1) {
             guest_input += `|${guest_count}` 
         }
-        console.log(guest_input);
+        //console.log(guest_input);
         return guest_input;
     }
 

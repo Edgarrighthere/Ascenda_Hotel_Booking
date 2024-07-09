@@ -85,6 +85,7 @@ const List = () => {
 
     const handleSearch = () => {
         // Implement your search functionality here
+        
         console.log('Search button clicked');
     };
 

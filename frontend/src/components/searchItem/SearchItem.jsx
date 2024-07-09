@@ -2,17 +2,21 @@ import "./searchItem.css";
 import { useState, useEffect } from "react";
 
 const SearchItem = ({hotelId, hotelInformation, hotelPrice}) => {
+    const placeholderImg = "images/airbnb_image.jpg"
  
     return (
         hotelInformation.map(hotel => hotel.id === hotelId &&
             <div className="searchItem">
                 <img 
-                    src="images/aman_tokyo_image.png" 
+                    src={hotel.image_details.prefix + "1" + hotel.image_details.suffix} 
+                    onError={(e) => {
+                        e.target.src = placeholderImg;
+                    }}
                     alt="" 
                     className="siImg"
                 />
                 <div className="siDescription">
-                    <h1 className="siTitle">{hotel.name} ({hotelId})</h1>
+                    <h1 className="siTitle">{hotel.name}</h1>
                     <span className="siDistance">{hotel.address}</span>
                     <span className="siTaxiOp">Free Airport Transfer</span>
                     <span className="siSubtitle">Suite with Air conditioning</span>
@@ -26,20 +30,14 @@ const SearchItem = ({hotelId, hotelInformation, hotelPrice}) => {
                         <button>8.9 / 10</button>
                     </div>
                     <div className="siDetailTexts">
-                        {/* {hotelPriceSet.map(priceInfo =>
-                            <span className="siPrice">
-                                {console.log("HOTEL ID: " + hotelId)}
-                                {console.log(priceInfo.id, priceInfo.id == hotelId)}
-                                {priceInfo.id == hotelId ? console.log(priceInfo.price) : null}
-                            </span>)} */}
-                        <span className="siPrice">${hotelPrice} ({hotelId})</span>
+                        <span className="siPrice">${hotelPrice}</span>
                         <span className="siTaxOp">Includes taxes and fees</span>
                         <button className="siCheckButton">See Availability</button>
                     </div>
                 </div>
             </div>
         )
-    );
+    )
 };
 
 export default SearchItem;
