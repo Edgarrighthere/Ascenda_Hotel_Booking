@@ -84,6 +84,26 @@
     background-color: #4b4b8c;
 }
 
+.resendContainer {
+    margin-top: 10px;
+    text-align: center;
+    font-family: 'Lato';
+    font-size: medium;
+}
+
+.resendButton {
+    border: none;
+    background: none;
+    color: midnightblue;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.resendButton:hover {
+    color: #4b4b8c;
+}
+
 .error {
     color: red;
     margin-top: 10px;

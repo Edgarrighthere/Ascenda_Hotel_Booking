@@ -70,6 +70,26 @@ const InputOTP = () => {
         }
     };
 
+    const handleResend = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/resend-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                alert('Check your registered email for the code.');
+            } else {
+                setError('Error resending OTP. Please try again.');
+            }
+        } catch (error) {
+            setError('Error resending OTP');
+        }
+    };
+
     return (
         <div className="otpPage">
             <Navbar />
@@ -95,6 +115,10 @@ const InputOTP = () => {
                     </div>
                     {error && <div className="error">{error}</div>}
                     {success && <div className="success">{success}</div>} 
+                    <div className="resendContainer">
+                        <span>Didn't receive code?</span>
+                        <button className="resendButton" onClick={handleResend}>Resend code</button>
+                    </div>
                 </div>
             </div>
             <Footer />
