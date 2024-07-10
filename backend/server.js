@@ -1,4 +1,3 @@
-// Ensure you have the correct imports and initializations
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -47,7 +46,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-// Define routes
+// Register route
 app.post('/register', async (req, res) => {
     const { email, username, password } = req.body;
 
@@ -73,6 +72,7 @@ app.post('/register', async (req, res) => {
     }
 });
 
+// Login route
 app.post("/login", async (req, res) => {
     const { identifier, password } = req.body;
 
@@ -110,6 +110,7 @@ app.post("/login", async (req, res) => {
     }
 });
 
+// Verify OTP route
 app.post("/verify-otp", async (req, res) => {
     const { email, otp } = req.body;
 
@@ -131,6 +132,7 @@ app.post("/verify-otp", async (req, res) => {
     }
 });
 
+// Resend OTP route
 app.post("/resend-otp", async (req, res) => {
     const { email } = req.body;
 

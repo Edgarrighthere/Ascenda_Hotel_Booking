@@ -10,6 +10,7 @@ import Hotel from "./pages/hotel/Hotel";
 import Login from "./pages/authentication/Login";
 import Register from "./pages/authentication/Register";
 import InputOTP from "./pages/authentication/InputOTP";
+import ForgotPwd from "./pages/authentication/ForgotPwd";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/inputOTP" element={<InputOTP/>}/>
+        <Route path="/forgotPassword" element={<ForgotPwd/>}/>
       </Routes>
     </BrowserRouter>
   );
