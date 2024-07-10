@@ -1,3 +1,4 @@
+// Ensure you have the correct imports and initializations
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -35,6 +36,9 @@ const userSchema = new mongoose.Schema({
     otpExpiration: Date 
 });
 
+const User = mongoose.model('User', userSchema);
+
+// Email configuration
 const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
@@ -43,9 +47,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-const User = mongoose.model('User', userSchema);
-
-// Register route
+// Define routes
 app.post('/register', async (req, res) => {
     const { email, username, password } = req.body;
 
@@ -71,7 +73,6 @@ app.post('/register', async (req, res) => {
     }
 });
 
-// login route
 app.post("/login", async (req, res) => {
     const { identifier, password } = req.body;
 
@@ -102,7 +103,7 @@ app.post("/login", async (req, res) => {
 
         await transporter.sendMail(mailOptions);
 
-        res.status(200).json({ message: "Login successful. Verify with the OTP sent to your registered email..." });
+        res.status(200).json({ message: "Login successful. Verify with the OTP sent to your registered email...", email: user.email });
     } catch (error) {
         console.error("Error during login:", error);
         res.status(500).json({ message: "An error occurred. Please try again." });
@@ -115,7 +116,7 @@ app.post("/verify-otp", async (req, res) => {
     try {
         const user = await User.findOne({ email, otp, otpExpiration: { $gt: Date.now() } });
         if (!user) {
-            return res.status(400).json({ message: "Invalid OTP or OTP expired." });
+            return res.status(400).json({ success: false, message: "Invalid OTP or OTP expired." });
         }
 
         // Clear OTP after successful verification
@@ -126,10 +127,9 @@ app.post("/verify-otp", async (req, res) => {
         res.status(200).json({ success: true, message: "OTP verified successfully." });
     } catch (error) {
         console.error("Error during OTP verification:", error);
-        res.status(500).json({ message: "An error occurred. Please try again." });
+        res.status(500).json({ success: false, message: "An error occurred. Please try again." });
     }
 });
-
 
 // Start the server
 app.listen(PORT, () => {

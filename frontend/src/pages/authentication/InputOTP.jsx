@@ -1,14 +1,16 @@
 import React, { useState, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import './inputOTP.css';
 
-const InputOTP = ({ onVerify }) => {
+const InputOTP = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const email = location.state?.email;
     const [otp, setOtp] = useState(Array(6).fill(''));
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState(''); 
     const inputRefs = useRef([]);
 
     const handleChange = (e, index) => {
@@ -47,7 +49,7 @@ const InputOTP = ({ onVerify }) => {
         }
 
         try {
-            const response = await fetch('/verify-otp', {
+            const response = await fetch('http://localhost:5000/verify-otp', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, otp: otpString })
@@ -56,9 +58,12 @@ const InputOTP = ({ onVerify }) => {
             const data = await response.json();
 
             if (data.success) {
-                onVerify();
+                setSuccess('Valid OTP entered. Redirecting you to home page...');
+                setTimeout(() => {
+                    navigate('/');
+                }, 3000); // Redirect after 3 seconds
             } else {
-                setError('Invalid OTP');
+                setError('Invalid OTP. Please make sure you entered the correct OTP sent.');
             }
         } catch (error) {
             setError('Error verifying OTP');
@@ -71,7 +76,7 @@ const InputOTP = ({ onVerify }) => {
             <div className="inputotp">
                 <div className="otpContainer">
                     <div className="otpTitle">2FA Authentication</div>
-                    <div className="otpTitle1">Please check your email for the OPT sent.</div>
+                    <div className="otpTitle1">Please check your email for the OTP sent.</div>
                     <div className="otpInputContainer">
                         {otp.map((digit, index) => (
                             <input
@@ -89,6 +94,7 @@ const InputOTP = ({ onVerify }) => {
                         <button className="verifyButton" onClick={handleVerify}>Verify OTP</button>
                     </div>
                     {error && <div className="error">{error}</div>}
+                    {success && <div className="success">{success}</div>} 
                 </div>
             </div>
             <Footer />
