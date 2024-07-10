@@ -35,12 +35,22 @@
     font-weight: bold;
 }
 
-.otpContainer input {
-    height: 30px;
-    padding: 10px;
-    font-family: 'Lato';
-    font-size: medium;
-    width: 95%;
+.otpTitle1 {
+    font-size: 15px;
+}
+
+.otpInputContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.otpInputContainer input {
+    height: 40px;
+    width: 40px;
+    font-size: 20px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
 .otp-container .error {

@@ -31,15 +31,15 @@ const userSchema = new mongoose.Schema({
     email: { type: String, unique: true, required: true },
     username: { type: String, unique: true, required: true },
     password: { type: String, required: true },
-    resetToken: String,
-    resetTokenExpiration: Date
+    otp: String, 
+    otpExpiration: Date 
 });
 
 const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: 'your-email@gmail.com',
-        pass: 'your-email-password'
+        user: 'edgaraw0710@gmail.com',
+        pass: 'qfrb qqjt zdnp vsqr'
     }
 });
 
@@ -81,92 +81,55 @@ app.post("/login", async (req, res) => {
             return res.status(400).json({ message: "Invalid email/username." });
         }
 
-        if (!password) {
-            return res.status(400).json({ message: "Invalid password." });
-        }
-
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid password." });
         }
 
-        res.status(200).json({ message: "Login successful. Redirecting to home page..." });
+        // Generate OTP
+        const otp = crypto.randomInt(100000, 999999).toString();
+        user.otp = otp;
+        user.otpExpiration = Date.now() + 10 * 60 * 1000; // OTP valid for 10 minutes
+        await user.save();
+
+        // Send OTP email
+        const mailOptions = {
+            from: "edgaraw0710@gmail.com",
+            to: user.email,
+            subject: "Your OTP Code",
+            text: `Your OTP code is ${otp}. It is valid for 10 minutes.`
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        res.status(200).json({ message: "Login successful. Verify with the OTP sent to your registered email..." });
     } catch (error) {
         console.error("Error during login:", error);
         res.status(500).json({ message: "An error occurred. Please try again." });
     }
 });
 
-// forgot password route 
-app.post("/forgotPassword", async (req, res) => {
-    const { email } = req.body;
-
-    if (!email) {
-        return res.status(400).json({ message: "Email is required" });
-    }
+app.post("/verify-otp", async (req, res) => {
+    const { email, otp } = req.body;
 
     try {
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email, otp, otpExpiration: { $gt: Date.now() } });
         if (!user) {
-            return res.status(400).json({ message: "User not found" });
+            return res.status(400).json({ message: "Invalid OTP or OTP expired." });
         }
 
-        // Generate a secure token
-        const resetToken = crypto.randomBytes(32).toString('hex');
-        const tokenExpiration = Date.now() + 3600000; // Token valid for 1 hour
-
-        // Save the token and its expiration to the user document
-        user.resetToken = resetToken;
-        user.resetTokenExpiration = tokenExpiration;
+        // Clear OTP after successful verification
+        user.otp = undefined;
+        user.otpExpiration = undefined;
         await user.save();
 
-        const resetUrl = `http://localhost:3000/reset-password?token=${resetToken}`;
-
-        // Send email
-        const mailOptions = {
-            from: "your-email@gmail.com",
-            to: email,
-            subject: "Password Reset",
-            text: `Click the link to reset your password: ${resetUrl}`
-        };
-
-        await transporter.sendMail(mailOptions);
-        res.status(200).json({ message: "Reset email sent successfully" });
+        res.status(200).json({ success: true, message: "OTP verified successfully." });
     } catch (error) {
-        console.error('Error in /forgotPassword route:', error);
-        res.status(500).json({ message: "Error sending email", error });
-    }
-});
-
-// reset password route
-app.post("/resetPassword", async (req, res) => {
-    const { token, newPassword } = req.body;
-
-    if (!token || !newPassword) {
-        return res.status(400).json({ message: "Token and new password are required" });
-    }
-
-    try {
-        const user = await User.findOne({
-            resetToken: token,
-            resetTokenExpiration: { $gt: Date.now() }
-        });
-
-        if (!user) {
-            return res.status(400).json({ message: "Invalid or expired token" });
-        }
-
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(newPassword, salt);
-        user.resetToken = undefined;
-        user.resetTokenExpiration = undefined;
-        await user.save();
-
-        res.status(200).json({ message: "Password reset successfully" });
-    } catch (error) {
+        console.error("Error during OTP verification:", error);
         res.status(500).json({ message: "An error occurred. Please try again." });
     }
 });
+
 
 // Start the server
 app.listen(PORT, () => {

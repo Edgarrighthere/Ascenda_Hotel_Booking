@@ -9,14 +9,9 @@ import List from "./pages/list/List";
 import Hotel from "./pages/hotel/Hotel";
 import Login from "./pages/authentication/Login";
 import Register from "./pages/authentication/Register";
-import ForgotPwd from "./pages/authentication/ForgotPwd";
-import ResetPwd from "./pages/authentication/ResetPwd";
-import { useState } from 'react';
+import InputOTP from "./pages/authentication/InputOTP";
 
 function App() {
-  const [email, setEmail] = useState();
-  const [opt, setOTP] = useState();
-
   return (
     <BrowserRouter>
       <Routes>
@@ -25,8 +20,7 @@ function App() {
         <Route path="/hotels/:id" element={<Hotel/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
-        <Route path="/forgotPassword" element={<ForgotPwd/>}/>
-        <Route path="/resetPassword" element={<ResetPwd/>}/>
+        <Route path="/inputOTP" element={<InputOTP/>}/>
       </Routes>
     </BrowserRouter>
   );

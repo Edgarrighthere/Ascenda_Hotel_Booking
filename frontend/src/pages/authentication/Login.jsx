@@ -27,7 +27,6 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-            // Send login request to backend
             const response = await axios.post("http://localhost:5000/login", {
                 identifier,
                 password
@@ -37,7 +36,7 @@ const Login = () => {
                 setSuccess(<> <FontAwesomeIcon icon={faCheck} /> {response.data.message} </>);
                 setError(""); // Clear any previous errors
                 setTimeout(() => {
-                    navigate("/"); // Redirect to home page on successful login
+                    navigate("/inputOTP", { state: { email: identifier } }); // Pass email to inputOTP
                 }, 2000);
             } else {
                 setError("Invalid response from server."); // Handle unexpected response
@@ -47,7 +46,6 @@ const Login = () => {
             setSuccess(""); // Clear success message if there was any
         }
     };
-    
 
     const handleForgotPassword = () => {
         navigate("/forgotPassword");
@@ -61,7 +59,7 @@ const Login = () => {
                     <div className="loginTitle">Log in</div>
                     <input
                         type="text"
-                        placeholder="Enter your registered username/email."
+                        placeholder="Enter your registered email."
                         className="loginInput"
                         value={identifier}
                         onChange={(e) => setIdentifier(e.target.value)}
