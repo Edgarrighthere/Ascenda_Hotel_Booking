@@ -1,0 +1,28 @@
+.amenities-list {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Spread items out across space */
+  }
+  
+  .amenities-item {
+    margin-bottom: 8px;
+    font-size: 24px;
+    flex-basis: calc(50% - 12px); /* 50% width with space between */
+    /* Adjust margin and padding as needed */
+  }
+  
+  .amenities-item:before {
+    content: "• "; /* Bullet point */
+    font-size: 100%;
+    color: #333; /* Bullet color */
+    margin-right: 6px;
+  }
+
+  .amenitiesTitle {
+    font-size: 30px;
+    font-family: 'Lato';
+    margin-bottom: 10px;
+}
+

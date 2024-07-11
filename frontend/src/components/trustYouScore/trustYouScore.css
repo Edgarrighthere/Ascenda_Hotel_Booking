@@ -1,0 +1,57 @@
+.trustYouContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    font-family: 'Lato';
+}
+
+.trustYouWrapper {
+    width: 100%;
+    max-width: 1024px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+}
+
+.trustYouTitle {
+    font-size: 30px;
+    font-family: 'Lato';
+    margin-bottom: 10px;
+}
+
+.trustYouSection {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.trustYouCategory {
+    flex: 1;
+    text-align: center;
+    padding: 20px 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    margin: 0 5px;
+    width: 200px; /* Ensures all categories are of the same width */
+    box-sizing: border-box; /* Ensures padding and borders are included in the element's total width and height */
+}
+
+.trustYouCategoryTitle {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.trustYouScore {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff; /* Blue color */
+}
+
+.trustYouScoreSubtitle {
+    font-size: 14px;
+    color: #6c757d; /* Gray color */
+    margin-top: 5px;
+}

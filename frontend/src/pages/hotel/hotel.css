@@ -1,0 +1,208 @@
+.hotelContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    font-family: 'Lato';
+    justify-content: center;
+}
+
+.hotelWrapper {
+    width: 100%;
+    max-width: 1024px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+}
+
+.bookNow {
+    position: absolute; 
+    top: 10px;
+    right: 0;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    background-color: orange;
+    color: white;
+    font-weight: bold;
+    font-family: 'Lato';
+    font-size: medium;
+    cursor: pointer;
+}
+
+.hotelTitle {
+    font-size: 30px;
+    font-family: 'Lato';
+}
+
+.hotelAddress {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.hotelDistance {
+    color: midnightblue;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.hotelPriceHighlight {
+    color: darkgreen;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.hotelImages {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.hotelImgWrapper {
+    width: 33%;
+}
+
+.hotelImg {
+    width: 100%;
+    object-fit: cover;
+}
+
+.hotelDetails {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.hotelDetailsTexts {
+    flex: 3;
+}
+
+.hotelDescription {
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.hotelDetailsPrice {
+    flex: 1;
+    background-color: midnightblue;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 5px;
+}
+
+.hotelDetailsPrice>h1 {
+    font-size: 20px;
+    color: white;
+}
+
+.hotelDetailsPrice>span {
+    font-size: 16px;
+}
+
+.hotelDetailsPrice>h2 {
+    font-weight: 300;
+}
+
+.hotelDetailsPrice>button { 
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    background-color: orange;
+    color: white;
+    font-weight: bold;
+    font-family: 'Lato';
+    font-size: medium;
+    cursor: pointer;
+}
+
+.slider {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.613);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+}
+
+.sliderWrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sliderImg {
+    width: 80%;
+    height: 80vh;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 40px;
+    color: lightgrey;
+    cursor: pointer;
+}
+
+.arrow{
+    margin: 20px;
+    font-size: 50px;
+    color: lightgray;
+    cursor: pointer;
+}
+
+.centeredContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Adjust margin as needed */
+    flex-direction: column;
+  }
+  
+  .centeredContent {
+    width: 100%; /* Ensure content takes full width */
+    max-width: 1050px; /* Adjust max-width as per design */
+  }
+
+  .amenitiesContainer {
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+  }
+  
+  .amenitiesContainer .centeredContent {
+    max-width: 79%; /* Adjust max-width as needed */
+    margin-left: auto; /* Push content to the right */
+  }
+
+  .roomListContainer {
+    height: 110%;
+    width: 65%; /* Ensure it takes full width */
+    display: flex;
+    justify-content: center; /* Center the RoomList horizontally */
+}
+
+.mapContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.roomList {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center children horizontally */
+    width: 100%;
+    max-width: 800px; /* Adjust max-width as needed */
+  }

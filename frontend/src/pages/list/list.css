@@ -1,0 +1,245 @@
+.listContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.listWrapper {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    gap: 20px;
+}
+
+.searchAndMapContainer {
+    position: sticky;
+    flex: 1;
+}
+
+.mapContainer {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.listSearch {
+    flex: 1;
+    background-color: whitesmoke;
+    padding: 10px;
+    position: sticky;
+    border-radius: 20px;
+    height: max-content;
+    font-family: 'Lato';
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.listTitle {
+    font-size: 25px;
+    color: midnightblue;
+    margin-bottom: 5%;
+    margin-top: 3%;
+}
+
+.listItem {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.listItem>label {
+    font-size: 20px;
+}
+
+.listItem>input {
+    height: 30px;
+    border: none;
+    padding: 5px;
+    font-weight: 500;
+    font-family: 'Lato';
+    font-size: medium;
+}
+
+.autosuggestContainer {
+    position: relative;
+}
+
+.autosuggestSuggestionsContainer {
+    position: absolute;
+    background-color: white;
+    margin-top: 6px;
+    overflow-y: auto;
+    z-index: 5;
+    max-height: 400px; 
+    border-color: transparent;
+}
+
+.autosuggestSuggestions {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.autosuggestSuggestion {
+    padding: 10px;
+    cursor: pointer;
+    font-family: 'Lato';
+    font-size: medium;
+    color: black;
+}
+
+.autosuggestSuggestion--highlighted {
+    background-color: white;
+}
+
+.autosuggestSuggestion:hover {
+    background-color: skyblue;
+}
+
+.listSearchInput {
+    height: 40px;
+    border: none;
+    padding: 5px;
+    font-weight: 500;
+    font-family: 'Lato';
+    font-size: medium;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.listItem>span {
+    height: 30px;
+    padding: 5px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.datePickerOverlay {
+    position: absolute;
+    top: 101%; /* Adjust based on the position you need */
+    left: 0;
+    z-index: 1000;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.listOptions {
+    padding: 15px;
+}
+
+.listOptionItem {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: midnightblue;
+    font-size: 16px;
+}
+
+.listOptionInput {
+    width: 50px;
+    font-size: medium;
+    text-align: center;
+}
+
+.listSearch>button {
+    padding: 10px;
+    background-color: midnightblue;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+    font-size: medium;
+    font-weight: 500;
+    font-family: 'Lato';
+    cursor: pointer;
+}
+
+.listResult {
+    flex: 3;
+}
+
+.rangeSlider {
+    margin-top: 15px;
+}
+
+.priceRangeValues {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.priceRangeMin, .priceRangeMax {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.priceRangeMin {
+    align-items: flex-start;
+}
+
+.priceRangeMax {
+    align-items: flex-end;
+}
+
+.priceRangeMin label, .priceRangeMax label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: small;
+    font-family: 'Lato';
+}
+
+.priceRangeMin span, .priceRangeMax span {
+    font-family: 'Lato';
+}
+
+.optionCounter {
+    display: flex;
+    align-items: center;
+}
+
+.optionCounterButton {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: midnightblue;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.optionCounterNumber {
+    margin: 0 10px;
+    font-size: 18px;
+    color: black;
+    font-family: 'Lato';
+}
+
+.listStarRatingItem {
+    padding: 5px;
+}
+
+.star-icon.yellow {
+    color: gold;
+    padding: 1%;
+}
+
+.star-icon.grey {
+    color: grey;
+    padding: 1%;
+}
