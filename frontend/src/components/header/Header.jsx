@@ -40,9 +40,9 @@ const Header =({ type }) => {
         rooms:1
     });
 
-    const [checkin, setCheckin] = useState([]);
-    const [checkout, setCheckout] = useState([]);
-    const [guests, setGuests] = useState([]);
+    const [checkin, setCheckin] = useState("");
+    const [checkout, setCheckout] = useState("");
+    const [guests, setGuests] = useState("");
 
     const navigate = useNavigate(); //use to redirect between pages
 
@@ -57,7 +57,7 @@ const Header =({ type }) => {
         setCheckin(format(date[0].startDate,"yyyy-MM-dd"));
         setCheckout(format(date[0].endDate, "yyyy-MM-dd"));
         setGuests(countGuestsAndRooms());
-    })
+    });
 
 
     // Get destination ID
@@ -86,20 +86,31 @@ const Header =({ type }) => {
         const price_listings_json = await response.json();
         console.log(price_listings_json);
         console.log("pric length: " + price_listings_json.length);
-        handleSearch(price_listings_json, retrievedId);
+        await calculateMinMaxPrice(price_listings_json, retrievedId);
     }
 
     function countGuestsAndRooms() {
         var guest_count = options.adult + options.children;
-        console.log("GUEST COUNT: " + guest_count);
+        //console.log("GUEST COUNT: " + guest_count);
         var room_count = options.rooms;
-        console.log("ROOM COUNT: " + room_count);
+        //console.log("ROOM COUNT: " + room_count);
         var guest_input = `${guest_count}`
         if (room_count > 1) {
             guest_input += `|${guest_count}` 
         }
-        console.log(guest_input);
+        //console.log(guest_input);
         return guest_input;
+    }
+
+    async function calculateMinMaxPrice(price_listings_json, retrievedId) {
+        // Filter for price
+        var priceArray = []
+        price_listings_json.filter(obj => {
+            priceArray.push(obj.price)
+        })
+        const minPrice = Math.min(...priceArray)
+        const maxPrice = Math.max(...priceArray)
+        handleSearch(price_listings_json, retrievedId, minPrice, maxPrice);
     }
 
     const handleOption = (name, operation) => {
@@ -111,9 +122,10 @@ const Header =({ type }) => {
         });
     };
 
-    const handleSearch = (priceListings, retrievedId) => {
+    const handleSearch = (priceListings, retrievedId, minPrice, maxPrice) => {
         console.log("RETRIEVED ID: " + retrievedId);
-        navigate("/hotels", {state: {destination, date, options, priceListings, retrievedId, checkin, checkout, guests}});
+        console.log("PRICES: " + minPrice);
+        navigate("/hotels", {state: {destination, date, options, priceListings, retrievedId, checkin, checkout, guests, minPrice, maxPrice}});
     };
 
     const handleLogin = () => {
