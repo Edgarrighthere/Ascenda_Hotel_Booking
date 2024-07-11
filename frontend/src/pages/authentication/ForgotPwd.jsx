@@ -43,7 +43,7 @@ const ForgotPwd = () => {
                     <div className="fgtpwdbuttonContainer">
                         <button className="forgotPasswordButton" onClick={handleForgotPassword}>Send Reset Password Email</button>
                     </div>
-                    {success && <div className="message">{success}</div>}
+                    {success && <div className="success">{success}</div>}
                     {error && <div className="error">{error}</div>}
                 </div>
             </div>

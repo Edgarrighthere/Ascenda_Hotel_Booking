@@ -32,8 +32,11 @@ const userSchema = new mongoose.Schema({
     username: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     otp: String, 
-    otpExpiration: Date 
+    otpExpiration: Date,
+    resetPasswordToken: String,
+    resetPasswordExpires: Date
 });
+
 
 const User = mongoose.model('User', userSchema);
 
@@ -193,7 +196,7 @@ app.post('/forgot-password', async (req, res) => {
         };
 
         await transporter.sendMail(mailOptions);
-        res.status(200).json({ message: 'Check your email for instructions to reset your password' });
+        res.status(200).json({ message: 'Check your email for instructions to reset your password.' });
     } catch (error) {
         console.error('Error during forgot password:', error);
         res.status(500).json({ message: 'Invalid email. Please try again.' });
@@ -202,7 +205,7 @@ app.post('/forgot-password', async (req, res) => {
 
 // Reset password route
 app.post('/reset-password/:token', async (req, res) => {
-    const { password } = req.body;
+    const { password, confirmPassword } = req.body;
     const { token } = req.params;
 
     try {
@@ -215,13 +218,22 @@ app.post('/reset-password/:token', async (req, res) => {
             return res.status(400).json({ message: 'Invalid or expired token.' });
         }
 
+        if (password !== confirmPassword) {
+            return res.status(400).json({ message: 'Passwords do not match.' });
+        }
+
+        const isSameAsOldPassword = await bcrypt.compare(password, user.password);
+        if (isSameAsOldPassword) {
+            return res.status(400).json({ message: 'New password cannot be the same as the old password.' });
+        }
+
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
         user.resetPasswordToken = undefined;
         user.resetPasswordExpires = undefined;
         await user.save();
 
-        res.status(200).json({ message: 'Password reset successful.' });
+        res.status(200).json({ message: 'Password reset successful. Redirecting to login page...' });
     } catch (error) {
         console.error('Error during password reset:', error);
         res.status(500).json({ message: 'An error occurred. Please try again.' });
