@@ -76,7 +76,7 @@ const Login = () => {
                             {passwordVisible ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                         </span>
                     </div>
-                    <div className="buttonContainer">
+                    <div className="loginbuttonContainer">
                         <button className="loginButton" onClick={handleLogin}>Login</button>
                         <button className="forgotPassword" onClick={handleForgotPassword}>Forgot Password?</button>
                     </div>

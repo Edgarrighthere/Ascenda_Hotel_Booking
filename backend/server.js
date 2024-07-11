@@ -165,6 +165,69 @@ app.post("/resend-otp", async (req, res) => {
     }
 });
 
+// Forgot password route
+app.post('/forgot-password', async (req, res) => {
+    const { email } = req.body;
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid email. Please try again.' });
+        }
+
+        // Generate reset password token
+        const resetToken = crypto.randomBytes(20).toString('hex');
+        user.resetPasswordToken = resetToken;
+        user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+        await user.save();
+
+        // Send reset password email
+        const resetUrl = `http://localhost:3000/resetPassword/${resetToken}`;
+        const mailOptions = {
+            from: 'escc2g4@gmail.com',
+            to: user.email,
+            subject: 'Reset Password',
+            text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
+                   Please click on the following link, or paste this into your browser to complete the process:\n\n
+                   ${resetUrl}\n\n
+                   If you did not request this, please ignore this email and your password will remain unchanged.\n`
+        };
+
+        await transporter.sendMail(mailOptions);
+        res.status(200).json({ message: 'Check your email for instructions to reset your password' });
+    } catch (error) {
+        console.error('Error during forgot password:', error);
+        res.status(500).json({ message: 'Invalid email. Please try again.' });
+    }
+});
+
+// Reset password route
+app.post('/reset-password/:token', async (req, res) => {
+    const { password } = req.body;
+    const { token } = req.params;
+
+    try {
+        const user = await User.findOne({
+            resetPasswordToken: token,
+            resetPasswordExpires: { $gt: Date.now() }
+        });
+
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid or expired token.' });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(password, salt);
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
+        await user.save();
+
+        res.status(200).json({ message: 'Password reset successful.' });
+    } catch (error) {
+        console.error('Error during password reset:', error);
+        res.status(500).json({ message: 'An error occurred. Please try again.' });
+    }
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

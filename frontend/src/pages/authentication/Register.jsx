@@ -120,7 +120,7 @@ const Register = () => {
                             {confirmPasswordVisible ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                         </span>
                     </div>
-                    <div className="buttonContainer">
+                    <div className="registerbuttonContainer">
                         <button className="registerButton" onClick={handleRegister}>Register Now!</button>
                     </div>
                     {error && <div className="error">{error}</div>}

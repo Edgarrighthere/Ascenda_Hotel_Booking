@@ -58,7 +58,7 @@
     color: black;
 }
 
-.buttonContainer {
+.registerbuttonContainer {
     display: flex;
     justify-content: center;
     gap: 10px; 
