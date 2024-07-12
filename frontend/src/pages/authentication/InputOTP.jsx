@@ -60,6 +60,7 @@ const InputOTP = ({ setUser }) => {
 
             if (data.success) {
                 setSuccess('Valid OTP entered. Redirecting you to home page...');
+                setError(""); // Clear any previous errors
                 setTimeout(() => {
                     navigate('/', { state: { username } });
                 }, 3000); // Redirect after 3 seconds
@@ -68,6 +69,7 @@ const InputOTP = ({ setUser }) => {
             }
         } catch (error) {
             setError('Error verifying OTP');
+            setSuccess(""); // Clear success message if there was any
         }
     };
 

@@ -82,7 +82,7 @@ app.post("/login", async (req, res) => {
     try {
         const user = await User.findOne({ $or: [{ email: identifier }, { username: identifier }] });
         if (!user) {
-            return res.status(400).json({ message: "Invalid email/username." });
+            return res.status(400).json({ message: "Invalid email." });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
@@ -132,7 +132,11 @@ app.post("/verify-otp", async (req, res) => {
         user.otpExpiration = undefined;
         await user.save();
 
-        res.status(200).json({ success: true, message: "OTP verified successfully." });
+        res.status(200).json({ 
+            success: true, 
+            message: "OTP verified successfully.", 
+            username: user.username // Include username in response
+        });
     } catch (error) {
         console.error("Error during OTP verification:", error);
         res.status(500).json({ success: false, message: "An error occurred. Please try again." });
@@ -243,6 +247,12 @@ app.post('/reset-password/:token', async (req, res) => {
         res.status(500).json({ message: 'An error occurred. Please try again.' });
     }
 });
+
+// Logout route
+app.post("/logout", (req, res) => {
+    res.status(200).json({ message: "Logout successful" });
+});
+
 
 // Start the server
 app.listen(PORT, () => {

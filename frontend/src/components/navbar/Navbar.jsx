@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faBars } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -35,6 +36,18 @@ const Navbar = () => {
         navigate(path);
     };
 
+    const handleLogout = async () => {
+        try {
+            await axios.post("http://localhost:5000/logout");
+            setCurrentUsername("Guest");
+            setDropdownOpen(false);
+            navigate("/");
+            alert("Logout successful");
+        } catch (error) {
+            console.error("Error during logout:", error);
+        }
+    };
+
     return (
         <div className="navbar">
             <div className="navContainer">
@@ -48,14 +61,14 @@ const Navbar = () => {
                     <button className="navButton" onClick={handleRegister}>Register</button>
                     <div className="dropdown">
                         <button className="dropdownButton" onClick={toggleDropdown}>
-                            <FontAwesomeIcon icon={faUser} /> Welcome, {currentUsername}
+                            <FontAwesomeIcon icon={faUser} /> Welcome, {currentUsername}!
                             <FontAwesomeIcon icon={faBars} className="menuIcon" />
                         </button>
                         <div className={`dropdownContent ${dropdownOpen ? 'show' : 'hide'}`}>
                             <div className="dropdownItem" onClick={() => handleOptionClick("/login")}>Log in</div>
                             <div className="dropdownItem" onClick={() => handleOptionClick("/account")}>Account info.</div>
                             <div className="dropdownItem" onClick={() => handleOptionClick("/bookings")}>Bookings</div>
-                            <div className="dropdownItem" onClick={() => handleOptionClick("/logout")}>Log out</div>
+                            <div className="dropdownItem" onClick={handleLogout}>Log out</div>
                         </div>
                     </div>
                 </div>
