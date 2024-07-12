@@ -4,10 +4,11 @@ import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import './inputOTP.css';
 
-const InputOTP = () => {
+const InputOTP = ({ setUser }) => {
     const location = useLocation();
     const navigate = useNavigate();
     const email = location.state?.email;
+    const username  = location.state?.username;
     const [otp, setOtp] = useState(Array(6).fill(''));
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(''); 
@@ -60,7 +61,7 @@ const InputOTP = () => {
             if (data.success) {
                 setSuccess('Valid OTP entered. Redirecting you to home page...');
                 setTimeout(() => {
-                    navigate('/');
+                    navigate('/', { state: { username } });
                 }, 3000); // Redirect after 3 seconds
             } else {
                 setError('Invalid OTP. Please make sure you entered the correct OTP sent.');

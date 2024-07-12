@@ -41,23 +41,19 @@
 }
 
 .dropdownButton {
-    width: 220px;
+    width: 250px;
     margin-left: 20px;
     border: none;
     border-radius: 20px;
     padding: 5px 15px;
     cursor: pointer;
-    color: black;
+    color: white;
     font-family: 'Lato';
     font-size: large;
-    background-color: white;
+    background-color: midnightblue;
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
-
-.dropdownButton:hover {
-    background-color: lightgrey;
 }
 
 .dropdownContent {
@@ -68,7 +64,7 @@
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     border-radius: 5px;
-    margin-top: 1%;
+    margin-top: 3%;
     left: 25%;
     animation: dropdownAnimation 0.5s forwards;
 }

@@ -2,12 +2,19 @@ import "./navbar.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faBars } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const Navbar = ({ user }) => {
+const Navbar = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [currentUsername, setCurrentUsername] = useState("Guest");
+
+    useEffect(() => {
+        if (location.state && location.state.username) {
+            setCurrentUsername(location.state.username);
+        }
+    }, [location.state]);
 
     const handleRegister = () => {
         navigate("/register");
@@ -41,7 +48,7 @@ const Navbar = ({ user }) => {
                     <button className="navButton" onClick={handleRegister}>Register</button>
                     <div className="dropdown">
                         <button className="dropdownButton" onClick={toggleDropdown}>
-                            <FontAwesomeIcon icon={faUser} /> Welcome, {user?.username || "Guest"}
+                            <FontAwesomeIcon icon={faUser} /> Welcome, {currentUsername}
                             <FontAwesomeIcon icon={faBars} className="menuIcon" />
                         </button>
                         <div className={`dropdownContent ${dropdownOpen ? 'show' : 'hide'}`}>
@@ -58,4 +65,3 @@ const Navbar = ({ user }) => {
 };
 
 export default Navbar;
-

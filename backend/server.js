@@ -106,7 +106,11 @@ app.post("/login", async (req, res) => {
 
         await transporter.sendMail(mailOptions);
 
-        res.status(200).json({ message: "Login successful. Verify with the OTP sent to your registered email...", email: user.email });
+        res.status(200).json({
+            message: "Login successful. Verify with the OTP sent to your registered email...",
+            email: user.email,
+            username: user.username // Include username in response
+        });
     } catch (error) {
         console.error("Error during login:", error);
         res.status(500).json({ message: "An error occurred. Please try again." });
