@@ -14,6 +14,7 @@ import {
 
 const ResetPwd = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
@@ -24,6 +25,10 @@ const ResetPwd = () => {
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
+    };
+
+    const toggleConfirmPasswordVisibility = () => {
+        setConfirmPasswordVisible(!confirmPasswordVisible);
     };
 
     const handleResetPassword = async () => {
@@ -67,14 +72,14 @@ const ResetPwd = () => {
                     </div>
                     <div className="confirmPasswordInputContainer">
                         <input
-                            type={passwordVisible ? "text" : "password"}
+                            type={confirmPasswordVisible ? "text" : "password"}
                             placeholder="Confirm your new password"
                             className="confirmPasswordInput"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
-                        <span onClick={togglePasswordVisibility} className="passwordToggleIcon">
-                            {passwordVisible ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+                        <span onClick={toggleConfirmPasswordVisibility} className="passwordToggleIcon">
+                            {confirmPasswordVisible ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                         </span>
                     </div>
                     <div className="resetPasswordButtonContainer">

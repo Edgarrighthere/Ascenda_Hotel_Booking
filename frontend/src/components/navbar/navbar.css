@@ -66,17 +66,11 @@
     border-radius: 5px;
     margin-top: 3%;
     left: 25%;
-    animation: dropdownAnimation 0.5s forwards;
 }
 
 .dropdownContent.show {
     display: block;
-    animation: dropdownShow 0.5s forwards;
-}
-
-.dropdownContent.hide {
-    display: block;
-    animation: dropdownHide 0.5s forwards;
+    animation: dropdownShow 0.5s ease-out;
 }
 
 .dropdownItem {
@@ -102,7 +96,9 @@
     100% { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes dropdownHide {
-    0% { opacity: 1; transform: translateY(0); }
-    100% { opacity: 0; transform: translateY(-10px); }
+/* Adjustments for small screens */
+@media screen and (max-width: 768px) {
+    .navButton {
+        margin-right: 10px;
+    }
 }
