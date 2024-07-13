@@ -128,12 +128,12 @@ const List = () => {
 
     const renderStars = (rating) => {
         const stars = [];
-        for (let i = 1; i <= 5; i++) {
+        for (let i = 0; i <= 4; i++) {
             stars.push(
                 <FontAwesomeIcon
-                    key={i}
-                    icon={i <= rating ? faStarRegular : faStar}
-                    className={i <= rating ? "star-icon grey" : "star-icon yellow"}
+                    key={5-i}
+                    icon={5-i <= rating ? faStarRegular : faStar}
+                    className={5-i <= rating ? "star-icon grey" : "star-icon yellow"}
                 />
             );
         }
