@@ -15,7 +15,7 @@
   
   .amenities-item:before {
     content: "• "; /* Bullet point */
-    font-size: 24px;
+    font-size: 100%;
     color: #333; /* Bullet color */
     margin-right: 6px;
   }

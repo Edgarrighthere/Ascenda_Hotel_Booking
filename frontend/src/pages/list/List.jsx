@@ -33,7 +33,10 @@ const List = () => {
         2: false,
         1: false
     });
-    const [priceRange, setPriceRange] = useState([0, 2500]); // State for price range
+    
+    const [minPrice, setMinPrice] = useState(location.state.minPrice);
+    const [maxPrice, setMaxPrice] = useState(location.state.maxPrice);
+    const [priceRange, setPriceRange] = useState([minPrice, maxPrice]); // State for price range
 
     useEffect(() => {
         fetch('/destinations.json')
@@ -85,6 +88,7 @@ const List = () => {
 
     const handleSearch = () => {
         // Implement your search functionality here
+
         console.log('Search button clicked');
     };
 
@@ -145,6 +149,8 @@ const List = () => {
 
         console.log(hotelPrice.length);
         console.log(json.length);
+
+        console.log(minPrice, maxPrice);
     }
 
     return (
@@ -201,8 +207,8 @@ const List = () => {
                             <div className="listItem">
                                 <label>Price <small>per night</small></label>
                                 <RangeSlider
-                                    min={0}
-                                    max={2500}
+                                    min={minPrice}
+                                    max={maxPrice}
                                     defaultValue={priceRange}
                                     onInput={handlePriceRangeChange}
                                     className="rangeSlider"

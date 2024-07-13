@@ -15,6 +15,7 @@ import {
   faLocationDot,
 } from '@fortawesome/free-solid-svg-icons';
 import RoomList from '../../components/room/Room';
+import Map from '../../components/maps/Map';
 
 const Hotel = () => {
   const [slideNumber, setSlideNumber] = useState(0);
@@ -104,21 +105,21 @@ const Hotel = () => {
   const rooms = [
     {
       roomType: 'Double Room A Bed',
-      imageUrl: 'https://via.placeholder.com/100',
+      imageUrl: 'https://via.placeholder.com/150',
       roomOnlyPrice: 456,
       breakfastPrice: 589,
       cancelPolicy: 'Free cancellation (except a service fee, if applicable)',
     },
     {
       roomType: 'Double Room',
-      imageUrl: 'https://via.placeholder.com/100',
+      imageUrl: 'https://via.placeholder.com/150',
       roomOnlyPrice: 456,
       breakfastPrice: 589,
       cancelPolicy: 'Free cancellation (except a service fee, if applicable)',
     },
     {
       roomType: 'Double Deluxe Room A Bed',
-      imageUrl: 'https://via.placeholder.com/100',
+      imageUrl: 'https://via.placeholder.com/150',
       roomOnlyPrice: 473,
       breakfastPrice: 607,
       cancelPolicy: 'Free cancellation (except a service fee, if applicable)',
@@ -200,15 +201,15 @@ const Hotel = () => {
               </p>
             </div>
             <div className="hotelDetailsPrice">
-              <h1>Perfect for a 9-nights stay!</h1>
+              <h1>Perfect for a 9-night stay!</h1>
               <span>
-                Located in the real heart of Krakow, this hotel has an
+                Located in the real heart of Krakow, this property has an
                 excellent location score of 9.8!
               </span>
               <h2>
                 <b>$945</b> (9 nights)
               </h2>
-              <button>Book Now!</button>
+              <button>Reserve or Book Now!</button>
             </div>
           </div>
         </div>
@@ -237,6 +238,11 @@ const Hotel = () => {
         <div className="centeredContainer roomListContainer">
           <div className="centeredContent">
             <RoomList rooms={rooms} />
+          </div>
+        </div>
+        <div className="centeredContainer mapContainer">
+          <div className="centeredContent">
+            <Map />
           </div>
         </div>
         <MailList />
