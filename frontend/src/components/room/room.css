@@ -1,6 +1,12 @@
+:root {
+    --room-width: 100%; /* Adjust the default width */
+    --room-height: 100%; /* Adjust the default height */
+}
+
 .room-list {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 20px;
     padding: 20px;
 }
@@ -14,11 +20,14 @@
     padding: 15px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: var(--room-width) !important;
+    height: var(--room-height) !important; 
+    margin: 0 auto;
 }
 
 .room-image img {
-    width: 100px;
-    height: auto;
+    width: 150px;
+    height: 150px;
     border-radius: 10px;
 }
 
@@ -28,7 +37,7 @@
 }
 
 .room-type {
-    font-size: 1.2em;
+    font-size: 140%;
     margin-bottom: 10px;
 }
 
@@ -45,11 +54,12 @@
 }
 
 .room-plan {
-    font-size: 1em;
+    font-size: 100%;
 }
 
 .room-price {
     font-weight: bold;
+    font-size: 100%;
 }
 
 .non-refundable {
@@ -58,6 +68,8 @@
 
 .cancel-policy {
     color: green;
+    font-size: 100%;
+    margin-top: 20px; /* Space above select button */
 }
 
 .select-button {
@@ -65,11 +77,12 @@
     color: #fff;
     border: none;
     border-radius: 5px;
-    padding: 10px 20px;
+    padding: 12px 26px;
     cursor: pointer;
+    font-size: 100%;
+    margin-top: 20px; /* Space above select button */
 }
 
 .select-button:hover {
     background-color: #0056b3;
 }
-

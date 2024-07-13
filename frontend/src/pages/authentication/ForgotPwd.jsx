@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import axios from "axios";
-import "./forgotPwd.css";
+import React, { useState } from 'react';
+import axios from 'axios';
+import './forgotPwd.css';
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,40 +10,41 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const ForgotPwd = () => {
-    const [email, setEmail] = useState("");
-    const [message, setMessage] = useState("");
+    const [email, setEmail] = useState('');
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
 
-    const handleResetPassword = async () => {
+    const handleForgotPassword = async () => {
         try {
-            const response = await axios.post("http://localhost:5000/forgotPassword", { email });
-            setMessage(<> <FontAwesomeIcon icon={faCheck} /> {response.data.message} </>);
+            const response = await axios.post('http://localhost:5001/forgot-password', { email });
+            if (response.status === 200) {
+                setSuccess(<> <FontAwesomeIcon icon={faCheck} /> {response.data.message} </>);
+                setError(""); // Clear any previous errors
+            }
         } catch (error) {
-            setMessage(<> <FontAwesomeIcon icon={faCircleExclamation} /> {error.response.data.message} </>);
+            setError(<><FontAwesomeIcon icon={faCircleExclamation} /> {error.response?.data?.message || 'An error occurred. Please try again.'}</>);
+            setSuccess(""); // Clear success message if there was any
         }
     };
 
     return (
-        <div className="fgtpwdPage">
+        <div className="forgotPasswordPage">
             <Navbar />
-            <div className="fgtpwd">
-                <div className="fgtpwdContainer">
-                    <div className="fgtpwdTitle">Forgot Password</div>
-                    <div>
-                        An email will be sent to your registered email.
-                        <br />
-                        Please follow the instructions to reset your password.
-                    </div>
+            <div className="forgotPwd">
+                <div className="forgotPasswordContainer">
+                    <h1 className="forgotPasswordTitle">Forgot Password</h1>
                     <input
-                        type="text"
+                        type="email"
                         placeholder="Enter your registered email."
-                        className="fgtpwdInput"
+                        className="forgotPasswordInput"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
-                    <div className="buttonContainer">
-                        <button className="fgtpwdButton" onClick={handleResetPassword}>Reset password</button>
+                    <div className="fgtpwdbuttonContainer">
+                        <button className="forgotPasswordButton" onClick={handleForgotPassword}>Send Reset Password Email</button>
                     </div>
-                    {message && <div className="message">{message}</div>}
+                    {success && <div className="success">{success}</div>}
+                    {error && <div className="error">{error}</div>}
                 </div>
             </div>
             <Footer />

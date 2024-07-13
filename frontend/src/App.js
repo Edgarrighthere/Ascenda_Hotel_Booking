@@ -9,6 +9,7 @@ import List from "./pages/list/List";
 import Hotel from "./pages/hotel/Hotel";
 import Login from "./pages/authentication/Login";
 import Register from "./pages/authentication/Register";
+import InputOTP from "./pages/authentication/InputOTP";
 import ForgotPwd from "./pages/authentication/ForgotPwd";
 import ResetPwd from "./pages/authentication/ResetPwd";
 
@@ -21,8 +22,9 @@ function App() {
         <Route path="/hotels/:id" element={<Hotel/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
+        <Route path="/inputOTP" element={<InputOTP/>}/>
         <Route path="/forgotPassword" element={<ForgotPwd/>}/>
-        <Route path="/resetPassword" element={<ResetPwd/>}/>
+        <Route path="/resetPassword/:token" element={<ResetPwd/>}/>
       </Routes>
     </BrowserRouter>
   );

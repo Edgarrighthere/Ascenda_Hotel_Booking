@@ -4,12 +4,7 @@ import "./login.css";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { 
-    faEye,
-    faEyeSlash,
-    faCircleExclamation, 
-    faCheck 
-} from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash, faCircleExclamation, faCheck } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 const Login = () => {
@@ -18,6 +13,7 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const [username, setUsername] = useState("");
 
     const navigate = useNavigate();
 
@@ -27,17 +23,17 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-            // Send login request to backend
-            const response = await axios.post("http://localhost:5000/login", {
+            const response = await axios.post("http://localhost:5001/login", {
                 identifier,
                 password
             });
-    
+
             if (response && response.data && response.status === 200) {
                 setSuccess(<> <FontAwesomeIcon icon={faCheck} /> {response.data.message} </>);
                 setError(""); // Clear any previous errors
+                setUsername(response.data.username); // Set the username from response
                 setTimeout(() => {
-                    navigate("/"); // Redirect to home page on successful login
+                    navigate("/inputOTP", { state: { email: identifier, username: response.data.username } }); // Pass email and username to inputOTP
                 }, 2000);
             } else {
                 setError("Invalid response from server."); // Handle unexpected response
@@ -47,7 +43,6 @@ const Login = () => {
             setSuccess(""); // Clear success message if there was any
         }
     };
-    
 
     const handleForgotPassword = () => {
         navigate("/forgotPassword");
@@ -61,7 +56,7 @@ const Login = () => {
                     <div className="loginTitle">Log in</div>
                     <input
                         type="text"
-                        placeholder="Enter your registered username/email."
+                        placeholder="Enter your registered email."
                         className="loginInput"
                         value={identifier}
                         onChange={(e) => setIdentifier(e.target.value)}
@@ -78,14 +73,14 @@ const Login = () => {
                             {passwordVisible ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                         </span>
                     </div>
-                    <div className="buttonContainer">
+                    <div className="loginbuttonContainer">
                         <button className="loginButton" onClick={handleLogin}>Login</button>
                         <button className="forgotPassword" onClick={handleForgotPassword}>Forgot Password?</button>
                     </div>
                     {error && <div className="error">{error}</div>}
                     {success && <div className="success">{success}</div>}
                 </div>
-            </div> 
+            </div>
             <Footer />
         </div>
     );

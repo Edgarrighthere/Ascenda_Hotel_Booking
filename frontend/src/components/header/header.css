@@ -38,12 +38,13 @@
 
 .headerTitle {
     font-family: 'Lato';
+    font-size: 40px;
 }
 
 .headerDescription {
     margin: 20px 0px;
     font-family: 'Lato';
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .headerBtn {
@@ -79,7 +80,7 @@
 }
 
 .headerIcon {
-    color: lightgrey;
+    color: gray;
 }
 
 .headerSearchItem {
@@ -94,11 +95,12 @@
     outline: none;
     font-family: 'Lato';
     font-size: large;
+    color: black;
 }
 
 .autosuggestSuggestionsContainer {
     position: absolute;
-    width: 100%;
+    width: 110%;
     top: 80%;
     background-color: white;
     border-radius: 4px;
@@ -131,7 +133,7 @@
 }
 
 .headerSearchText {
-    color: lightgrey;
+    color: black;
     cursor: pointer;
     font-size: large;
 }
