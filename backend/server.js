@@ -7,12 +7,12 @@ const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // Middleware
 app.use(bodyParser.json());
 app.use(cors({
-    origin: 'http://localhost:3000', // Replace with your frontend URL
+    origin: 'http://localhost:3000', 
     credentials: true,
 }));
 

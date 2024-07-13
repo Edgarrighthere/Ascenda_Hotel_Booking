@@ -38,7 +38,7 @@ const ResetPwd = () => {
         }
 
         try {
-            const response = await axios.post(`http://localhost:5000/reset-password/${token}`, { password, confirmPassword });
+            const response = await axios.post(`http://localhost:5001/reset-password/${token}`, { password, confirmPassword });
             if (response.status === 200) {
                 setSuccess(<> <FontAwesomeIcon icon={faCheck} /> {response.data.message} </>);
                 setError(""); // Clear any previous errors

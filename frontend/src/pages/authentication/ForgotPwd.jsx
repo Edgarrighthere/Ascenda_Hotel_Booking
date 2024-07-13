@@ -16,7 +16,7 @@ const ForgotPwd = () => {
 
     const handleForgotPassword = async () => {
         try {
-            const response = await axios.post('http://localhost:5000/forgot-password', { email });
+            const response = await axios.post('http://localhost:5001/forgot-password', { email });
             if (response.status === 200) {
                 setSuccess(<> <FontAwesomeIcon icon={faCheck} /> {response.data.message} </>);
                 setError(""); // Clear any previous errors
