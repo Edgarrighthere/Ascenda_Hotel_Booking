@@ -44,7 +44,7 @@ router.get("/:id/:checkin/:checkout/:guests", async function (req, res, next) {
         }
     })
 
-    const hotel_api_url = "https://hotelapi.loyalty.dev/api/hotels?destination_id=" + destinationId + "&checkin=" + checkin + "&checkout=" + checkout + "&lang=en_US&currency=SGD&country_code=SG" + "&guests=" + guests + "&partner_id=1";
+    const hotel_api_url = "https://hotelapi.loyalty.dev/api/hotels?destination_id=" + destinationId;
     console.log(hotel_api_url);
 
     const hotel_response = await fetch(hotel_api_url)

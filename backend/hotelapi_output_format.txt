@@ -1,0 +1,57 @@
+id: string
+imageCount: int
+latitude: float
+longitude: float
+name: string
+address: string
+address1: string
+rating: float
+distance: float
+
+trustyou: {
+    id: string, 
+    score: {
+        overall: string, 
+        kaligo_overall: float, 
+        solo: float, 
+        couple: float, 
+        family: float, 
+        business: float
+    }
+}
+
+categories: {
+    overall: {
+        name: string,
+        score: int,
+        popularity: float
+    },
+    can have new categories, follow same format
+}
+
+amenities ratings: [{name: string, score: int}]
+- name list is not standardised
+
+description: html text
+
+amenitites: {amenitiy: true}
+- amenity list is not standardised
+
+original metadata: {
+    name: null, 
+    city: string, 
+    state: null,
+    country: string
+}
+
+image details: {
+    suffix: string (".jpg), 
+    count: int, 
+    prefix: string
+}
+
+hires_image_index: string
+number_of_images: int
+default_image_index: int
+imgix_url: string [can ignore]
+cloudflare_image_url: string [can ignore]

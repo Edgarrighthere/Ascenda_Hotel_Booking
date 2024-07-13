@@ -1,3 +1,8 @@
+// Individual hotel object
+// Add more attributes based on what you need
+// Can check the hotelapi_output_format.txt file for the kind of attributes you can add
+// https://hotelapi.loyalty.dev/api/hotels?destination_id=tOik
+
 class Hotel {
     constructor(id, main_image_url, name, address, rating, price) {
         this.id = id;

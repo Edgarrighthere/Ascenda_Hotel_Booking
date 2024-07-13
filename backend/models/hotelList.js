@@ -1,5 +1,7 @@
 const {Hotel} = require("./hotel.js")
 
+// List of all hotels that match the search parameters
+
 class hotelList {
     constructor(hotels) {
         this.hotels = hotels // list

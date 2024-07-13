@@ -1,5 +1,7 @@
 const {hotelPrice} = require("./hotelPrice.js")
 
+// List of all hotel ids & prices tihat match search parameters
+
 class hotelPriceList {
     constructor(hotelPrices) {
         this.hotelPrices = hotelPrices // list
