@@ -16,6 +16,9 @@ import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css'; // Import the slider CSS
 
+import HotelSearch from '../../interfaces/HotelSearch';
+import HotelFilter from '../../interfaces/HotelFilter';
+
 const List = () => {
     const location = useLocation();
     const [destination, setDestination] = useState(location.state.destination);
@@ -26,24 +29,33 @@ const List = () => {
     const [lng, setLng] = useState(null);
     const [suggestions, setSuggestions] = useState([]);
     const [destinations, setDestinations] = useState([]);
-    const [starRatings, setStarRatings] = useState({
-        5: false,
-        4: false,
-        3: false,
-        2: false,
-        1: false
-    });
     
-    const [minPrice, setMinPrice] = useState(location.state.minPrice);
-    const [maxPrice, setMaxPrice] = useState(location.state.maxPrice);
-    const [priceRange, setPriceRange] = useState([minPrice, maxPrice]); // State for price range
+    const [starRatings, setStarRatings] = useState([false, false, false, false, false])
+    const [priceRange, setPriceRange] = useState(location.state.priceRange);
+    const [newPriceRange, setNewPriceRange] = useState(location.state.priceRange);
+    
+    const [hotelInformation, setHotelInformation] = useState(location.state.hotelListings);
+    const [originalListings, setOriginalListings] = useState(location.state.hotelListings);
+
+    const [destinationChanged, setDestinationChanged] = useState(false);
+    const [dateChanged, setDateChanged] = useState(false);
+    const [optionsChanged, setOptionsChanged] = useState(false);
+    const [priceRangeChanged, setPriceRangeChanged] = useState(false);
+    const [ratingsChanged, setRatingsChanged] = useState(false);
 
     useEffect(() => {
-        fetch('/destinations.json')
-            .then(response => response.json())
-            .then(data => setDestinations(data));
+        // Fetch destinations from JSON file via backend
+        fetch(`http://localhost:5000/destination_search/`, {
+            headers: {
+                "Content-type": "application/x-www-form-urlencoded"
+            }
+        })
+          .then(response => response.json())
+          .then(data => setDestinations(data));
     }, []);
 
+    
+    // Map
     useEffect(() => {
         const dest = destinations.find(dest => dest.term === destination);
         if (dest) {
@@ -52,6 +64,7 @@ const List = () => {
         }
     }, [destination, destinations]);
 
+    // Autocorrect
     const getSuggestions = value => {
         const inputValue = value.trim().toLowerCase();
         const inputLength = inputValue.length;
@@ -78,6 +91,7 @@ const List = () => {
 
     const onChange = (event, { newValue }) => {
         setDestination(newValue);
+        setDestinationChanged(true);
     };
 
     const renderSuggestion = suggestion => (
@@ -86,22 +100,30 @@ const List = () => {
         </div>
     );
 
-    const handleSearch = () => {
-        // Implement your search functionality here
-
-        console.log('Search button clicked');
-    };
-
+    // Options
     const incrementOption = (option) => {
         setOptions(prev => ({ ...prev, [option]: prev[option] + 1 }));
+        setOptionsChanged(true);
     };
 
     const decrementOption = (option) => {
         setOptions(prev => ({ ...prev, [option]: prev[option] > 0 ? prev[option] - 1 : 0 }));
+        setOptionsChanged(true);
     };
 
-    const handleStarRatingChange = (star) => {
-        setStarRatings(prev => ({ ...prev, [star]: !prev[star] }));
+    // Ratings
+    const handleStarRatingChange = (index) => {
+        const selected_rating = 5-index
+        var newRatings = starRatings;
+        
+        if (newRatings[selected_rating-1] === true) {
+            newRatings[selected_rating-1] = false;
+        } else {
+            newRatings[selected_rating-1] = true;
+        }
+
+        setStarRatings(newRatings);
+        setRatingsChanged(true);
     };
 
     const renderStars = (rating) => {
@@ -110,48 +132,46 @@ const List = () => {
             stars.push(
                 <FontAwesomeIcon
                     key={i}
-                    icon={i <= rating ? faStar : faStarRegular}
-                    className={i <= rating ? "star-icon yellow" : "star-icon grey"}
+                    icon={i <= rating ? faStarRegular : faStar}
+                    className={i <= rating ? "star-icon grey" : "star-icon yellow"}
                 />
             );
         }
         return stars;
     };
 
+    // Price range
     const handlePriceRangeChange = (newRange) => {
-        setPriceRange(newRange);
+        setNewPriceRange(newRange);
+        setPriceRangeChanged(true);
     };
 
-    const [priceListings, setPriceListings] = useState(location.state.priceListings);
-    const [destinationId, setDestinationId] = useState(location.state.retrievedId);
-    const [checkin, setCheckin] = useState(location.state.checkin);
-    const [checkout, setCheckout] = useState(location.state.checkout);
-    const [guests, setGuests] = useState(location.state.guests);
-    const [hotelInformation, setHotelInformation] = useState([]);
-    const [hotelPrice, setHotelPrice] = useState([]);
+    // New search
+    async function handleSearch() {
+        if (destinationChanged || dateChanged || optionsChanged) {
+            const searchResults = await HotelSearch(destination, date, options)
+            const hotelListings = searchResults.listings
+            const range = searchResults.range
+            
+            setHotelInformation(hotelListings)
+            setPriceRange(range)
 
-    useEffect(() => {
-        setHotelPrice(priceListings);
-        retrieveHotelInformation();
-    },[])
-    
-    // need to implement the completed:true check, if complete:false, try again
-    async function retrieveHotelInformation() {
-        console.log(hotelPrice);
-        console.log("RETRIEVED ID 2: " + destinationId);
-        const response = await fetch(`http://localhost:5000/hotel_search/${destinationId}/${checkin}/${checkout}/${guests}`, {
-            headers: {
-                "Content-type": "application/x-www-form-urlencoded",
-            }
-        })
-        const json = await response.json();
-        setHotelInformation(json);
+            setDestinationChanged(false);
+            setDateChanged(false);
+            setOptionsChanged(false);
+            setPriceRangeChanged(false);
+            setRatingsChanged(false);
+        }
 
-        console.log(hotelPrice.length);
-        console.log(json.length);
-
-        console.log(minPrice, maxPrice);
-    }
+        if (priceRangeChanged || ratingsChanged) {
+            const filterResults = await HotelFilter(originalListings, newPriceRange, priceRangeChanged, starRatings, ratingsChanged)
+            setHotelInformation(filterResults)
+            
+            setPriceRangeChanged(false);
+            setRatingsChanged(false);
+        }
+        console.log('Search button clicked');
+    };
 
     return (
         <div>
@@ -197,7 +217,11 @@ const List = () => {
                                 {openDate && (
                                     <div className="datePickerOverlay">
                                         <DateRange
-                                            onChange={(item)=>setDate([item.selection])}
+                                            onChange={(item)=> {
+                                                setDate([item.selection]);
+                                                setDateChanged(true);
+                                                console.log("dateChanged: " + dateChanged);
+                                            }}
                                             minDate={new Date()}
                                             ranges={date}
                                         />
@@ -207,8 +231,8 @@ const List = () => {
                             <div className="listItem">
                                 <label>Price <small>per night</small></label>
                                 <RangeSlider
-                                    min={minPrice}
-                                    max={maxPrice}
+                                    min={priceRange[0]}
+                                    max={priceRange[1]}
                                     defaultValue={priceRange}
                                     onInput={handlePriceRangeChange}
                                     className="rangeSlider"
@@ -216,11 +240,11 @@ const List = () => {
                                 <div className="priceRangeValues">
                                     <div className="priceRangeMin">
                                         <label>MIN</label>
-                                        <span>SGD {priceRange[0]}</span>
+                                        <span>SGD {newPriceRange[0]}</span>
                                     </div>
                                     <div className="priceRangeMax">
                                         <label>MAX</label>
-                                        <span>SGD {priceRange[1]}</span>
+                                        <span>SGD {newPriceRange[1]}</span>
                                     </div>
                                 </div>
                             </div>
@@ -267,7 +291,6 @@ const List = () => {
                                             <input
                                                 type="checkbox"
                                                 id={`star-${star}`}
-                                                checked={starRatings[star]}
                                                 onChange={() => handleStarRatingChange(star)}
                                             />
                                             <label htmlFor={`star-${star}`}>
@@ -281,12 +304,8 @@ const List = () => {
                         </div>
                     </div>
                     <div className="listResult">
-                        {hotelPrice.map(price =>
-                            <SearchItem 
-                                hotelId={price.id}
-                                hotelInformation={hotelInformation}
-                                hotelPrice={price.price}
-                            />
+                        {hotelInformation.map(hotel =>
+                            <SearchItem hotel={hotel} />
                         )}
                     </div>
                 </div>

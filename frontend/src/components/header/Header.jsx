@@ -17,13 +17,13 @@ import 'react-date-range/dist/theme/default.css';
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
+import HotelSearch from "../../interfaces/HotelSearch.js"
+
 const Header =({ type }) => {
     const [destination, setDestination] = useState(""); // what you enter into search bar
     const [openDate, setOpenDate] = useState(false);
     const [suggestions, setSuggestions] = useState([]);
     const [destinations, setDestinations] = useState([]); // for the suggestions
-
-    const [destinationId, setDestinationId] = useState("");
 
     const [date, setDate] = useState([
         {
@@ -40,78 +40,18 @@ const Header =({ type }) => {
         rooms:1
     });
 
-    const [checkin, setCheckin] = useState("");
-    const [checkout, setCheckout] = useState("");
-    const [guests, setGuests] = useState("");
-
     const navigate = useNavigate(); //use to redirect between pages
 
     useEffect(() => {
-        // Fetch destinations from JSON file
-        fetch("/destinations.json")
+        // Fetch destinations from JSON file via backend
+        fetch(`http://localhost:5000/destination_search/`, {
+            headers: {
+                "Content-type": "application/x-www-form-urlencoded"
+            }
+        })
           .then(response => response.json())
           .then(data => setDestinations(data));
     }, []);
-
-    useEffect(() => {
-        setCheckin(format(date[0].startDate,"yyyy-MM-dd"));
-        setCheckout(format(date[0].endDate, "yyyy-MM-dd"));
-        setGuests(countGuestsAndRooms());
-    });
-
-
-    // Get destination ID
-    async function getId() {
-        console.log("destination: " + destination + ", checkin: " + checkin + ", checkout: " + checkout + ", guests: " + guests);
-        var retrievedId;
-        for (let getDestination of destinations) {
-            if (destination.includes(getDestination.term)) {
-                retrievedId = getDestination.uid;
-                console.log(retrievedId);
-                setDestinationId(retrievedId);
-                retrieveHotelListings(retrievedId);
-                break
-            }
-        }
-    }
-
-    // need to implement the completed:true check, if complete:false, try again
-    async function retrieveHotelListings(retrievedId) {
-        //console.log("Going to fetch from backend server with id: " + retrievedId);
-        const response = await fetch(`http://localhost:5000/hotel_price/${retrievedId}/${checkin}/${checkout}/${guests}`, {
-            headers: {
-                "Content-type": "application/x-www-form-urlencoded",
-            }
-        })
-        const price_listings_json = await response.json();
-        console.log(price_listings_json);
-        console.log("pric length: " + price_listings_json.length);
-        await calculateMinMaxPrice(price_listings_json, retrievedId);
-    }
-
-    function countGuestsAndRooms() {
-        var guest_count = options.adult + options.children;
-        //console.log("GUEST COUNT: " + guest_count);
-        var room_count = options.rooms;
-        //console.log("ROOM COUNT: " + room_count);
-        var guest_input = `${guest_count}`
-        if (room_count > 1) {
-            guest_input += `|${guest_count}` 
-        }
-        //console.log(guest_input);
-        return guest_input;
-    }
-
-    async function calculateMinMaxPrice(price_listings_json, retrievedId) {
-        // Filter for price
-        var priceArray = []
-        price_listings_json.filter(obj => {
-            priceArray.push(obj.price)
-        })
-        const minPrice = Math.min(...priceArray)
-        const maxPrice = Math.max(...priceArray)
-        handleSearch(price_listings_json, retrievedId, minPrice, maxPrice);
-    }
 
     const handleOption = (name, operation) => {
         setOptions((prev) => {
@@ -122,16 +62,18 @@ const Header =({ type }) => {
         });
     };
 
-    const handleSearch = (priceListings, retrievedId, minPrice, maxPrice) => {
-        console.log("RETRIEVED ID: " + retrievedId);
-        console.log("PRICES: " + minPrice);
-        navigate("/hotels", {state: {destination, date, options, priceListings, retrievedId, checkin, checkout, guests, minPrice, maxPrice}});
-    };
-
     const handleLogin = () => {
         navigate("/login");
     };
 
+    async function handleSearch () {
+        const searchResults = await HotelSearch(destination, date, options)
+        const hotelListings = searchResults.listings
+        const priceRange = searchResults.range
+        navigate("/hotels", {state: {destination, date, options, hotelListings, priceRange}});
+    };
+
+    // Autocorrect
     const getSuggestions = value => {
         const inputValue = value.trim().toLowerCase();
         const inputLength = inputValue.length;
@@ -281,7 +223,7 @@ const Header =({ type }) => {
                                 </div>}
                         </div>
                         <div className="headerSearchItem">
-                            <button className="headerBtn" onClick={getId}>Search</button>
+                            <button className="headerBtn" onClick={handleSearch}>Search</button>
                         </div>
                     </div>
                 </>}
