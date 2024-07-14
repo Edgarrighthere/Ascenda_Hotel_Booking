@@ -8,6 +8,7 @@ function filterByPrice(priceRange, hotelListings) {
             filtered_list.push(hotel)
         }
     }
+
     return filtered_list
 }
 
@@ -15,17 +16,18 @@ function filterByRating(starRatings, hotelListings) {
     var filtered_list = []
     var rating = 0
 
+    console.log(starRatings)
     for (let i=0; i<starRatings.length; i++) {
         if (starRatings[i] === true) {
             rating = i+1
-        }
-        
-        for (let hotel of hotelListings) {
-            if (rating <= hotel.rating && hotel.rating < rating+1) {
-                filtered_list.push(hotel)
+            for (let hotel of hotelListings) {
+                if (hotel.starRating === rating) {
+                    filtered_list.push(hotel)
+                }
             }
         }
     }
+
     return filtered_list
 }
 
@@ -42,7 +44,24 @@ async function HotelFilter(hotelListings, priceRange, filterPrice, starRatings, 
     if (filterPrice === false && filterRating === true) {
         filtered_hotels = filterByRating(starRatings, hotelListings)
     }
-    return filtered_hotels
+    
+    const filtered_count = filtered_hotels.length
+    const filtered_pages = Math.ceil(filtered_count/10)
+
+    var listings = filtered_hotels
+    var priceArray = []
+    listings.filter(obj => {
+        priceArray.push(obj.price)
+    })
+    const minPrice = Math.min(...priceArray)
+    const maxPrice = Math.max(...priceArray)
+    const filteredPriceRange = [minPrice, maxPrice]
+    
+    return {
+        hotels: filtered_hotels,
+        pages: filtered_pages,
+        range: filteredPriceRange
+    }
 }
 
 export default HotelFilter;

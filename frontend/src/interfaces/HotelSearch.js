@@ -29,6 +29,8 @@ async function HotelSearch(destination, date, options) {
         }
     })
     const hotelListings = await search_response.json()
+    const listingsLength = hotelListings.length
+    const pageCount = Math.ceil(listingsLength/10)
 
     // Calculate price range based on hotel listings
     var listings = hotelListings
@@ -41,8 +43,15 @@ async function HotelSearch(destination, date, options) {
     const priceRange = [minPrice, maxPrice]
 
     return {
+        searchParameters : {
+            id: destinationId,
+            checkin: checkin,
+            checkout: checkout,
+            guests: guests
+        },
         listings: hotelListings, 
-        range: priceRange
+        range: priceRange,
+        pageCount: pageCount
     }
 }
 

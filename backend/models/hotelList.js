@@ -7,7 +7,7 @@ class hotelList {
         this.hotels = hotels // list
     }
 
-    addHotel(id, main_image_url, name, address, rating, priceListings) {
+    addHotel(id, main_image_url, name, address, rating, starRating, priceListings) {
         var current_list = this.hotels
         var price = null
         
@@ -18,7 +18,7 @@ class hotelList {
             }
         }
         if (price != null) {
-            current_list.push(new Hotel(id, main_image_url, name, address, rating, price))
+            current_list.push(new Hotel(id, main_image_url, name, address, rating, starRating, price))
         }
         this.hotels = current_list
     }

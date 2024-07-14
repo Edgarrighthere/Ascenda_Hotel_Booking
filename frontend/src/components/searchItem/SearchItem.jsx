@@ -1,8 +1,7 @@
 import "./searchItem.css";
-import { useState, useEffect } from "react";
+import placeholderImg from "../../assests/airbnb_image.jpg";
 
 const SearchItem = ({hotel}) => {
-    const placeholderImg = "images/airbnb_image.jpg"
  
     return (
         <div className="searchItem">
@@ -26,7 +25,7 @@ const SearchItem = ({hotel}) => {
             <div className="siDetails">
                 <div className="siRating">
                     <span>Excellent</span>
-                    <button>{hotel.rating}</button>
+                    <button>{hotel.rating}, {hotel.starRating} stars</button>
                 </div>
                 <div className="siDetailTexts">
                     <span className="siPrice">${hotel.price}</span>

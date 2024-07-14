@@ -243,3 +243,9 @@
     color: grey;
     padding: 1%;
 }
+
+.paginationBar {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}

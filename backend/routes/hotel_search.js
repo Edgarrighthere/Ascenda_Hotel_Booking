@@ -60,6 +60,7 @@ router.get("/:id/:checkin/:checkout/:guests", async function (req, res, next) {
                 name=jsonHotels.name,
                 address=jsonHotels.address,
                 rating=jsonHotels.trustyou.score.kaligo_overall,
+                starRating=Math.floor(jsonHotels.trustyou.score.kaligo_overall),
                 priceListings=priceList["hotelPrices"])
         }
     })

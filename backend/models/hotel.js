@@ -4,12 +4,13 @@
 // https://hotelapi.loyalty.dev/api/hotels?destination_id=tOik
 
 class Hotel {
-    constructor(id, main_image_url, name, address, rating, price) {
+    constructor(id, main_image_url, name, address, rating, starRating, price) {
         this.id = id;
         this.main_image_url = main_image_url;
         this.name = name;
         this.address = address;
         this.rating = rating;
+        this.starRating = starRating;
         this.price = price;
     }
 }
