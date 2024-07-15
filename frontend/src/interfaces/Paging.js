@@ -1,7 +1,7 @@
-async function Paging(hotelListings, page) {
-    const startIndex = (page-1)*10+1
-    const endIndex = page*10+1
-    const paginatedListings = hotelListings.slice(startIndex, endIndex)
+async function Paging(listings, page) {
+    const startIndex = (page-1)*10
+    const endIndex = page*10
+    const paginatedListings = listings.slice(startIndex, endIndex)
     return paginatedListings
 }
 

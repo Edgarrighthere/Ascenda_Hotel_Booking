@@ -19,8 +19,6 @@ router.get("/:id/:checkin/:checkout/:guests", async function (req, res, next) {
     var price_text;
     var price_json;
     
-    // try to see if can retrieve listing even when completed = false
-    // but for now, set arbitary counter of 5 
     while (completed == false) {
 
         price_response = await fetch(price_api_url)

@@ -72,13 +72,18 @@ const Header =({ type }) => {
         const params = searchResults.searchParameters
         const hotelListings = searchResults.listings
         const paginatedListings = await Paging(hotelListings, 1)
-        const originalListings = hotelListings
         const priceRange = searchResults.range
         const currentPage = 1
         const totalPages = searchResults.pageCount
 
+        const originalListings = hotelListings
+        const originalPriceRange = priceRange
+        const originalTotalPages = totalPages
+        const filteredListings = hotelListings
+        const sortedListings = hotelListings
+
         const navigateURL = "/hotels/" + params.id + "/" + params.checkin + "/" + params.checkout + "/" + params.guests + "/1"
-        navigate(navigateURL, {state: {destination, date, options, hotelListings, paginatedListings, originalListings, priceRange, currentPage, totalPages}});
+        navigate(navigateURL, {state: {destination, date, options, hotelListings, paginatedListings, priceRange, currentPage, totalPages, originalListings, originalPriceRange, originalTotalPages, filteredListings, sortedListings}});
     };
 
     // Autocorrect

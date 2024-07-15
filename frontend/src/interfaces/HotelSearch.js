@@ -40,6 +40,7 @@ async function HotelSearch(destination, date, options) {
     })
     const minPrice = Math.min(...priceArray)
     const maxPrice = Math.max(...priceArray)
+
     const priceRange = [minPrice, maxPrice]
 
     return {

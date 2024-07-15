@@ -12,7 +12,7 @@
 }
 
 .searchAndMapContainer {
-    position: sticky;
+    position: left;
     flex: 1;
 }
 
@@ -24,10 +24,23 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+.resultContainer {
+    position: right;
+    flex: 1;
+}
+
+.sortContainer {
+    padding-bottom: 20px
+}
+
+.sortButton {
+    width: 30%;
+}
+
 .listSearch {
     flex: 1;
     background-color: whitesmoke;
-    padding: 10px;
+    padding: 20px;
     position: sticky;
     border-radius: 20px;
     height: max-content;
@@ -248,4 +261,5 @@
     display: flex;
     justify-content: center;
     padding: 10px;
+    padding-bottom: 20px;
 }
