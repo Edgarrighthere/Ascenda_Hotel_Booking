@@ -31,6 +31,7 @@
     background-color: whitesmoke;
     padding: 20px;
     position: sticky;
+    top: 10px; /* Adjust the top value as needed */
     border-radius: 20px;
     height: max-content;
     font-family: 'Lato';

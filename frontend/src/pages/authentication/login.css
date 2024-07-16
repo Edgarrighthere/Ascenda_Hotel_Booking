@@ -58,7 +58,7 @@
     color: black;
 }
 
-.buttonContainer {
+.loginbuttonContainer {
     display: flex;
     justify-content: space-between;
     gap: 10px; 

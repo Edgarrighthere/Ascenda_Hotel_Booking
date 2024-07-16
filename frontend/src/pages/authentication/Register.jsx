@@ -43,7 +43,7 @@ const Register = () => {
             setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Password must be at least 8 characters long, contain at least one uppercase letter, and one special character (!@#$%^&*) </>);
         } else {
             try {
-                const response = await axios.post("http://localhost:5000/register", {
+                const response = await axios.post("http://localhost:5001/register", {
                     email: email,
                     username: username,
                     password: password,
@@ -120,7 +120,7 @@ const Register = () => {
                             {confirmPasswordVisible ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                         </span>
                     </div>
-                    <div className="buttonContainer">
+                    <div className="registerbuttonContainer">
                         <button className="registerButton" onClick={handleRegister}>Register Now!</button>
                     </div>
                     {error && <div className="error">{error}</div>}

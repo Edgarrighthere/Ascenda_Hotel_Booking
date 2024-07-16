@@ -144,7 +144,7 @@ const Header =({ type }) => {
                 { type !== "list" &&
                     <>
                     <h1 className="headerTitle">
-                        Experience the world your way with Travel with Ascenda.
+                        Experience the world your way <br/>with Travel with Ascenda.
                     </h1>
                     <p className="headerDescription">
                         Enjoy exclusive travel deals using Ascenda.
