@@ -1,6 +1,6 @@
 .searchItem {
     border: 1px solid lightgrey;
-    padding: 10px;
+    padding: 15px;
     border-radius: 5px;
     display: flex;
     justify-content: space-between;
@@ -9,26 +9,48 @@
     font-family: 'Lato';
 }
 
+.siSlideContainer {
+    width: 200px;
+    height: 200px;
+    margin: auto;
+    border-radius: 5px;
+    background-color: black;
+}
+
+.siSlideEffect {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .siImg {
     width: 200px;
     height: 200px;
     object-fit: cover;
+    margin: auto;
+    border-radius: 5px;
 }
 
 .siDescription {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    flex: 2;
+    flex: 3;
 }
 
 .siTitle {
-    font-size: 22px;
+    font-size: 25px;
     color: midnightblue;
+    margin: 0px;
+    margin-top: 10px;
 }
 
-.siDistance {
-    font-size: 14px;
+.siAddress {
+    font-size: 18px;
+    margin: 5px 0px 5px 0px;
+}
+
+.siAmenities {
+    font-weight: bold;
 }
 
 .siTaxiOp {
@@ -70,10 +92,13 @@
 .siRating {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding: 10px 0px 0px 0px;
 }
 
 .siRating>span {
     font-weight: 600;
+    font-size: 20px;
 }
 
 .siRating>button {
@@ -83,6 +108,7 @@
     font-weight: bold;
     border: none;
     border-radius: 5px;
+    font-size: 18px;
 }
 
 .siDetailTexts {

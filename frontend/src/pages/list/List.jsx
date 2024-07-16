@@ -1,9 +1,7 @@
 import React from 'react';
 import './list.css';
-import Header from '../../components/header/Header';
-import Navbar from '../../components/navbar/Navbar';
-import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { DateRange } from 'react-date-range';
 import SearchItem from '../../components/searchItem/SearchItem';
@@ -15,9 +13,20 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css'; // Import the slider CSS
+import Pagination from '@mui/material/Pagination'; // Import the pagination CSS
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
+import Header from '../../components/header/Header';
+import Navbar from '../../components/navbar/Navbar';
 import HotelSearch from '../../interfaces/HotelSearch';
 import HotelFilter from '../../interfaces/HotelFilter';
+import Paging from '../../interfaces/Paging';
+import HotelSorting from '../../interfaces/HotelSorting';
+import ScrollToTop from '../../components/ScrollToTop';
 
 const List = () => {
     const location = useLocation();
@@ -34,14 +43,36 @@ const List = () => {
     const [priceRange, setPriceRange] = useState(location.state.priceRange);
     const [newPriceRange, setNewPriceRange] = useState(location.state.priceRange);
     
-    const [hotelInformation, setHotelInformation] = useState(location.state.hotelListings);
-    const [originalListings, setOriginalListings] = useState(location.state.hotelListings);
+    const [hotelListings, setHotelListings] = useState(location.state.hotelListings);
+    const [paginatedListings, setPaginatedListings] = useState(location.state.paginatedListings);
+
+    const [unfilteredListings, setUnfilteredListings] = useState(location.state.originalListings);
+    const [filteredListings, setFilteredListings] = useState(location.state.filteredListings);
+    const [unsortedListings, setUnsortedListings] = useState(location.state.originalListings);
+    const [sortedListings, setSortedListings] = useState(location.state.sortedListings);
+
+    const [currentPage, setCurrentPage] = useState(location.state.currentPage);
+    const [totalPages, setTotalPages] = useState(location.state.totalPages);
+
+    const [originalListings, setOriginalListings] = useState(location.state.originalListings);
+    const [originalPriceRange, setOriginalPriceRange] = useState(location.state.originalPriceRange);
+    const [originalTotalPages, setOriginalTotalPages] = useState(location.state.originalTotalPages);
 
     const [destinationChanged, setDestinationChanged] = useState(false);
     const [dateChanged, setDateChanged] = useState(false);
     const [optionsChanged, setOptionsChanged] = useState(false);
     const [priceRangeChanged, setPriceRangeChanged] = useState(false);
     const [ratingsChanged, setRatingsChanged] = useState(false);
+
+    const [sortBy, setSortBy] = useState("");
+
+    const { destinationId, checkin, checkout, guests, page } = useParams();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        console.log(priceRange)
+    }, []);
+
 
     useEffect(() => {
         // Fetch destinations from JSON file via backend
@@ -144,34 +175,129 @@ const List = () => {
     const handlePriceRangeChange = (newRange) => {
         setNewPriceRange(newRange);
         setPriceRangeChanged(true);
+        console.log("change price range")
     };
 
-    // New search
+    // Sorting
+    const handleSortingRequest = (event) => {
+        setSortBy(event.target.value)
+        if (event.target.value === 0) {
+            removeSorting()
+        } else if (event.target.value === 1) {
+            handleSorting(true, false)
+        } else if (event.target.value === 2) {
+            handleSorting(false, true)
+        }
+    }
+
+    async function handleSorting(sortByPrice, sortByRating) {
+        const listings = JSON.parse(JSON.stringify(filteredListings))
+        const sorted = await HotelSorting(listings, sortByPrice, sortByRating)
+        const sortedPaginated = await Paging(sorted, 1)
+
+        setSortedListings(sorted)
+        setHotelListings(sorted)
+        setPaginatedListings(sortedPaginated)
+        setCurrentPage(1)
+
+        const navigateURL = "/hotels/" + destinationId + "/" + checkin + "/" + checkout + "/" + guests + "/1" 
+        navigate(navigateURL, {state: {destination, date, options, hotelListings, paginatedListings, priceRange, currentPage, totalPages, originalListings, originalPriceRange, originalTotalPages, filteredListings, sortedListings}});  
+    }
+
+    async function removeSorting() {
+        const unsortedPaginated = await Paging(filteredListings, 1)
+        setHotelListings(filteredListings)
+        setPaginatedListings(unsortedPaginated)
+        setSortedListings(unsortedListings)
+        setCurrentPage(1)
+
+        const navigateURL = "/hotels/" + destinationId + "/" + checkin + "/" + checkout + "/" + guests + "/1" 
+        navigate(navigateURL, {state: {destination, date, options, hotelListings, paginatedListings, priceRange, currentPage, totalPages, originalListings, originalPriceRange, originalTotalPages, filteredListings, sortedListings}});  
+    }
+
+    // Search button clicked
     async function handleSearch() {
+        // New search request
         if (destinationChanged || dateChanged || optionsChanged) {
             const searchResults = await HotelSearch(destination, date, options)
-            const hotelListings = searchResults.listings
+            const newParams = searchResults.searchParameters
+            const newHotelListings = searchResults.listings
             const range = searchResults.range
-            
-            setHotelInformation(hotelListings)
+            const newTotalPages = searchResults.pageCount
+            const newPageListings = await Paging(newHotelListings, currentPage)
+
+            setHotelListings(newHotelListings)
+            setPaginatedListings(newPageListings)
+            setOriginalListings(newHotelListings)
+            setFilteredListings(newHotelListings)
+            setSortedListings(newHotelListings)
             setPriceRange(range)
+            setNewPriceRange(range)
+            setTotalPages(newTotalPages)
+            setSortBy(0)
 
             setDestinationChanged(false);
             setDateChanged(false);
             setOptionsChanged(false);
             setPriceRangeChanged(false);
             setRatingsChanged(false);
+
+            const navigateURL = "/hotels/" + newParams.id + "/" + newParams.checkin + "/" + newParams.checkout + "/" + newParams.guests + "/1"
+            navigate(navigateURL, {state: {destination, date, options, hotelListings, paginatedListings, priceRange, currentPage, totalPages, originalListings, originalPriceRange, originalTotalPages, filteredListings, sortedListings}});
         }
 
+        // Filtering for price & rating
         if (priceRangeChanged || ratingsChanged) {
-            const filterResults = await HotelFilter(originalListings, newPriceRange, priceRangeChanged, starRatings, ratingsChanged)
-            setHotelInformation(filterResults)
             
+            // Check for no ratings selected
+            let ratingsNotSelected = starRatings.every(val => val === false)
+            if (ratingsNotSelected === true && priceRangeChanged === false) {
+                // Unfilter
+                const unfilteredPaginated = await Paging(sortedListings, 1)
+                setHotelListings(sortedListings)
+                setPaginatedListings(unfilteredPaginated)
+                setFilteredListings(unfilteredListings)
+                setPriceRange(originalPriceRange)
+                setNewPriceRange(originalPriceRange)
+                setTotalPages(originalTotalPages)
+
+            } else {
+                // Filter
+                const filterResults = await HotelFilter(sortedListings, newPriceRange, priceRangeChanged, starRatings, ratingsChanged)
+                const filteredHotels = filterResults.hotels
+                const filteredPages = filterResults.pages
+                const filteredPriceRange = filterResults.range
+                const filteredPagedResults = await Paging(filteredHotels, 1)
+
+                setFilteredListings(filteredHotels)
+                setHotelListings(filteredHotels)
+                setPaginatedListings(filteredPagedResults)
+                setNewPriceRange(filteredPriceRange)
+                setTotalPages(filteredPages)
+            }
+
+            setCurrentPage(1)
+
             setPriceRangeChanged(false);
             setRatingsChanged(false);
+
+            const navigateURL = "/hotels/" + destinationId + "/" + checkin + "/" + checkout + "/" + guests + "/1"
+            navigate(navigateURL, {state: {destination, date, options, hotelListings, paginatedListings, priceRange, currentPage, totalPages, originalListings, originalPriceRange, originalTotalPages, filteredListings, sortedListings}});
         }
         console.log('Search button clicked');
+    }
+
+    const handlePageChange = (event, newPage) => {
+        setCurrentPage(newPage);
+        handleNewPage(newPage);
     };
+    
+    async function handleNewPage(page) {
+        const newPagedListings = await Paging(hotelListings, page);
+        const navigateURL = "/hotels/" + destinationId + "/" + checkin + "/" + checkout + "/" + guests + "/" + page
+        navigate(navigateURL, {state: {destination, date, options, hotelListings, paginatedListings, priceRange, currentPage, totalPages, originalListings, originalPriceRange, originalTotalPages}});
+        setPaginatedListings(newPagedListings);
+    }
 
     return (
         <div>
@@ -179,7 +305,7 @@ const List = () => {
             <Header type="list" />
             <div className="listContainer">
                 <div className="listWrapper">
-                    <div className="searchAndMapContainer">
+                    <div className="searchAndMapContiner">
                         <div className="mapContainer">
                             {lat && lng && <Map lat={lat} lng={lng} />}
                         </div>
@@ -220,7 +346,6 @@ const List = () => {
                                             onChange={(item)=> {
                                                 setDate([item.selection]);
                                                 setDateChanged(true);
-                                                console.log("dateChanged: " + dateChanged);
                                             }}
                                             minDate={new Date()}
                                             ranges={date}
@@ -229,31 +354,11 @@ const List = () => {
                                 )}
                             </div>
                             <div className="listItem">
-                                <label>Price <small>per night</small></label>
-                                <RangeSlider
-                                    min={priceRange[0]}
-                                    max={priceRange[1]}
-                                    defaultValue={priceRange}
-                                    onInput={handlePriceRangeChange}
-                                    className="rangeSlider"
-                                />
-                                <div className="priceRangeValues">
-                                    <div className="priceRangeMin">
-                                        <label>MIN</label>
-                                        <span>SGD {newPriceRange[0]}</span>
-                                    </div>
-                                    <div className="priceRangeMax">
-                                        <label>MAX</label>
-                                        <span>SGD {newPriceRange[1]}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="listItem">
                                 <label>Options</label>
                                 <div className="listOptions">
                                     <div className="listOptionItem">
                                         <span className="listOptionText">
-                                            Adult 
+                                            Adults 
                                         </span>
                                         <div className="optionCounter">
                                             <button disabled={options.adult <= 1} onClick={() => decrementOption('adult')} className="optionCounterButton">-</button>
@@ -284,7 +389,28 @@ const List = () => {
                                 </div>
                             </div>
                             <div className="listItem">
-                                <label>Hotel Star Rating</label>
+                                <label>Price per night</label>
+                                <RangeSlider
+                                    min={priceRange[0]}
+                                    max={priceRange[1]}
+                                    step={10}
+                                    value={newPriceRange}
+                                    onInput={handlePriceRangeChange}
+                                    className="rangeSlider"
+                                />
+                                <div className="priceRangeValues">
+                                    <div className="priceRangeMin">
+                                        <label>MIN</label>
+                                        <span>S${newPriceRange[0]}</span>
+                                    </div>
+                                    <div className="priceRangeMax">
+                                        <label>MAX</label>
+                                        <span>S${newPriceRange[1]}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="listItem">
+                                <label>Hotel Rating</label>
                                 <div className="listStarRatings">
                                     {Object.keys(starRatings).map(star => (
                                         <div key={star} className="listStarRatingItem">
@@ -303,13 +429,39 @@ const List = () => {
                             <button className="listSearchButton" onClick={handleSearch}>Search</button>
                         </div>
                     </div>
-                    <div className="listResult">
-                        {hotelInformation.map(hotel =>
-                            <SearchItem hotel={hotel} />
-                        )}
+                    <div className="resultContainer">
+                        <span>{hotelListings.length} hotels found</span>
+                        <div className="sortContainer">
+                            <FormControl className="sortButton">
+                                <InputLabel>Sort by:</InputLabel>
+                                <Select
+                                    label="Sort by:"
+                                    value={sortBy}
+                                    onChange={handleSortingRequest}
+                                >
+                                    <MenuItem value={0}>---</MenuItem>
+                                    <MenuItem value={1}>Price (lowest first)</MenuItem>
+                                    <MenuItem value={2}>Rating (highest first)</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </div>
+                        <div className="listResult">
+                            {paginatedListings.map(hotel =>
+                                <SearchItem hotel={hotel} />
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
+            <div className="paginationBar">
+                <Pagination 
+                    count = {totalPages}
+                    shape="rounded"
+                    page = {currentPage}
+                    onChange = {handlePageChange}
+                />
+            </div>
+            <ScrollToTop />
         </div>
     );
 };

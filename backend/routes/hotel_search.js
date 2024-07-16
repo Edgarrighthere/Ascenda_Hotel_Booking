@@ -19,8 +19,6 @@ router.get("/:id/:checkin/:checkout/:guests", async function (req, res, next) {
     var price_text;
     var price_json;
     
-    // try to see if can retrieve listing even when completed = false
-    // but for now, set arbitary counter of 5 
     while (completed == false) {
 
         price_response = await fetch(price_api_url)
@@ -51,20 +49,32 @@ router.get("/:id/:checkin/:checkout/:guests", async function (req, res, next) {
     const hotel_text = await hotel_response.text();
     const hotel_json = JSON.parse(hotel_text);
 
+    // id, main_image_url, name, address, distance, description, 
+    // categories, amenities, amenities_rating, score, rating, starRating, price
+
     const hotelListings = new hotelList([])
     hotel_json.map(jsonHotels => {
         if (jsonHotels.trustyou.score.kaligo_overall > 0) {
             hotelListings.addHotel(
                 id=jsonHotels.id,
-                main_image_url=jsonHotels.image_details.prefix + "1" + jsonHotels.image_details.suffix,
+                image_prefix=jsonHotels.image_details.prefix,
+                image_count=jsonHotels.image_details.count,
+                image_suffix=jsonHotels.image_details.suffix,
                 name=jsonHotels.name,
                 address=jsonHotels.address,
+                distance=jsonHotels.distance,
+                description=jsonHotels.description,
+                categories=jsonHotels.categories,
+                amenities=jsonHotels.amenities,
+                amenities_rating=jsonHotels.amenities_ratings,
+                score=jsonHotels.trustyou.score,
                 rating=jsonHotels.trustyou.score.kaligo_overall,
+                starRating=Math.floor(jsonHotels.trustyou.score.kaligo_overall),
                 priceListings=priceList["hotelPrices"])
         }
     })
 
-    //console.log(hotelListings)
+    console.log(hotelListings["hotels"].slice(0, 5))
 
     res.set("Access-Control-Allow-Origin", "http://localhost:3000");
     res.send(`${JSON.stringify(hotelListings["hotels"])}`); // return a list of hotels
