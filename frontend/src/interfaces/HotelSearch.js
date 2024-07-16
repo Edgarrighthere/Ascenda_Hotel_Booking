@@ -38,10 +38,13 @@ async function HotelSearch(destination, date, options) {
     listings.filter(obj => {
         priceArray.push(obj.price)
     })
-    const minPrice = Math.min(...priceArray)
-    const maxPrice = Math.max(...priceArray)
+    
+    var minPrice = Math.min(...priceArray)
+    var maxPrice = Math.max(...priceArray)
+    var roundedMinPrice = Math.round(minPrice/10)*10
+    var roundedMaxPrice = Math.round(maxPrice/10)*10
 
-    const priceRange = [minPrice, maxPrice]
+    const priceRange = [roundedMinPrice, roundedMaxPrice]
 
     return {
         searchParameters : {

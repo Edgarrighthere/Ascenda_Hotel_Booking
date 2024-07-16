@@ -1,7 +1,0 @@
-<RangeSlider
-                                    min={priceRange[0]}
-                                    max={priceRange[1]}
-                                    defaultValue={priceRange}
-                                    onInput={handlePriceRangeChange}
-                                    className="rangeSlider"
-                                />

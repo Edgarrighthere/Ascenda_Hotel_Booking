@@ -69,6 +69,10 @@ const List = () => {
     const { destinationId, checkin, checkout, guests, page } = useParams();
     const navigate = useNavigate();
 
+    useEffect(() => {
+        console.log(priceRange)
+    }, []);
+
 
     useEffect(() => {
         // Fetch destinations from JSON file via backend
@@ -282,7 +286,6 @@ const List = () => {
         }
         console.log('Search button clicked');
     }
-    
 
     const handlePageChange = (event, newPage) => {
         setCurrentPage(newPage);
@@ -351,31 +354,11 @@ const List = () => {
                                 )}
                             </div>
                             <div className="listItem">
-                                <label>Price per night</label>
-                                <RangeSlider
-                                    min={priceRange[0]}
-                                    max={priceRange[1]}
-                                    value={newPriceRange}
-                                    onInput={handlePriceRangeChange}
-                                    className="rangeSlider"
-                                />
-                                <div className="priceRangeValues">
-                                    <div className="priceRangeMin">
-                                        <label>MIN</label>
-                                        <span>SGD {newPriceRange[0]}</span>
-                                    </div>
-                                    <div className="priceRangeMax">
-                                        <label>MAX</label>
-                                        <span>SGD {newPriceRange[1]}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="listItem">
                                 <label>Options</label>
                                 <div className="listOptions">
                                     <div className="listOptionItem">
                                         <span className="listOptionText">
-                                            Adult 
+                                            Adults 
                                         </span>
                                         <div className="optionCounter">
                                             <button disabled={options.adult <= 1} onClick={() => decrementOption('adult')} className="optionCounterButton">-</button>
@@ -406,7 +389,28 @@ const List = () => {
                                 </div>
                             </div>
                             <div className="listItem">
-                                <label>Hotel Star Rating</label>
+                                <label>Price per night</label>
+                                <RangeSlider
+                                    min={priceRange[0]}
+                                    max={priceRange[1]}
+                                    step={10}
+                                    value={newPriceRange}
+                                    onInput={handlePriceRangeChange}
+                                    className="rangeSlider"
+                                />
+                                <div className="priceRangeValues">
+                                    <div className="priceRangeMin">
+                                        <label>MIN</label>
+                                        <span>S${newPriceRange[0]}</span>
+                                    </div>
+                                    <div className="priceRangeMax">
+                                        <label>MAX</label>
+                                        <span>S${newPriceRange[1]}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="listItem">
+                                <label>Hotel Rating</label>
                                 <div className="listStarRatings">
                                     {Object.keys(starRatings).map(star => (
                                         <div key={star} className="listStarRatingItem">
@@ -426,6 +430,7 @@ const List = () => {
                         </div>
                     </div>
                     <div className="resultContainer">
+                        <span>{hotelListings.length} hotels found</span>
                         <div className="sortContainer">
                             <FormControl className="sortButton">
                                 <InputLabel>Sort by:</InputLabel>
@@ -441,9 +446,9 @@ const List = () => {
                             </FormControl>
                         </div>
                         <div className="listResult">
-                        {paginatedListings.map(hotel =>
-                            <SearchItem hotel={hotel} />
-                        )}
+                            {paginatedListings.map(hotel =>
+                                <SearchItem hotel={hotel} />
+                            )}
                         </div>
                     </div>
                 </div>

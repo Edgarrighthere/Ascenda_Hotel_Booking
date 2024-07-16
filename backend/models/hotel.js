@@ -4,11 +4,21 @@
 // https://hotelapi.loyalty.dev/api/hotels?destination_id=tOik
 
 class Hotel {
-    constructor(id, main_image_url, name, address, rating, starRating, price) {
+    constructor(id, image_prefix, image_count, image_suffix, name, address, distance, description, categories, amenities, amenities_rating, score, rating, starRating, price) {
         this.id = id;
-        this.main_image_url = main_image_url;
+        this.image_prefix = image_prefix;
+        this.image_count = image_count;
+        this.image_suffix = image_suffix;
         this.name = name;
         this.address = address;
+        this.distance = distance;
+        this.description = description;
+
+        this.categories = categories; // {name, score, popularity}
+        this.amenities = amenities; // {name, score}
+        this.amenities_rating = amenities_rating; // {name: true}
+        
+        this.score = score; // {overall, solo, couple, family, business}
         this.rating = rating;
         this.starRating = starRating;
         this.price = price;
