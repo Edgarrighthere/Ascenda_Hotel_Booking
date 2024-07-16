@@ -12,6 +12,7 @@ import Register from "./pages/authentication/Register";
 import InputOTP from "./pages/authentication/InputOTP";
 import ForgotPwd from "./pages/authentication/ForgotPwd";
 import ResetPwd from "./pages/authentication/ResetPwd";
+import Confirmation from "./pages/confirmation/Confirmation";
 
 function App() {
   return (
@@ -25,6 +26,8 @@ function App() {
         <Route path="/inputOTP" element={<InputOTP/>}/>
         <Route path="/forgotPassword" element={<ForgotPwd/>}/>
         <Route path="/resetPassword/:token" element={<ResetPwd/>}/>
+        <Route path="/cancel" element={<Hotel/>}/>
+        <Route path="/complete/:session_id" element={<Confirmation/>} />
       </Routes>
     </BrowserRouter>
   );
