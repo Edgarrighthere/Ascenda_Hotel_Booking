@@ -43,7 +43,7 @@ const SearchItem = ({hotel}) => {
 
     const handleSeeAvailability = () => {
         const navigate_url = "/hotels/" + hotel.id
-        navigate(navigate_url, {state: {hotel}})
+        navigate(navigate_url, {state: {hotel, price:hotel.price}})
     }
  
     return (

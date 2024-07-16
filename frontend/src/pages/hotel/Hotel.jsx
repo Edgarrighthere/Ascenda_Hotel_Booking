@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import './hotel.css';
 import Navbar from '../../components/navbar/Navbar';
 import Header from '../../components/header/Header';
@@ -18,35 +19,45 @@ import RoomList from '../../components/room/Room';
 import Map from '../../components/maps/Map';
 
 const Hotel = () => {
+  const { id } = useParams();
+  const location = useLocation();
+  const [price, setPrice] = useState(location.state?.price || 0);
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
+  const [rawinfo, setRawInfo] = useState(null); // Initialize rawinfo as null initially
 
-  const photos = [
-    {
-      src:
-        'https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707778.jpg?k=56ba0babbcbbfeb3d3e911728831dcbc390ed2cb16c51d88159f82bf751d04c6&o=&hp=1',
-    },
-    {
-      src:
-        'https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707367.jpg?k=cbacfdeb8404af56a1a94812575d96f6b80f6740fd491d02c6fc3912a16d8757&o=&hp=1',
-    },
-    {
-      src:
-        'https://cf.bstatic.com/xdata/images/hotel/max1280x900/261708745.jpg?k=1aae4678d645c63e0d90cdae8127b15f1e3232d4739bdf387a6578dc3b14bdfd&o=&hp=1',
-    },
-    {
-      src:
-        'https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707776.jpg?k=054bb3e27c9e58d3bb1110349eb5e6e24dacd53fbb0316b9e2519b2bf3c520ae&o=&hp=1',
-    },
-    {
-      src:
-        'https://cf.bstatic.com/xdata/images/hotel/max1280x900/261708693.jpg?k=ea210b4fa329fe302eab55dd9818c0571afba2abd2225ca3a36457f9afa74e94&o=&hp=1',
-    },
-    {
-      src:
-        'https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707389.jpg?k=52156673f9eb6d5d99d3eed9386491a0465ce6f3b995f005ac71abc192dd5827&o=&hp=1',
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/room_details/${id}`, {
+          headers: {
+            "Content-type": "application/x-www-form-urlencoded"
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setRawInfo(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [id]); // Include id in the dependency array
+
+  // Render loading state if rawinfo is null
+  if (rawinfo === null) {
+    return <div>Loading...</div>;
+  }
+
+  // If rawinfo is still null and not loaded, it means it's done
+  const photos = Array.from({ length: Math.min(rawinfo.number_of_images,9) }).map((_, index) => ({
+    src: `${rawinfo.image_details.prefix}${index}${rawinfo.image_details.suffix}`,
+  }));
 
   const handleOpen = (i) => {
     setSlideNumber(i);
@@ -65,66 +76,33 @@ const Hotel = () => {
     setSlideNumber(newSlideNumber);
   };
 
+  // Check for null or undefined values before accessing rawinfo properties
   const categories = {
     overall: {
       name: 'Overall',
-      score: 81,
-      popularity: 4.0,
+      score: rawinfo.trustyou?.score?.overall || 0,
+      popularity: rawinfo.trustyou?.score?.kaligo_overall || 0,
     },
     romantic_hotel: {
       name: 'Romantic Hotel',
-      score: 77,
-      popularity: 8.6,
+      score: rawinfo.trustyou?.score?.solo || 0,
+      popularity: rawinfo.trustyou?.score?.couple || 0,
     },
     family_hotel: {
       name: 'Family Hotel',
-      score: 82,
-      popularity: 11.3,
+      score: rawinfo.trustyou?.score?.family || 0,
+      popularity: rawinfo.trustyou?.score?.business || 0,
     },
     business_hotel: {
       name: 'Business Hotel',
-      score: 72,
-      popularity: 23.8,
+      score: rawinfo.trustyou?.score?.business || 0,
+      popularity: 23.8, // This value was hardcoded
     },
   };
 
-  const amenities = {
-    AirConditioning: true,
-    ClothingIron: true,
-    ContinentalBreakfast: true,
-    DataPorts: true,
-    HairDryer: true,
-    Kitchen: true,
-    OutdoorPool: true,
-    ParkingGarage: true,
-    Safe: true,
-    TelevisionInRoom: true,
-    VoiceMail: true,
-  };
-
-  const rooms = [
-    {
-      roomType: 'Double Room A Bed',
-      imageUrl: 'https://via.placeholder.com/150',
-      roomOnlyPrice: 456,
-      breakfastPrice: 589,
-      cancelPolicy: 'Free cancellation (except a service fee, if applicable)',
-    },
-    {
-      roomType: 'Double Room',
-      imageUrl: 'https://via.placeholder.com/150',
-      roomOnlyPrice: 456,
-      breakfastPrice: 589,
-      cancelPolicy: 'Free cancellation (except a service fee, if applicable)',
-    },
-    {
-      roomType: 'Double Deluxe Room A Bed',
-      imageUrl: 'https://via.placeholder.com/150',
-      roomOnlyPrice: 473,
-      breakfastPrice: 607,
-      cancelPolicy: 'Free cancellation (except a service fee, if applicable)',
-    },
-  ];
+  // Check if amenities and rooms are loaded before accessing them
+  const amenities = rawinfo.amenities || [];
+  const rooms = rawinfo.rooms || [];
 
   return (
     <div>
@@ -159,10 +137,10 @@ const Hotel = () => {
         )}
         <div className="hotelWrapper">
           <button className="bookNow">Book Now!</button>
-          <h1 className="hotelTitle">Grand Hotel</h1>
+          <h1 className="hotelTitle">{rawinfo.name}</h1>
           <div className="hotelAddress">
             <FontAwesomeIcon icon={faLocationDot} />
-            <span>Elton St 125</span>
+            <span>{rawinfo.address}</span>
           </div>
           <span className="hotelDistance">
             Excellent location - 500m from center
@@ -178,6 +156,13 @@ const Hotel = () => {
                   src={photo.src}
                   alt=""
                   className="hotelImg"
+                  style={{
+                    width: '100%', 
+                    height: 'auto', 
+                    aspectRatio: '1 / 1', 
+                    cursor: 'pointer', 
+                    objectFit: 'cover',
+                  }}
                 />
               </div>
             ))}
@@ -185,29 +170,19 @@ const Hotel = () => {
           <div className="hotelDetails">
             <div className="hotelDetailsTexts">
               <h1 className="hotelTitle">Stay in the Heart of the City</h1>
-              <p className="hotelDescription">
-                Located a 5-minute walk from St. Florian's Gate in Krakow,
-                Tower Street Apartments has accommodations with air
-                conditioning and free WiFi. The units come with hardwood
-                floors and feature a fully equipped kitchenette with a
-                microwave, a flat-screen TV, and a private bathroom with
-                shower and a hairdryer. A fridge is also offered, as well as
-                an electric tea pot and a coffee machine. Popular points of
-                interest near the apartment include Cloth Hall, Main Market
-                Square and Town Hall Tower. The nearest airport is John Paul
-                II International Kraków–Balice, 16.1 km from Tower Street
-                Apartments, and the property offers a paid airport shuttle
-                service.
-              </p>
+              <p
+                className="hotelDescription"
+                dangerouslySetInnerHTML={{ __html: rawinfo.description }}
+              />
             </div>
             <div className="hotelDetailsPrice">
               <h1>Perfect for a 9-night stay!</h1>
               <span>
-                Located in the real heart of Krakow, this property has an
+                [HARDCODEDLocated in the real heart of Krakow, this property has an
                 excellent location score of 9.8!
               </span>
               <h2>
-                <b>$945</b> (9 nights)
+                <b>${price * 9}</b> (9 nights)
               </h2>
               <button>Reserve or Book Now!</button>
             </div>
@@ -216,12 +191,12 @@ const Hotel = () => {
         <div className="centeredContainer">
           <div className="centeredContent">
             <TrustYouScore
-              overall={81.0}
-              kaligo={4.2}
-              solo={77.0}
-              couple={81.0}
-              family={82.0}
-              business={72.0}
+              overall={rawinfo.trustyou?.score?.overall || 0}
+              kaligo={rawinfo.trustyou?.score?.kaligo_overall || 0}
+              solo={rawinfo.trustyou?.score?.solo || 0}
+              couple={rawinfo.trustyou?.score?.couple || 0}
+              family={rawinfo.trustyou?.score?.family || 0}
+              business={rawinfo.trustyou?.score?.business || 0}
             />
           </div>
         </div>
@@ -242,7 +217,7 @@ const Hotel = () => {
         </div>
         <div className="centeredContainer mapContainer">
           <div className="centeredContent">
-            <Map />
+            <Map lat={rawinfo.latitude} lng={rawinfo.longitude} />
           </div>
         </div>
         <MailList />
