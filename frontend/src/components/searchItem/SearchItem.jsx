@@ -61,6 +61,12 @@ const SearchItem = ({hotel}) => {
             <div className="siDescription">
                 <h1 className="siTitle">{hotel.name}</h1>
                 <span className="siAddress">{hotel.address} <em>({hotel.distance}km from centre)</em></span>
+                <span>put hotel room details here</span>
+                {/* <span className="siTaxiOp">Free Airport Transfer</span>
+                <span className="siSubtitle">Suite with Air conditioning</span>
+                <span className="siFeatures">1 Queen bed • 1 bathroom</span>
+                <span className="siCancelOp">Free cancellation </span>
+                <span className="siCancelOpSubtitle">Free cancellation within 72 hours after booking, so lock in this great price today!</span> */}
             </div>
             
             <div className="siDetails">
