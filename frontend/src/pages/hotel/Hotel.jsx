@@ -17,23 +17,36 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import RoomList from '../../components/room/Room';
 import Map from '../../components/maps/Map';
+import { ImageRounded } from '@mui/icons-material';
 
 const Hotel = () => {
   const { id } = useParams();
   const location = useLocation();
+  const {
+    destinationId,
+    hotel,
+    destination,
+    checkin,
+    checkout,
+    guests,
+  } = location.state || {};
   const [price, setPrice] = useState(location.state?.price || 0);
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const [rawinfo, setRawInfo] = useState(null); // Initialize rawinfo as null initially
+  const [rooms, setRooms] = useState(null); // Separate state for rooms
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchRawInfo = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/room_details/${id}`, {
-          headers: {
-            "Content-type": "application/x-www-form-urlencoded"
+        const response = await fetch(
+          `http://localhost:5000/room_details/${id}/${destinationId}/${checkin}/${checkout}/${guests}`, 
+          {
+            headers: {
+              'Content-type': 'application/x-www-form-urlencoded',
+            },
           }
-        });
+        );
 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -41,21 +54,38 @@ const Hotel = () => {
 
         const data = await response.json();
         setRawInfo(data);
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
-    fetchData();
-  }, [id]); // Include id in the dependency array
+    fetchRawInfo();
+  }, [id, destinationId, checkin, checkout, guests]);
 
-  // Render loading state if rawinfo is null
-  if (rawinfo === null) {
+  useEffect(() => {
+    if (rawinfo) {
+      const loadedRooms = rawinfo.rooms_available
+        ? rawinfo.rooms_available.slice(0, 5).map((room_variation) => ({
+            roomType: room_variation.roomNormalizedDescription,
+            imageUrl: room_variation.images[0],
+            roomOnlyPrice: room_variation.chargeableRate,
+            breakfastPrice: room_variation.chargeableRate + 50,
+            cancelPolicy: room_variation.freeCancellation
+              ? 'Free cancellation (except a service fee, if applicable)'
+              : 'No free cancellation',
+          }))
+        : [];
+      setRooms(loadedRooms);
+      
+    }
+  }, [rawinfo]);
+
+  if (rawinfo === null || rooms === null) {
     return <div>Loading...</div>;
   }
 
-  // If rawinfo is still null and not loaded, it means it's done
-  const photos = Array.from({ length: Math.min(rawinfo.number_of_images,9) }).map((_, index) => ({
+  const photos = Array.from({ length: Math.min(rawinfo.number_of_images, 9) }).map((_, index) => ({
     src: `${rawinfo.image_details.prefix}${index}${rawinfo.image_details.suffix}`,
   }));
 
@@ -76,7 +106,6 @@ const Hotel = () => {
     setSlideNumber(newSlideNumber);
   };
 
-  // Check for null or undefined values before accessing rawinfo properties
   const categories = {
     overall: {
       name: 'Overall',
@@ -96,13 +125,11 @@ const Hotel = () => {
     business_hotel: {
       name: 'Business Hotel',
       score: rawinfo.trustyou?.score?.business || 0,
-      popularity: 23.8, // This value was hardcoded
+      popularity: 23.8,
     },
   };
 
-  // Check if amenities and rooms are loaded before accessing them
   const amenities = rawinfo.amenities || [];
-  const rooms = rawinfo.rooms || [];
 
   return (
     <div>
@@ -157,10 +184,10 @@ const Hotel = () => {
                   alt=""
                   className="hotelImg"
                   style={{
-                    width: '100%', 
-                    height: 'auto', 
-                    aspectRatio: '1 / 1', 
-                    cursor: 'pointer', 
+                    width: '100%',
+                    height: 'auto',
+                    aspectRatio: '1 / 1',
+                    cursor: 'pointer',
                     objectFit: 'cover',
                   }}
                 />
@@ -178,7 +205,7 @@ const Hotel = () => {
             <div className="hotelDetailsPrice">
               <h1>Perfect for a 9-night stay!</h1>
               <span>
-                [HARDCODEDLocated in the real heart of Krakow, this property has an
+                [HARDCODED]Located in the real heart of Krakow, this property has an
                 excellent location score of 9.8!
               </span>
               <h2>
