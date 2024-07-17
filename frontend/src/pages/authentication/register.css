@@ -19,7 +19,7 @@
 }
 
 .registerContainer {
-    width: 30%; 
+    width: 40%; 
     background-color: #ffffff; 
     padding: 20px; 
     border-radius: 10px;
@@ -40,7 +40,7 @@
     padding: 10px;
     font-family: 'Lato';
     font-size: medium;
-    width: 95%; /* Adjusted width for input fields */
+    width: 96%; /* Adjusted width for input fields */
 }
 
 .registerInputFirstName {
@@ -48,7 +48,7 @@
     padding: 10px;
     font-family: 'Lato';
     font-size: medium;
-    width: 100%; /* Adjusted width for input fields */
+    width: 65%; /* Adjusted width for input fields */
 }
 
 .registerRow {
@@ -64,7 +64,28 @@
     height: 100%;
     font-family: 'Lato';
     font-size: medium;
+    width: 100%;
 }
+
+.countryCodeInputContainer {
+    flex: 1; /* Take up remaining space */
+}
+
+.registerInputCountryCode {
+    height: 100%;
+    font-family: 'Lato';
+    font-size: medium;
+    width: 100%; /* Adjusted width for input fields */
+}
+
+.registerInputPhoneNumber {
+    height: 30px;
+    padding: 10px;
+    font-family: 'Lato';
+    font-size: medium;
+    width: 65%; /* Adjusted width for input fields */
+}
+
 
 .passwordInputContainer {
     position: relative;
@@ -122,6 +143,3 @@
     font-family: 'Lato';
     font-size: medium;
 }
-
-
-

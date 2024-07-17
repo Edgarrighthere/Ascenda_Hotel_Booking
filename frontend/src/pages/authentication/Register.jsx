@@ -10,6 +10,7 @@ import {
     faCheck
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import countryCodesList from 'country-codes-list';
 
 const Register = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -76,6 +77,13 @@ const Register = () => {
         }
     }, [error]);
 
+    const countryCodeOptions = countryCodesList.customList(
+        'countryNameEn',
+        '{countryCallingCode}'
+    );
+
+    const sortedCountryCodeOptions = Object.entries(countryCodeOptions).sort(([a], [b]) => a.localeCompare(b));
+
     return (
         <div className="registerPage">
             <Navbar />
@@ -111,20 +119,27 @@ const Register = () => {
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                     />
-                    <input
-                        type="text"
-                        placeholder="Enter your country code"
-                        className="registerInput"
-                        value={countryCode}
-                        onChange={(e) => setCountryCode(e.target.value)}
-                    />
-                    <input
-                        type="text"
-                        placeholder="Enter your phone number"
-                        className="registerInput"
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                    />
+                    <div className="registerRow">
+                        <div className="countryCodeInputContainer">
+                            <select
+                                value={countryCode}
+                                onChange={(e) => setCountryCode(e.target.value)}
+                                className="registerInputCountryCode"
+                            >
+                                <option value="">Select Country Code</option>
+                                {Object.entries(sortedCountryCodeOptions).map(([country, code]) => (
+                                    <option key={code} value={`+${code}`}>{`${country} (+${code})`}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <input
+                            type="text"
+                            placeholder="Enter your phone number"
+                            className="registerInputPhoneNumber"
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                        />
+                    </div>
                     <div className="passwordInputContainer">
                         <input
                             type={passwordVisible ? "text" : "password"}
