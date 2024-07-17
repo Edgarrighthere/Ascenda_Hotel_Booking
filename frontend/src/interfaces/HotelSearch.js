@@ -29,6 +29,8 @@ async function HotelSearch(destination, date, options) {
         }
     })
     const hotelListings = await search_response.json()
+    const listingsLength = hotelListings.length
+    const pageCount = Math.ceil(listingsLength/10)
 
     // Calculate price range based on hotel listings
     var listings = hotelListings
@@ -36,13 +38,24 @@ async function HotelSearch(destination, date, options) {
     listings.filter(obj => {
         priceArray.push(obj.price)
     })
-    const minPrice = Math.min(...priceArray)
-    const maxPrice = Math.max(...priceArray)
-    const priceRange = [minPrice, maxPrice]
+    
+    var minPrice = Math.min(...priceArray)
+    var maxPrice = Math.max(...priceArray)
+    var roundedMinPrice = Math.round(minPrice/10)*10
+    var roundedMaxPrice = Math.round(maxPrice/10)*10
+
+    const priceRange = [roundedMinPrice, roundedMaxPrice]
 
     return {
+        searchParameters : {
+            id: destinationId,
+            checkin: checkin,
+            checkout: checkout,
+            guests: guests
+        },
         listings: hotelListings, 
-        range: priceRange
+        range: priceRange,
+        pageCount: pageCount
     }
 }
 
