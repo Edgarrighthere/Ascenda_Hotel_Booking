@@ -73,6 +73,8 @@ const Navbar = () => {
         try {
             await axios.post("http://localhost:5001/logout");
             setCurrentSalutation("Guest");
+            setCurrentFirstName("");
+            setCurrentLastName("");
             localStorage.removeItem('salutation');
             localStorage.removeItem('firstName');
             localStorage.removeItem('lastName');
