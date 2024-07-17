@@ -9,18 +9,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./header.css";
 import { DateRange } from "react-date-range";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Autosuggest from 'react-autosuggest';
 import didYouMean from 'didyoumean2';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
-import { format } from "date-fns";
+import { format, addDays } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
-import HotelSearch from "../../interfaces/HotelSearch.js"
+import HotelSearch from "../../interfaces/HotelSearch.js";
 import Paging from "../../interfaces/Paging.js";
 
-const Header =({ type }) => {
+const Header = ({ type }) => {
     const [destination, setDestination] = useState(""); // what you enter into search bar
     const [openDate, setOpenDate] = useState(false);
     const [suggestions, setSuggestions] = useState([]);
@@ -29,19 +29,21 @@ const Header =({ type }) => {
     const [date, setDate] = useState([
         {
             startDate: new Date(),
-            endDate: new Date(), 
+            endDate: addDays(new Date(), 1),
             key: 'selection'
         }
     ]);
 
     const [openOptions, setOpenOptions] = useState(false);
     const [options, setOptions] = useState({
-        adult:1,
-        children:0,
-        rooms:1
+        adult: 1,
+        children: 0,
+        rooms: 1
     });
 
-    const navigate = useNavigate(); //use to redirect between pages
+    const navigate = useNavigate(); // use to redirect between pages
+    const dateRef = useRef(null);
+    const optionsRef = useRef(null);
 
     useEffect(() => {
         // Fetch destinations from JSON file via backend
@@ -58,7 +60,7 @@ const Header =({ type }) => {
         setOptions((prev) => {
             return {
                ...prev, 
-               [name]: operation === "i" ? options[name] + 1 : options[name] -1
+               [name]: operation === "i" ? options[name] + 1 : options[name] - 1
             };
         });
     };
@@ -67,23 +69,23 @@ const Header =({ type }) => {
         navigate("/login");
     };
 
-    async function handleSearch () {
-        const searchResults = await HotelSearch(destination, date, options)
-        const params = searchResults.searchParameters
-        const hotelListings = searchResults.listings
-        const paginatedListings = await Paging(hotelListings, 1)
-        const priceRange = searchResults.range
-        const currentPage = 1
-        const totalPages = searchResults.pageCount
+    async function handleSearch() {
+        const searchResults = await HotelSearch(destination, date, options);
+        const params = searchResults.searchParameters;
+        const hotelListings = searchResults.listings;
+        const paginatedListings = await Paging(hotelListings, 1);
+        const priceRange = searchResults.range;
+        const currentPage = 1;
+        const totalPages = searchResults.pageCount;
 
-        const originalListings = hotelListings
-        const originalPriceRange = priceRange
-        const originalTotalPages = totalPages
-        const filteredListings = hotelListings
-        const sortedListings = hotelListings
+        const originalListings = hotelListings;
+        const originalPriceRange = priceRange;
+        const originalTotalPages = totalPages;
+        const filteredListings = hotelListings;
+        const sortedListings = hotelListings;
 
-        const navigateURL = "/hotels/" + params.id + "/" + params.checkin + "/" + params.checkout + "/" + params.guests + "/1"
-        navigate(navigateURL, {state: {destination, date, options, hotelListings, paginatedListings, priceRange, currentPage, totalPages, originalListings, originalPriceRange, originalTotalPages, filteredListings, sortedListings}});
+        const navigateURL = `/hotels/${params.id}/${params.checkin}/${params.checkout}/${params.guests}/1`;
+        navigate(navigateURL, { state: { destination, date, options, hotelListings, paginatedListings, priceRange, currentPage, totalPages, originalListings, originalPriceRange, originalTotalPages, filteredListings, sortedListings } });
     };
 
     // Autocorrect
@@ -124,6 +126,22 @@ const Header =({ type }) => {
         </div>
     );
 
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (dateRef.current && !dateRef.current.contains(event.target)) {
+                setOpenDate(false);
+            }
+            if (optionsRef.current && !optionsRef.current.contains(event.target)) {
+                setOpenOptions(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [dateRef, optionsRef]);
+
     return (
         <div className="header">
             <div className={type === "list" ? "headerContainer listMode" : "headerContainer"}>
@@ -141,10 +159,10 @@ const Header =({ type }) => {
                         <span>Cars</span>
                     </div>
                 </div>
-                { type !== "list" &&
+                {type !== "list" &&
                     <>
                     <h1 className="headerTitle">
-                        Experience the world your way <br/>with Travel with Ascenda.
+                        Experience the world your way <br />with Travel with Ascenda.
                     </h1>
                     <p className="headerDescription">
                         Enjoy exclusive travel deals using Ascenda.
@@ -177,63 +195,67 @@ const Header =({ type }) => {
                         </div>
                         <div className="headerSearchItem">
                             <FontAwesomeIcon icon={faCalendarDays} className="headerIcon" />
-                            <span onClick={()=>setOpenDate(!openDate)} className="headerSearchText">
+                            <span onClick={() => setOpenDate(!openDate)} className="headerSearchText">
                                 {`${format(
-                                date[0].startDate,
-                                "dd/MM/yyyy"
-                                )} to ${format(date[0].endDate, 
-                                "dd/MM/yyyy"
+                                    date[0].startDate,
+                                    "dd/MM/yyyy"
+                                )} to ${format(date[0].endDate,
+                                    "dd/MM/yyyy"
                                 )}`}
                             </span>
                             {openDate && (
-                                <DateRange 
-                                    editableDateInputs={true}
-                                    onChange={(item) => setDate([item.selection])}
-                                    moveRangeOnFirstSelection={false}
-                                    ranges={date}
-                                    className="date"
-                                    minDate={new Date()}
-                                />
+                                <div ref={dateRef}>
+                                    <DateRange
+                                        editableDateInputs={true}
+                                        onChange={(item) => setDate([item.selection])}
+                                        moveRangeOnFirstSelection={false}
+                                        ranges={date}
+                                        className="date"
+                                        minDate={new Date()}
+                                    />
+                                </div>
                             )}
                         </div>
                         <div className="headerSearchItem">
                             <FontAwesomeIcon icon={faPerson} className="headerIcon" />
-                            <span onClick={()=>setOpenOptions(!openOptions)} className="headerSearchText">
+                            <span onClick={() => setOpenOptions(!openOptions)} className="headerSearchText">
                                 {`${options.adult} adult · 
                                 ${options.children} children · 
                                 ${options.rooms} rooms`}</span>
-                                {openOptions && <div className="options">
+                            {openOptions && (
+                                <div ref={optionsRef} className="options">
                                     <div className="optionItem">
                                         <span className="optionText">Adult</span>
                                         <div className="optionCounter">
-                                            <button 
+                                            <button
                                                 disabled={options.adult <= 1}
-                                                className="optionCounterButton" onClick={()=>handleOption("adult", "d")}>-</button>
+                                                className="optionCounterButton" onClick={() => handleOption("adult", "d")}>-</button>
                                             <span className="optionCounterNumber">{options.adult}</span>
-                                            <button className="optionCounterButton" onClick={()=>handleOption("adult", "i")}>+</button>
+                                            <button className="optionCounterButton" onClick={() => handleOption("adult", "i")}>+</button>
                                         </div>
                                     </div>
                                     <div className="optionItem">
                                         <span className="optionText">Children</span>
                                         <div className="optionCounter">
-                                            <button 
+                                            <button
                                                 disabled={options.children <= 0}
-                                                className="optionCounterButton" onClick={()=>handleOption("children", "d")}>-</button>
+                                                className="optionCounterButton" onClick={() => handleOption("children", "d")}>-</button>
                                             <span className="optionCounterNumber">{options.children}</span>
-                                            <button className="optionCounterButton" onClick={()=>handleOption("children", "i")}>+</button>
+                                            <button className="optionCounterButton" onClick={() => handleOption("children", "i")}>+</button>
                                         </div>
                                     </div>
                                     <div className="optionItem">
                                         <span className="optionText">Rooms</span>
                                         <div className="optionCounter">
-                                            <button 
+                                            <button
                                                 disabled={options.rooms <= 1}
-                                                className="optionCounterButton" onClick={()=>handleOption("rooms", "d")}>-</button>
+                                                className="optionCounterButton" onClick={() => handleOption("rooms", "d")}>-</button>
                                             <span className="optionCounterNumber">{options.rooms}</span>
-                                            <button className="optionCounterButton" onClick={()=>handleOption("rooms", "i")}>+</button>
+                                            <button className="optionCounterButton" onClick={() => handleOption("rooms", "i")}>+</button>
                                         </div>
                                     </div>
-                                </div>}
+                                </div>
+                            )}
                         </div>
                         <div className="headerSearchItem">
                             <button className="headerBtn" onClick={handleSearch}>Search</button>
@@ -242,7 +264,7 @@ const Header =({ type }) => {
                 </>}
             </div>
         </div>
-    )
+    );
 };
 
 export default Header;
