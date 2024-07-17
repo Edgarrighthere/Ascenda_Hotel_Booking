@@ -9,12 +9,13 @@ const Navbar = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [currentUsername, setCurrentUsername] = useState("Guest");
+    const [currentUsername, setCurrentUsername] = useState(localStorage.getItem('username') || "Guest");
     const dropdownRef = useRef(null); // Ref to handle dropdown close delay
 
     useEffect(() => {
         if (location.state && location.state.username) {
             setCurrentUsername(location.state.username);
+            localStorage.setItem('username', location.state.username);
         }
     }, [location.state]);
 
@@ -55,6 +56,7 @@ const Navbar = () => {
         try {
             await axios.post("http://localhost:5001/logout");
             setCurrentUsername("Guest");
+            localStorage.removeItem('username');
             setDropdownOpen(false);
             navigate("/");
             alert("Logout successful");
