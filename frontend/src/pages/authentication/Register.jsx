@@ -41,7 +41,7 @@ const Register = () => {
 
         const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
 
-        if (!email || !username || !password || !confirmPassword || !salutation || !firstName || !lastName || !countryCode || !phoneNumber) {
+        if (!email || !password || !confirmPassword || !salutation || !firstName || !lastName || !countryCode || !phoneNumber) {
             setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Check that all fields are filled </>);
         } else if (password !== confirmPassword) {
             setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Passwords do not match </>);
@@ -82,7 +82,8 @@ const Register = () => {
         '{countryCallingCode}'
     );
 
-    const sortedCountryCodeOptions = Object.entries(countryCodeOptions).sort(([a], [b]) => a.localeCompare(b));
+    const sortedCountryCodeOptions = Object.entries(countryCodeOptions)
+        .sort(([a], [b]) => a.localeCompare(b));
 
     return (
         <div className="registerPage">
@@ -119,6 +120,13 @@ const Register = () => {
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                     />
+                    <input
+                        type="text"
+                        placeholder="Enter a registered email, eg. someone123@gmail.com"
+                        className="registerInput"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
                     <div className="registerRow">
                         <div className="countryCodeInputContainer">
                             <select
@@ -127,7 +135,7 @@ const Register = () => {
                                 className="registerInputCountryCode"
                             >
                                 <option value="">Select Country Code</option>
-                                {Object.entries(sortedCountryCodeOptions).map(([country, code]) => (
+                                {sortedCountryCodeOptions.map(([country, code]) => (
                                     <option key={code} value={`+${code}`}>{`${country} (+${code})`}</option>
                                 ))}
                             </select>
