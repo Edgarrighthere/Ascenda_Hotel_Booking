@@ -184,10 +184,10 @@ const Hotel = () => {
                   alt=""
                   className="hotelImg"
                   style={{
-                    width: '100%',
-                    height: 'auto',
-                    aspectRatio: '1 / 1',
-                    cursor: 'pointer',
+                    width: '100%', 
+                    height: 'auto', 
+                    aspectRatio: '1 / 1', 
+                    cursor: 'pointer', 
                     objectFit: 'cover',
                   }}
                 />
@@ -205,7 +205,7 @@ const Hotel = () => {
             <div className="hotelDetailsPrice">
               <h1>Perfect for a 9-night stay!</h1>
               <span>
-                [HARDCODED]Located in the real heart of Krakow, this property has an
+                [HARDCODEDLocated in the real heart of Krakow, this property has an
                 excellent location score of 9.8!
               </span>
               <h2>
