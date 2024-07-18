@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import placeholderImg from "../../assests/airbnb_image.jpg";
 
-const SearchItem = ({hotel}) => {
+const SearchItem = ({destinationId,hotel,destination, checkin, checkout, guests}) => {
 
     const [textRating, setTextRating] = useState("")
     const [hotelScores, setHotelScores] = useState({})
@@ -43,7 +43,7 @@ const SearchItem = ({hotel}) => {
 
     const handleSeeAvailability = () => {
         const navigate_url = "/hotels/" + hotel.id
-        navigate(navigate_url, {state: {hotel, price:hotel.price}})
+        navigate(navigate_url, {state: {destinationId, hotel, destination, checkin, checkout, guests, price: hotel.price}})
     }
  
     return (
