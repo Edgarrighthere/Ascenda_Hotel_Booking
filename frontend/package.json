@@ -70,6 +70,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "cypress": "^13.13.1",
     "husky": "^9.0.11"
   },
   "proxy": "https://hotelapi.loyalty.dev/api/hotels"

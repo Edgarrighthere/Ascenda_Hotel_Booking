@@ -24,6 +24,7 @@
     "stripe": "^16.2.0"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "cypress": "^13.13.1"
   }
 }

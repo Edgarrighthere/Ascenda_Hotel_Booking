@@ -94,12 +94,13 @@ const Navbar = () => {
                     className="logo"
                     onClick={handleLogoClick}
                     alt="Ascenda Logo"
+                    data-test="Ascenda"
                 />
                 <div className="navItems">
-                    <button className="navButton" onClick={handleRegister}>
+                    <button data-test="registerText" className="navButton" onClick={handleRegister}>
                         Register
                     </button>
-                    <div className="dropdown" ref={dropdownRef}>
+                    <div data-test="welcomeMsg" className="dropdown" ref={dropdownRef}>
                         <button className="dropdownButton" onClick={toggleDropdown}>
                             <FontAwesomeIcon icon={faUser} /> Welcome, {currentSalutation} {currentFirstName} {currentLastName}!
                             <FontAwesomeIcon icon={faBars} className="menuIcon" />
