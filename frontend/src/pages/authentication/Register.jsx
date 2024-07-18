@@ -10,6 +10,7 @@ import {
     faCheck
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import countryCodesList from 'country-codes-list';
 
 const Register = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -18,6 +19,11 @@ const Register = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [salutation, setSalutation] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [countryCode, setCountryCode] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
@@ -35,7 +41,7 @@ const Register = () => {
 
         const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
 
-        if (!email || !username || !password || !confirmPassword) {
+        if (!email || !password || !confirmPassword || !salutation || !firstName || !lastName || !countryCode || !phoneNumber) {
             setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Check that all fields are filled </>);
         } else if (password !== confirmPassword) {
             setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Passwords do not match </>);
@@ -47,6 +53,11 @@ const Register = () => {
                     email: email,
                     username: username,
                     password: password,
+                    salutation: salutation,
+                    firstName: firstName,
+                    lastName: lastName,
+                    countryCode: countryCode,
+                    phoneNumber: phoneNumber,
                 });
 
                 setSuccess(<> <FontAwesomeIcon icon={faCheck} /> {response.data.message} </>);
@@ -65,16 +76,14 @@ const Register = () => {
             return () => clearTimeout(timer);
         }
     }, [error]);
-        
-    useEffect(() => {
-        if (error) {
-            const timer = setTimeout(() => {
-                setError("");
-            }, 10000);
 
-            return () => clearTimeout(timer);
-        }
-    }, [error]);
+    const countryCodeOptions = countryCodesList.customList(
+        'countryNameEn',
+        '{countryCallingCode}'
+    );
+
+    const sortedCountryCodeOptions = Object.entries(countryCodeOptions)
+        .sort(([a], [b]) => a.localeCompare(b));
 
     return (
         <div className="registerPage">
@@ -82,6 +91,35 @@ const Register = () => {
             <div className="register">
                 <div className="registerContainer">
                     <div className="registerTitle">Register</div>
+                    <div className="registerRow">
+                        <div className="salutationInputContainer">
+                            <select
+                                value={salutation}
+                                onChange={(e) => setSalutation(e.target.value)}
+                                className="registerInputSalutation"
+                            >
+                                <option value="">Select Salutation</option>
+                                <option value="Mr">Mr</option>
+                                <option value="Ms">Ms</option>
+                                <option value="Mdm">Mdm</option>
+                                <option value="Dr">Dr</option>
+                            </select>
+                        </div>
+                        <input
+                            type="text"
+                            placeholder="Enter your first name"
+                            className="registerInputFirstName"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                        />
+                    </div>
+                    <input
+                        type="text"
+                        placeholder="Enter your last name"
+                        className="registerInput"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                    />
                     <input
                         type="text"
                         placeholder="Enter a registered email, eg. someone123@gmail.com"
@@ -89,13 +127,27 @@ const Register = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
-                    <input
-                        type="text"
-                        placeholder="Enter your username"
-                        className="registerInput"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
+                    <div className="registerRow">
+                        <div className="countryCodeInputContainer">
+                            <select
+                                value={countryCode}
+                                onChange={(e) => setCountryCode(e.target.value)}
+                                className="registerInputCountryCode"
+                            >
+                                <option value="">Select Country Code</option>
+                                {sortedCountryCodeOptions.map(([country, code]) => (
+                                    <option key={code} value={`+${code}`}>{`${country} (+${code})`}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <input
+                            type="text"
+                            placeholder="Enter your phone number"
+                            className="registerInputPhoneNumber"
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                        />
+                    </div>
                     <div className="passwordInputContainer">
                         <input
                             type={passwordVisible ? "text" : "password"}

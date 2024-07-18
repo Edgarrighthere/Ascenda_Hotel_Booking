@@ -30,8 +30,12 @@ mongoose.connection.once('open', () => {
 
 const userSchema = new mongoose.Schema({
     email: { type: String, unique: true, required: true },
-    username: { type: String, unique: true, required: true },
     password: { type: String, required: true },
+    salutation: { type: String, unique: true, required: true },
+    firstName: { type: String, unique: true, required: true },
+    lastName: { type: String, unique: true, required: true },
+    countryCode: { type: String, unique: true, required: true },
+    phoneNumber: { type: String, unique: true, required: true },
     otp: String, 
     otpExpiration: Date,
     resetPasswordToken: String,
@@ -52,7 +56,7 @@ const transporter = nodemailer.createTransport({
 
 // Register route
 app.post('/register', async (req, res) => {
-    const { email, username, password } = req.body;
+    const { email, password, salutation, firstName, lastName, countryCode, phoneNumber } = req.body;
 
     try {
         const existingUser = await User.findOne({ email });
@@ -65,8 +69,12 @@ app.post('/register', async (req, res) => {
 
         const newUser = new User({
             email,
-            username,
-            password: hashedPassword
+            password: hashedPassword,
+            salutation,
+            firstName,
+            lastName,
+            countryCode,
+            phoneNumber
         });
 
         await newUser.save();
@@ -81,7 +89,7 @@ app.post("/login", async (req, res) => {
     const { identifier, password } = req.body;
 
     try {
-        const user = await User.findOne({ $or: [{ email: identifier }, { username: identifier }] });
+        const user = await User.findOne({email: identifier });
         if (!user) {
             return res.status(400).json({ message: "Invalid email." });
         }
@@ -110,7 +118,9 @@ app.post("/login", async (req, res) => {
         res.status(200).json({
             message: "Login successful. Verify with the OTP sent to your registered email...",
             email: user.email,
-            username: user.username // Include username in response
+            salutation: user.salutation, // Include salutation in response
+            firstName: user.firstName, // Include first name in response
+            lastName: user.lastName // Include last name in response
         });
     } catch (error) {
         console.error("Error during login:", error);
@@ -136,7 +146,9 @@ app.post("/verify-otp", async (req, res) => {
         res.status(200).json({ 
             success: true, 
             message: "OTP verified successfully.", 
-            username: user.username // Include username in response
+            salutation: user.salutation, // Include salutation in response
+            firstName: user.firstName, // Include first name in response
+            lastName: user.lastName // Include last name in response
         });
     } catch (error) {
         console.error("Error during OTP verification:", error);

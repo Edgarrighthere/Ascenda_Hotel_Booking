@@ -13,7 +13,9 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
-    const [username, setUsername] = useState("");
+    const [salutation, setSalutation] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
 
     const navigate = useNavigate();
 
@@ -31,9 +33,11 @@ const Login = () => {
             if (response && response.data && response.status === 200) {
                 setSuccess(<> <FontAwesomeIcon icon={faCheck} /> {response.data.message} </>);
                 setError(""); // Clear any previous errors
-                setUsername(response.data.username); // Set the username from response
+                setSalutation(response.data.salutation); 
+                setFirstName(response.data.firstName); 
+                setLastName(response.data.lastName); 
                 setTimeout(() => {
-                    navigate("/inputOTP", { state: { email: identifier, username: response.data.username } }); // Pass email and username to inputOTP
+                    navigate("/inputOTP", { state: { email: identifier, salutation: response.data.salutation, firstName: response.data.firstName, lastName: response.data.lastName } }); // Pass email, salutation, firstName and lastName to inputOTP
                 }, 2000);
             } else {
                 setError("Invalid response from server."); // Handle unexpected response

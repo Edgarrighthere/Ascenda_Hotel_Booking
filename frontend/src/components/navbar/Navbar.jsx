@@ -9,12 +9,30 @@ const Navbar = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [currentUsername, setCurrentUsername] = useState("Guest");
+    const [currentSalutation, setCurrentSalutation] = useState(localStorage.getItem('salutation') || "Guest");
+    const [currentFirstName, setCurrentFirstName] = useState(localStorage.getItem('firstName') || "");
+    const [currentLastName, setCurrentLastName] = useState(localStorage.getItem('lastName') || "");
+
     const dropdownRef = useRef(null); // Ref to handle dropdown close delay
 
     useEffect(() => {
-        if (location.state && location.state.username) {
-            setCurrentUsername(location.state.username);
+        if (location.state && location.state.salutation) {
+            setCurrentSalutation(location.state.salutation);
+            localStorage.setItem('salutation', location.state.salutation);
+        }
+    }, [location.state]);
+
+    useEffect(() => { 
+        if (location.state && location.state.firstName) {
+            setCurrentFirstName(location.state.firstName);
+            localStorage.setItem('firstName', location.state.firstName);
+        }
+    }, [location.state]);
+
+    useEffect(() => { 
+        if (location.state && location.state.lastName) {
+            setCurrentLastName(location.state.lastName);
+            localStorage.setItem('lastName', location.state.lastName);
         }
     }, [location.state]);
 
@@ -54,7 +72,12 @@ const Navbar = () => {
     const handleLogout = async () => {
         try {
             await axios.post("http://localhost:5001/logout");
-            setCurrentUsername("Guest");
+            setCurrentSalutation("Guest");
+            setCurrentFirstName("");
+            setCurrentLastName("");
+            localStorage.removeItem('salutation');
+            localStorage.removeItem('firstName');
+            localStorage.removeItem('lastName');
             setDropdownOpen(false);
             navigate("/");
             alert("Logout successful");
@@ -78,7 +101,7 @@ const Navbar = () => {
                     </button>
                     <div className="dropdown" ref={dropdownRef}>
                         <button className="dropdownButton" onClick={toggleDropdown}>
-                            <FontAwesomeIcon icon={faUser} /> Welcome, {currentUsername}!
+                            <FontAwesomeIcon icon={faUser} /> Welcome, {currentSalutation} {currentFirstName} {currentLastName}!
                             <FontAwesomeIcon icon={faBars} className="menuIcon" />
                         </button>
                         <div className={`dropdownContent ${dropdownOpen ? 'show' : 'hide'}`}>
