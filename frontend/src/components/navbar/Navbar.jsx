@@ -71,7 +71,7 @@ const Navbar = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.post("http://localhost:5001/logout");
+            await axios.post("http://localhost:5000/logout");
             setCurrentSalutation("Guest");
             setCurrentFirstName("");
             setCurrentLastName("");

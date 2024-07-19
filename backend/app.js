@@ -56,11 +56,6 @@ app.use('/destination_search', destinationSearchRoute);
 app.use('/hotel_search', hotelSearchRoute);
 app.use('/room_details', roomDetails);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
 // Register route
 app.use("/register", registerRouter);
 
@@ -93,6 +88,11 @@ app.use("/complete", completePaymentRouter);
 // cancel payment -> return to hotels/:id page
 app.get('/cancel', (req, res) => {
     res.redirect('/hotels');
+});
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
 });
  
 // error handler
