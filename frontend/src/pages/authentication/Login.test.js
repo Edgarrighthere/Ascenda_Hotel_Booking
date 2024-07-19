@@ -44,9 +44,8 @@ test('Testing Login Page', async () => {
     const loginButton = screen.getByRole('button', { name: /Login/i });
     expect(loginButton).toBeInTheDocument();
     userEvent.click(loginButton);
-    //expect(mockNavigate).toHaveBeenCalledWith('/inputOTP');
   
-    // Check if the 'Forgot Password?' button is present and clickable
+    // Check if the 'Forgot Password?' button is present, clickable, and redirect to forgot password page
     const forgotPasswordButton = screen.getByRole('button', { name: /Forgot Password?/i });
     expect(forgotPasswordButton).toBeInTheDocument();
     userEvent.click(forgotPasswordButton);
