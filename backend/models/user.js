@@ -19,5 +19,4 @@ const userSchema = new db.mongoose.Schema({
 const UsersCollection = db.mongoose.model(collectionName, userSchema);
 
 
-
-module.exports={UsersCollection};
+module.exports={UsersCollection, userSchema};
