@@ -9,10 +9,10 @@ var router = express.Router();
 
 
 router.post("/", async (req, res, next) => {
-    const { identifier, password } = req.body;
+    const { email, password } = req.body;
 
     try {
-        const user = await model.UsersCollection.findOne({email: identifier });
+        const user = await model.UsersCollection.findOne({ email });
         if (!user) {
             return res.status(400).json({ message: "Invalid email." });
         }

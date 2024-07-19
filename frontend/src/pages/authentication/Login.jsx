@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
+import ErrorBoundary from "../../components/ErrorBoundary";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,6 +11,7 @@ import axios from "axios";
 const Login = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [identifier, setIdentifier] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
@@ -26,7 +28,7 @@ const Login = () => {
     const handleLogin = async () => {
         try {
             const response = await axios.post("http://localhost:5000/login", {
-                identifier,
+                email,
                 password
             });
 
@@ -37,7 +39,7 @@ const Login = () => {
                 setFirstName(response.data.firstName); 
                 setLastName(response.data.lastName); 
                 setTimeout(() => {
-                    navigate("/inputOTP", { state: { email: identifier, salutation: response.data.salutation, firstName: response.data.firstName, lastName: response.data.lastName } }); // Pass email, salutation, firstName and lastName to inputOTP
+                    navigate("/inputOTP", { state: { email, salutation: response.data.salutation, firstName: response.data.firstName, lastName: response.data.lastName } }); // Pass email, salutation, firstName and lastName to inputOTP
                 }, 2000);
             } else {
                 setError("Invalid response from server."); // Handle unexpected response
@@ -54,38 +56,40 @@ const Login = () => {
 
     return (
         <div className="loginPage">
-            <Navbar />
-            <div className="login">
-                <div className="loginContainer">
-                    <div className="loginTitle">Log in</div>
-                    <input
-                        type="text"
-                        placeholder="Enter your registered email."
-                        className="loginInput"
-                        value={identifier}
-                        onChange={(e) => setIdentifier(e.target.value)}
-                    />
-                    <div className="passwordInputContainer">
+            <ErrorBoundary>
+                <Navbar />
+                <div className="login">
+                    <div className="loginContainer">
+                        <div className="loginTitle">Log in</div>
                         <input
-                            type={passwordVisible ? "text" : "password"}
-                            placeholder="Enter your registered password."
+                            type="text"
+                            placeholder="Enter your registered email."
                             className="loginInput"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
-                        <span onClick={togglePasswordVisibility} className="passwordToggleIcon">
-                            {passwordVisible ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
-                        </span>
+                        <div className="passwordInputContainer">
+                            <input
+                                type={passwordVisible ? "text" : "password"}
+                                placeholder="Enter your registered password."
+                                className="loginInput"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <span onClick={togglePasswordVisibility} className="passwordToggleIcon">
+                                {passwordVisible ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+                            </span>
+                        </div>
+                        <div className="loginbuttonContainer">
+                            <button className="loginButton" onClick={handleLogin}>Login</button>
+                            <button className="forgotPassword" onClick={handleForgotPassword}>Forgot Password?</button>
+                        </div>
+                        {error && <div className="error">{error}</div>}
+                        {success && <div className="success">{success}</div>}
                     </div>
-                    <div className="loginbuttonContainer">
-                        <button className="loginButton" onClick={handleLogin}>Login</button>
-                        <button className="forgotPassword" onClick={handleForgotPassword}>Forgot Password?</button>
-                    </div>
-                    {error && <div className="error">{error}</div>}
-                    {success && <div className="success">{success}</div>}
                 </div>
-            </div>
-            <Footer />
+                <Footer />
+            </ErrorBoundary>
         </div>
     );
 };
