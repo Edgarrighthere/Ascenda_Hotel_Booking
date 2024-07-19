@@ -79,7 +79,6 @@ const Navbar = () => {
             localStorage.removeItem('firstName');
             localStorage.removeItem('lastName');
             setDropdownOpen(false);
-            navigate("/");
             alert("Logout successful");
         } catch (error) {
             console.error("Error during logout:", error);
