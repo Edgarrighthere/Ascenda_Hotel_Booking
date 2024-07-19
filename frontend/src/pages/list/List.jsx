@@ -294,8 +294,10 @@ const List = () => {
     
     async function handleNewPage(page) {
         const newPagedListings = await Paging(hotelListings, page);
-        const navigateURL = "/hotels/" + destinationId + "/" + checkin + "/" + checkout + "/" + guests + "/" + page
+        const navigateURL = "/hotels/" + destinationId + "/" + checkin + "/" + checkout + "/" + guests + "/" + page;
+        const state = 
         navigate(navigateURL, {state: {destination, date, options, hotelListings, paginatedListings, priceRange, currentPage, totalPages, originalListings, originalPriceRange, originalTotalPages}});
+        console.log()
         setPaginatedListings(newPagedListings);
     }
 
@@ -447,7 +449,16 @@ const List = () => {
                         </div>
                         <div className="listResult">
                             {paginatedListings.map(hotel =>
-                                <SearchItem hotel={hotel} />
+                                <SearchItem 
+                                destinationId = {destinationId}
+                                hotel={hotel} 
+                                destination={destination}
+                                checkin={checkin}
+                                checkout={checkout}
+                                guests={guests}
+                                />
+
+
                             )}
                         </div>
                     </div>

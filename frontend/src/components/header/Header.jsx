@@ -25,6 +25,8 @@ const Header = ({ type }) => {
     const [openDate, setOpenDate] = useState(false);
     const [suggestions, setSuggestions] = useState([]);
     const [destinations, setDestinations] = useState([]); // for the suggestions
+    const [loading, setLoading] = useState(false);
+    const [destinationPrompt, setDestinationPrompt] =useState('Where are you going?');
 
     const [date, setDate] = useState([
         {
@@ -69,24 +71,32 @@ const Header = ({ type }) => {
         navigate("/login");
     };
 
-    async function handleSearch() {
-        const searchResults = await HotelSearch(destination, date, options);
-        const params = searchResults.searchParameters;
-        const hotelListings = searchResults.listings;
-        const paginatedListings = await Paging(hotelListings, 1);
-        const priceRange = searchResults.range;
-        const currentPage = 1;
-        const totalPages = searchResults.pageCount;
 
-        const originalListings = hotelListings;
-        const originalPriceRange = priceRange;
-        const originalTotalPages = totalPages;
-        const filteredListings = hotelListings;
-        const sortedListings = hotelListings;
+    async function handleSearch () {
+        if(destination === ""){
+            setDestinationPrompt("Please fill this up")
+        }
+        else{
+        setLoading(true);
+        const searchResults = await HotelSearch(destination, date, options)
+        const params = searchResults.searchParameters
+        const hotelListings = searchResults.listings
+        const paginatedListings = await Paging(hotelListings, 1)
+        const priceRange = searchResults.range
+        const currentPage = 1
+        const totalPages = searchResults.pageCount
 
-        const navigateURL = `/hotels/${params.id}/${params.checkin}/${params.checkout}/${params.guests}/1`;
-        navigate(navigateURL, { state: { destination, date, options, hotelListings, paginatedListings, priceRange, currentPage, totalPages, originalListings, originalPriceRange, originalTotalPages, filteredListings, sortedListings } });
-    };
+        const originalListings = hotelListings
+        const originalPriceRange = priceRange
+        const originalTotalPages = totalPages
+        const filteredListings = hotelListings
+        const sortedListings = hotelListings
+
+        const navigateURL = "/hotels/" + params.id + "/" + params.checkin + "/" + params.checkout + "/" + params.guests + "/1"
+        
+        navigate(navigateURL, {state: {destination, date, options, hotelListings, paginatedListings, priceRange, currentPage, totalPages, originalListings, originalPriceRange, originalTotalPages, filteredListings, sortedListings}});
+    }};
+
 
     // Autocorrect
     const getSuggestions = value => {
@@ -167,9 +177,12 @@ const Header = ({ type }) => {
                     <p data-test="headerDesctext" className="headerDescription">
                         Enjoy exclusive travel deals using Ascenda.
                     </p>
-                    <button data-test="headerLogin" className="headerBtn" onClick={handleLogin}>Log in</button>
-                    <div className="headerSearch">
-                        <div data-test="destinationSearch" className="headerSearchItem">
+                    <button className="headerBtn" onClick={handleLogin}>Log in</button>
+                    {loading && <div className="headerSearch">
+                        <img src="./images/loading.gif" alt="Loading Status" /></div>}
+                    {!loading &&<div className="headerSearch">
+
+                        <div data-test="destinationSearch" className="headerSearchItem"> 
                             <FontAwesomeIcon icon={faBed} className="headerIcon" />
                             <Autosuggest
                                 suggestions={suggestions}
@@ -178,10 +191,10 @@ const Header = ({ type }) => {
                                 getSuggestionValue={suggestion => suggestion.term}
                                 renderSuggestion={renderSuggestion}
                                 inputProps={{
-                                    placeholder: 'Where are you going?',
+                                    placeholder: destinationPrompt,
                                     value: destination,
                                     onChange: onChange,
-                                    className: "headerSearchInput"
+                                    className: "headerSearchInput",
                                 }}
                                 className="headerSearchInput"
                                 theme={{
@@ -263,11 +276,18 @@ const Header = ({ type }) => {
                         <div className="headerSearchItem">
                             <button data-test="searchTest" className="headerBtn" onClick={handleSearch}>Search</button>
                         </div>
-                    </div>
+                    </div>}
+                    
                 </>}
+               
             </div>
+            
         </div>
-    );
+
+        
+    )
+
+
 };
 
 export default Header;
