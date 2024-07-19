@@ -177,7 +177,7 @@ const Header = ({ type }) => {
                     <p data-test="headerDesctext" className="headerDescription">
                         Enjoy exclusive travel deals using Ascenda.
                     </p>
-                    <button className="headerBtn" onClick={handleLogin}>Log in</button>
+                    <button data-test="headerLogin" className="headerBtn" onClick={handleLogin}>Log in</button>
                     {loading && <div className="headerSearch">
                         <img src="./images/loading.gif" alt="Loading Status" /></div>}
                     {!loading &&<div className="headerSearch">
