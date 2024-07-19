@@ -5,7 +5,7 @@ import axios from 'axios';
 const Room = ({ roomType, imageUrl, roomOnlyPrice, breakfastPrice, cancelPolicy }) => {
   const handleSelectClick = async () => {
     try {
-      const response = await axios.post('http://localhost:5001/checkout', {
+      const response = await axios.post('http://localhost:5000/checkout', {
         roomType,
         roomOnlyPrice,
         breakfastPrice,
