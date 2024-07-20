@@ -22,6 +22,7 @@ class hotelList {
         if (price != null) {
             // Calculate distance
             const new_distance = (distance / 1000).toFixed(2);
+            rating = rating.toFixed(1);
 
             // Process categories object into list
             var categories_list = []

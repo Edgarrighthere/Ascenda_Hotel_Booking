@@ -31,10 +31,6 @@ function filterByRating(starRatings, hotelListings) {
     return filtered_list
 }
 
-function calculateNewPriceRange() {
-    
-}
-
 async function HotelFilter(hotelListings, priceRange, filterPrice, starRatings, filterRating) {
     var filtered_hotels = []
     var filteredPriceRange = []
