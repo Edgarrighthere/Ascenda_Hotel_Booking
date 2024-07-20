@@ -10,6 +10,7 @@ import axios from "axios";
 const Login = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [identifier, setIdentifier] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
@@ -26,7 +27,7 @@ const Login = () => {
     const handleLogin = async () => {
         try {
             const response = await axios.post("http://localhost:5000/login", {
-                identifier,
+                email,
                 password
             });
 
@@ -37,7 +38,7 @@ const Login = () => {
                 setFirstName(response.data.firstName); 
                 setLastName(response.data.lastName); 
                 setTimeout(() => {
-                    navigate("/inputOTP", { state: { email: identifier, salutation: response.data.salutation, firstName: response.data.firstName, lastName: response.data.lastName } }); // Pass email, salutation, firstName and lastName to inputOTP
+                    navigate("/inputOTP", { state: { email, salutation: response.data.salutation, firstName: response.data.firstName, lastName: response.data.lastName } }); // Pass email, salutation, firstName and lastName to inputOTP
                 }, 2000);
             } else {
                 setError("Invalid response from server."); // Handle unexpected response
@@ -62,8 +63,8 @@ const Login = () => {
                         type="text"
                         placeholder="Enter your registered email."
                         className="loginInput"
-                        value={identifier}
-                        onChange={(e) => setIdentifier(e.target.value)}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <div className="passwordInputContainer">
                         <input
