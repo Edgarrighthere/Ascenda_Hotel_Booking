@@ -13,7 +13,7 @@
 
 .room {
     display: flex;
-    align-items: center;
+    align-items:center;
     justify-content: space-between;
     border: 1px solid #ccc;
     border-radius: 10px;
@@ -23,12 +23,19 @@
     width: var(--room-width) !important;
     height: var(--room-height) !important; 
     margin: 0 auto;
+
+    
+
 }
 
 .room-image img {
+    
     width: 150px;
     height: 150px;
     border-radius: 10px;
+    position:relative;
+
+
 }
 
 .room-info {
@@ -72,6 +79,28 @@
     margin-top: 20px; /* Space above select button */
 }
 
+
+.room-buttons {
+    display:flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.see-more-button {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 26px;
+    cursor: pointer;
+    font-size: 100%;
+}
+
+.see-more-button:hover {
+    background-color: #5a6268;
+}
+
 .select-button {
     background-color: #007bff;
     color: #fff;
@@ -80,7 +109,6 @@
     padding: 12px 26px;
     cursor: pointer;
     font-size: 100%;
-    margin-top: 20px; /* Space above select button */
 }
 
 .select-button:hover {

@@ -74,6 +74,7 @@ const Hotel = () => {
             cancelPolicy: room_variation.freeCancellation
               ? 'Free cancellation (except a service fee, if applicable)'
               : 'No free cancellation',
+            all_room_info:room_variation,
           }))
         : [];
       setRooms(loadedRooms);
@@ -133,8 +134,8 @@ const Hotel = () => {
 
   return (
     <div>
-      {/* <Navbar /> */}
-      {/* <Header type="list" /> */}
+      <Navbar />
+      <Header type="list" />
       <div className="hotelContainer">
         {open && (
           <div className="slider">
