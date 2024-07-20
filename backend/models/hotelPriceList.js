@@ -20,18 +20,6 @@ class hotelPriceList {
         }
         return id_list
     }
-
-    calculatePriceRange() {
-        // Filter for price
-        var priceArray = []
-        this.hotelPrices.filter(obj => {
-            priceArray.push(obj.price)
-        })
-        const minPrice = Math.min(...priceArray)
-        const maxPrice = Math.max(...priceArray)
-        const priceRange = [minPrice, maxPrice]
-        return priceRange
-    }
 }
 
 module.exports = {hotelPriceList}

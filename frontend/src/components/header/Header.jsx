@@ -17,8 +17,8 @@ import 'react-date-range/dist/theme/default.css';
 import { format, addDays } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
-import HotelSearch from "../../interfaces/HotelSearch.js";
-import Paging from "../../interfaces/Paging.js";
+import HotelSearch from "../../controllers/HotelSearch.js";
+import Paging from "../../controllers/Paging.js";
 
 const Header = ({ type }) => {
     const [destination, setDestination] = useState(""); // what you enter into search bar
@@ -77,25 +77,26 @@ const Header = ({ type }) => {
             setDestinationPrompt("Please fill this up")
         }
         else{
-        setLoading(true);
-        const searchResults = await HotelSearch(destination, date, options)
-        const params = searchResults.searchParameters
-        const hotelListings = searchResults.listings
-        const paginatedListings = await Paging(hotelListings, 1)
-        const priceRange = searchResults.range
-        const currentPage = 1
-        const totalPages = searchResults.pageCount
+            setLoading(true);
+            const searchResults = await HotelSearch(destination, date, options)
+            const params = searchResults.searchParameters
+            const hotelListings = searchResults.listings
+            const paginatedListings = await Paging(hotelListings, 1)
+            const priceRange = searchResults.range
+            const currentPage = 1
+            const totalPages = searchResults.pageCount
 
-        const originalListings = hotelListings
-        const originalPriceRange = priceRange
-        const originalTotalPages = totalPages
-        const filteredListings = hotelListings
-        const sortedListings = hotelListings
+            const originalListings = hotelListings
+            const originalPriceRange = priceRange
+            const originalTotalPages = totalPages
+            const filteredListings = hotelListings
+            const sortedListings = hotelListings
 
-        const navigateURL = "/hotels/" + params.id + "/" + params.checkin + "/" + params.checkout + "/" + params.guests + "/1"
-        
-        navigate(navigateURL, {state: {destination, date, options, hotelListings, paginatedListings, priceRange, currentPage, totalPages, originalListings, originalPriceRange, originalTotalPages, filteredListings, sortedListings}});
-    }};
+            const navigateURL = "/hotels/" + params.id + "/" + params.checkin + "/" + params.checkout + "/" + params.guests + "/1"
+            
+            navigate(navigateURL, {state: {destination, date, options, hotelListings, paginatedListings, priceRange, currentPage, totalPages, originalListings, originalPriceRange, originalTotalPages, filteredListings, sortedListings}});
+        }
+    };
 
 
     // Autocorrect

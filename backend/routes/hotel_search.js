@@ -49,9 +49,6 @@ router.get("/:id/:checkin/:checkout/:guests", async function (req, res, next) {
     const hotel_text = await hotel_response.text()
     const hotel_json = JSON.parse(hotel_text)
 
-    // id, main_image_url, name, address, distance, description, 
-    // categories, amenities, amenities_rating, score, rating, starRating, price
-
     const hotelListings = new hotelList([])
     hotel_json.map(jsonHotels => {
         if (jsonHotels.trustyou.score.kaligo_overall > 0) {
