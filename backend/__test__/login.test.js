@@ -154,6 +154,28 @@ describe("Routes login endpoint unit tests", () => {
         expect(json.message).toBe("Invalid email.")
     });
 
+    test ("BACKEND_LOGIN_5: Testing empty inputs", async () => {
+        //Our test user credentials
+        const payload = {
+            email: '', 
+            password: '' 
+        };
+
+        //Get mock response
+        const res = await request(app)
+            .post('/login')
+            .send(payload)
+            .set('Content-Type', 'application/json')
+            .set('Accept', 'application/json');
+        
+        const json = JSON.parse(res.text);
+
+        // console.log(json);
+
+        expect(res.statusCode).toEqual(400);
+        expect(json.message).toBe("Invalid email.")
+    });
+
     // test ("BACKEND_LOGIN_5: Testing invalid input", async () => {
     //     //Invalid input, should have been our test user credentials
     //     const payload = null;
