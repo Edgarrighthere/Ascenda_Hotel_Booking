@@ -66,10 +66,10 @@ describe("Routes login endpoint unit tests", () => {
         await setup();
     });
 
-    test ("TC_LOGIN_1: Testing valid login", async () => {
+    test ("BACKEND_LOGIN_1: Testing valid login", async () => {
         //Our test user credentials
         const payload = {
-            identifier: 'test@test.com', 
+            email: 'test@test.com', 
             password: 'testPassword' 
         };
 
@@ -88,10 +88,10 @@ describe("Routes login endpoint unit tests", () => {
         expect(json.message).toBe("Login successful. Verify with the OTP sent to your registered email...")
     });
 
-    test ("TC_LOGIN_2: Testing invalid email", async () => {
+    test ("BACKEND_LOGIN_2: Testing invalid email", async () => {
         //Our test user credentials
         const payload = {
-            identifier: 'wrong@test.com', 
+            email: 'wrong@test.com', 
             password: 'testPassword' 
         };
 
@@ -110,10 +110,10 @@ describe("Routes login endpoint unit tests", () => {
         expect(json.message).toBe("Invalid email.")
     });
 
-    test ("TC_LOGIN_3: Testing invalid password", async () => {
+    test ("BACKEND_LOGIN_3: Testing invalid password", async () => {
         //Our test user credentials
         const payload = {
-            identifier: 'test@test.com', 
+            email: 'test@test.com', 
             password: 'wrongPassword' 
         };
 
@@ -132,10 +132,10 @@ describe("Routes login endpoint unit tests", () => {
         expect(json.message).toBe("Invalid password.")
     });
 
-    test ("TC_LOGIN_4: Testing invalid email and password", async () => {
+    test ("BACKEND_LOGIN_4: Testing invalid email and password", async () => {
         //Our test user credentials
         const payload = {
-            identifier: 'wrong@test.com', 
+            email: 'wrong@test.com', 
             password: 'wrongPassword' 
         };
 
@@ -154,7 +154,7 @@ describe("Routes login endpoint unit tests", () => {
         expect(json.message).toBe("Invalid email.")
     });
 
-    // test ("TC_LOGIN_5: Testing invalid input", async () => {
+    // test ("BACKEND_LOGIN_5: Testing invalid input", async () => {
     //     //Invalid input, should have been our test user credentials
     //     const payload = null;
 
