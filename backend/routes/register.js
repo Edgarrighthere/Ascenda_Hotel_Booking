@@ -18,13 +18,13 @@ router.post('/', async (req, res, next) => {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         const newUser = new model.UsersCollection({
-            email,
+            email: email,
             password: hashedPassword,
-            salutation,
-            firstName,
-            lastName,
-            countryCode,
-            phoneNumber
+            salutation: salutation,
+            firstName: firstName,
+            lastName: lastName,
+            countryCode: countryCode,
+            phoneNumber: phoneNumber
         });
 
         await newUser.save();
