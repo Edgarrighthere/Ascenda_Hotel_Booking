@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@babel/core": "^7.24.7",
-    "@babel/preset-env": "^7.24.7",
-    "@babel/preset-react": "^7.24.7",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
@@ -23,11 +20,14 @@
     "@testing-library/user-event": "^13.5.0",
     "@vis.gl/react-google-maps": "^1.1.0",
     "axios": "^1.7.2",
+    "babel": "^6.23.0",
     "country-codes-list": "^1.6.11",
     "date-fns": "^3.6.0",
     "didyoumean2": "^6.0.1",
     "google-map-react": "^2.2.1",
     "google-maps-react-markers": "^2.0.10",
+    "history": "^5.3.0",
+    "jest": "^27.5.1",
     "leaflet": "^1.9.4",
     "react": "^18.3.1",
     "react-autosuggest": "^10.1.0",
@@ -69,7 +69,10 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.24.9",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/preset-env": "^7.24.8",
+    "@babel/preset-react": "^7.24.7",
     "husky": "^9.0.11"
   },
   "proxy": "https://hotelapi.loyalty.dev/api/hotels"

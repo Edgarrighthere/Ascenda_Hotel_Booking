@@ -133,8 +133,8 @@ const Hotel = () => {
 
   return (
     <div>
-      {/* <Navbar /> */}
-      {/* <Header type="list" /> */}
+      <Navbar />
+      <Header type="list" />
       <div className="hotelContainer">
         {open && (
           <div className="slider">
@@ -215,7 +215,7 @@ const Hotel = () => {
             </div>
           </div>
         </div>
-        {/* <div className="centeredContainer">
+        <div className="centeredContainer">
           <div className="centeredContent">
             <TrustYouScore
               overall={rawinfo.trustyou?.score?.overall || 0}
@@ -226,7 +226,7 @@ const Hotel = () => {
               business={rawinfo.trustyou?.score?.business || 0}
             />
           </div>
-        </div> */}
+        </div>
         <div className="centeredContainer categoriesContainer">
           <div className="centeredContent">
             <Categories categories={categories} />
