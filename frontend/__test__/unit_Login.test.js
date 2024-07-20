@@ -2,7 +2,7 @@ import { render, screen, cleanup, act } from '@testing-library/react';
 import { BrowserRouter, useNavigate } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import Login from './Login';
+import Login from '../src/pages/authentication/Login';
 import mockAxios from 'jest-mock-axios';
 import React from "react";
 
