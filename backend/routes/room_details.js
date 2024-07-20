@@ -26,7 +26,7 @@ router.get("/:ID/:DESTINATIONID/:CHECKIN/:CHECKOUT/:GUESTS", async function(req,
           const new_room = RoomsAvailable.fromJSON(data);
           var completed = false;
           var rooms_response;
-          var rooms_text;s
+          var rooms_text;
           var rooms_json;
           const url2 = `https://hotelapi.loyalty.dev/api/hotels/${id}/price?destination_id=${destinationId}&checkin=${checkin}&checkout=${checkout}&lang=en_US&currency=SGD&country_code=SG&guests=${guests}&partner_id=1`;
 
