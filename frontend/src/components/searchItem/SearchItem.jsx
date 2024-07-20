@@ -59,7 +59,7 @@ const SearchItem = ({destinationId,hotel,destination, checkin, checkout, guests}
                 />
             </div>
             <div className="siDescription">
-                <h1 className="siTitle">{hotel.name}</h1>
+                <h1 className="siTitle">{hotel.name} ({hotel.id})</h1>
                 <span className="siAddress">{hotel.address} <em>({hotel.distance}km from centre)</em></span>
                 <span>put hotel room details here</span>
                 {/* <span className="siTaxiOp">Free Airport Transfer</span>
