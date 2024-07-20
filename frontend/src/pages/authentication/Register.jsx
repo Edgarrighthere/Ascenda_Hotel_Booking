@@ -36,36 +36,45 @@ const Register = () => {
     };
 
     const handleRegister = async () => {
-        setError(""); // Clear previous errors
-        setSuccess(""); // Clear previous success messages
+    setError(""); // Clear previous errors
+    setSuccess(""); // Clear previous success messages
 
-        const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
 
-        if (!email || !password || !confirmPassword || !salutation || !firstName || !lastName || !countryCode || !phoneNumber) {
-            setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Check that all fields are filled </>);
-        } else if (password !== confirmPassword) {
-            setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Passwords do not match </>);
-        } else if (!passwordRegex.test(password)) {
-            setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Password must be at least 8 characters long, contain at least one uppercase letter, and one special character (!@#$%^&*) </>);
-        } else {
-            try {
-                const response = await axios.post("http://localhost:5001/register", {
-                    email: email,
-                    username: username,
-                    password: password,
-                    salutation: salutation,
-                    firstName: firstName,
-                    lastName: lastName,
-                    countryCode: countryCode,
-                    phoneNumber: phoneNumber,
-                });
+    if (!email || !password || !confirmPassword || !salutation || !firstName || !lastName || !countryCode || !phoneNumber) {
+        setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Check that all fields are filled </>);
+    } else if (password !== confirmPassword) {
+        setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Passwords do not match </>);
+    } else if (!passwordRegex.test(password)) {
+        setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Password must be at least 8 characters long, contain at least one uppercase letter, and one special character (!@#$%^&*) </>);
+    } else {
+        try {
+            const response = await axios.post("http://localhost:5000/register", {
+                email: email,
+                username: username,
+                password: password,
+                salutation: salutation,
+                firstName: firstName,
+                lastName: lastName,
+                countryCode: countryCode,
+                phoneNumber: phoneNumber,
+            });
 
+            if (response && response.data) {
                 setSuccess(<> <FontAwesomeIcon icon={faCheck} /> {response.data.message} </>);
-            } catch (err) {
-                setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> {err.response.data.message} </> || "An error occurred. Please try again.");
+            } else {
+                setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> An unexpected error occurred. Please try again. </>);
+            }
+        } catch (err) {
+            if (err.response && err.response.data) {
+                setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> {err.response.data.message} </>);
+            } else {
+                setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> An error occurred. Please try again. </>);
             }
         }
-    };
+    }
+};
+
 
     useEffect(() => {
         if (error) {
@@ -136,7 +145,7 @@ const Register = () => {
                             >
                                 <option value="">Select Country Code</option>
                                 {sortedCountryCodeOptions.map(([country, code]) => (
-                                    <option key={code} value={`+${code}`}>{`${country} (+${code})`}</option>
+                                    <option key={`${country}-${code}`} value={`+${code}`}>{`${country} (+${code})`}</option>
                                 ))}
                             </select>
                         </div>

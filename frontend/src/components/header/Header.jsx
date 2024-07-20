@@ -156,33 +156,33 @@ const Header = ({ type }) => {
         <div className="header">
             <div className={type === "list" ? "headerContainer listMode" : "headerContainer"}>
                 <div className="headerList">
-                    <div className="headerListItem active">
+                    <div data-test="hotelsOption" className="headerListItem active">
                         <FontAwesomeIcon icon={faHotel} />
                         <span>Hotels</span>
                     </div>
-                    <div className="headerListItem">
+                    <div data-test="flightsOption" className="headerListItem">
                         <FontAwesomeIcon icon={faPlaneDeparture} />
                         <span>Flights</span>
                     </div>
-                    <div className="headerListItem">
+                    <div data-test="CarsOption" className="headerListItem">
                         <FontAwesomeIcon icon={faCar} />
                         <span>Cars</span>
                     </div>
                 </div>
                 {type !== "list" &&
                     <>
-                    <h1 className="headerTitle">
+                    <h1 data-test="headerTitletext" className="headerTitle">
                         Experience the world your way <br />with Travel with Ascenda.
                     </h1>
-                    <p className="headerDescription">
+                    <p data-test="headerDesctext" className="headerDescription">
                         Enjoy exclusive travel deals using Ascenda.
                     </p>
-                    <button className="headerBtn" onClick={handleLogin}>Log in</button>
+                    <button data-test="headerLogin" className="headerBtn" onClick={handleLogin}>Log in</button>
                     {loading && <div className="headerSearch">
                         <img src="./images/loading.gif" alt="Loading Status" /></div>}
                     {!loading &&<div className="headerSearch">
 
-                        <div className="headerSearchItem"> 
+                        <div data-test="destinationSearch" className="headerSearchItem"> 
                             <FontAwesomeIcon icon={faBed} className="headerIcon" />
                             <Autosuggest
                                 suggestions={suggestions}
@@ -206,7 +206,7 @@ const Header = ({ type }) => {
                                 }}
                             />
                         </div>
-                        <div className="headerSearchItem">
+                        <div data-test="dateSearch" className="headerSearchItem">
                             <FontAwesomeIcon icon={faCalendarDays} className="headerIcon" />
                             <span onClick={() => setOpenDate(!openDate)} className="headerSearchText">
                                 {`${format(
@@ -229,7 +229,7 @@ const Header = ({ type }) => {
                                 </div>
                             )}
                         </div>
-                        <div className="headerSearchItem">
+                        <div data-test="guestInfoSearch" className="headerSearchItem">
                             <FontAwesomeIcon icon={faPerson} className="headerIcon" />
                             <span onClick={() => setOpenOptions(!openOptions)} className="headerSearchText">
                                 {`${options.adult} adult · 
@@ -242,9 +242,10 @@ const Header = ({ type }) => {
                                         <div className="optionCounter">
                                             <button
                                                 disabled={options.adult <= 1}
+                                                data-test="adultsDecrease" 
                                                 className="optionCounterButton" onClick={() => handleOption("adult", "d")}>-</button>
-                                            <span className="optionCounterNumber">{options.adult}</span>
-                                            <button className="optionCounterButton" onClick={() => handleOption("adult", "i")}>+</button>
+                                            <span data-test="adultsNum" className="optionCounterNumber">{options.adult}</span>
+                                            <button data-test="adultsIncrease" className="optionCounterButton" onClick={() => handleOption("adult", "i")}>+</button>
                                         </div>
                                     </div>
                                     <div className="optionItem">
@@ -252,9 +253,10 @@ const Header = ({ type }) => {
                                         <div className="optionCounter">
                                             <button
                                                 disabled={options.children <= 0}
+                                                data-test="childrenDecrease"
                                                 className="optionCounterButton" onClick={() => handleOption("children", "d")}>-</button>
-                                            <span className="optionCounterNumber">{options.children}</span>
-                                            <button className="optionCounterButton" onClick={() => handleOption("children", "i")}>+</button>
+                                            <span data-test="childrenNum" className="optionCounterNumber">{options.children}</span>
+                                            <button data-test="childrenIncrease" className="optionCounterButton" onClick={() => handleOption("children", "i")}>+</button>
                                         </div>
                                     </div>
                                     <div className="optionItem">
@@ -262,16 +264,17 @@ const Header = ({ type }) => {
                                         <div className="optionCounter">
                                             <button
                                                 disabled={options.rooms <= 1}
+                                                data-test="roomsDecrease"
                                                 className="optionCounterButton" onClick={() => handleOption("rooms", "d")}>-</button>
-                                            <span className="optionCounterNumber">{options.rooms}</span>
-                                            <button className="optionCounterButton" onClick={() => handleOption("rooms", "i")}>+</button>
+                                            <span data-test="roomsNum" className="optionCounterNumber">{options.rooms}</span>
+                                            <button data-test="roomsIncrease" className="optionCounterButton" onClick={() => handleOption("rooms", "i")}>+</button>
                                         </div>
                                     </div>
                                 </div>
                             )}
                         </div>
                         <div className="headerSearchItem">
-                            <button className="headerBtn" onClick={handleSearch}>Search</button>
+                            <button data-test="searchTest" className="headerBtn" onClick={handleSearch}>Search</button>
                         </div>
                     </div>}
                     

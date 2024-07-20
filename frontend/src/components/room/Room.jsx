@@ -15,7 +15,7 @@ if( all_room_info.roomAdditionalInfo.breakfastInfo !== "hotel_detail_room_only")
   const handleSelectClick = async () => {
     setSelectButton("Please Wait....");
     try {
-      const response = await axios.post('http://localhost:5001/checkout', {
+      const response = await axios.post('http://localhost:5000/checkout', {
         roomType,
         roomOnlyPrice,
         breakfastPrice,

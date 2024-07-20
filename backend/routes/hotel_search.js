@@ -38,16 +38,16 @@ router.get("/:id/:checkin/:checkout/:guests", async function (req, res, next) {
     price_json["hotels"].map(jsonPrices => {
         // currently implementing a hard limit of max $5000 price so that the slider range isnt ridiculous
         if (jsonPrices.price <= 5000) {
-            priceList.addHotel(jsonPrices.id, jsonPrices.price)
+            priceList.addHotel(jsonPrices.id, jsonPrices.searchRank, jsonPrices.price.toFixed(2))
         }
     })
 
     const hotel_api_url = "https://hotelapi.loyalty.dev/api/hotels?destination_id=" + destinationId;
-    console.log(hotel_api_url);
+    //console.log(hotel_api_url);
 
     const hotel_response = await fetch(hotel_api_url)
-    const hotel_text = await hotel_response.text();
-    const hotel_json = JSON.parse(hotel_text);
+    const hotel_text = await hotel_response.text()
+    const hotel_json = JSON.parse(hotel_text)
 
     // id, main_image_url, name, address, distance, description, 
     // categories, amenities, amenities_rating, score, rating, starRating, price
@@ -73,8 +73,10 @@ router.get("/:id/:checkin/:checkout/:guests", async function (req, res, next) {
                 priceListings=priceList["hotelPrices"])
         }
     })
+    
+    hotelListings.sortBySearchRank()
 
-    console.log(hotelListings["hotels"].slice(0, 5))
+    //console.log(hotelListings["hotels"].slice(0, 5))
 
     res.set("Access-Control-Allow-Origin", "http://localhost:3000");
     res.send(`${JSON.stringify(hotelListings["hotels"])}`); // return a list of hotels

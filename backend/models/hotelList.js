@@ -10,10 +10,12 @@ class hotelList {
     addHotel(id, image_prefix, image_count, image_suffix, name, address, distance, description, categories, amenities, amenities_rating, score, rating, starRating, priceListings) {
         var current_list = this.hotels
         var price = null
+        var searchRank = null
         
         for (let priceListing of priceListings) {
             if (priceListing.id === id) {
                 price = priceListing.price
+                searchRank = priceListing.searchRank
                 break
             }
         }
@@ -50,9 +52,17 @@ class hotelList {
             delete score.overall
             delete score.kaligo_overall
 
-            current_list.push(new Hotel(id, image_prefix, image_count, image_suffix, name, address, new_distance, description, categories_list, amenities_list, amenities_rating, score, rating, starRating, price))
+            current_list.push(new Hotel(id, image_prefix, image_count, image_suffix, name, address, new_distance, description, categories_list, amenities_list, amenities_rating, score, rating, starRating, searchRank, price))
         }
         this.hotels = current_list
+    }
+
+    sortBySearchRank() {
+        this.hotels.sort((a, b) => {
+            if (a.searchRank > b.searchRank) {
+                return -1
+            }
+        })
     }
 }
 
