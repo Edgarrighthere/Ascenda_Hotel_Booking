@@ -8,7 +8,8 @@ const Amenities = ({ amenities }) => {
       <ul className="amenities-list">
         {Object.entries(amenities).map(([key, value]) => (
           <li key={key} className="amenities-item">
-            {value && key.replace(/([A-Z])/g, " $1").trim()} {/* Convert camelCase to words */}
+            {key}
+            {/* {value && key.replace(/([A-Z])/g, " $1").trim()} Convert camelCase to words */}
           </li>
         ))}
       </ul>

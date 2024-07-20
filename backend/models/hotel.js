@@ -4,7 +4,7 @@
 // https://hotelapi.loyalty.dev/api/hotels?destination_id=tOik
 
 class Hotel {
-    constructor(id, image_prefix, image_count, image_suffix, name, address, distance, description, categories, amenities, amenities_rating, score, rating, starRating, price) {
+    constructor(id, image_prefix, image_count, image_suffix, name, address, distance, description, categories, amenities, amenities_rating, score, rating, starRating, searchRank, price) {
         this.id = id;
         this.image_prefix = image_prefix;
         this.image_count = image_count;
@@ -21,6 +21,8 @@ class Hotel {
         this.score = score; // {overall, solo, couple, family, business}
         this.rating = rating;
         this.starRating = starRating;
+        
+        this.searchRank = searchRank;
         this.price = price;
     }
 }

@@ -7,9 +7,9 @@ class hotelPriceList {
         this.hotelPrices = hotelPrices // list
     }
 
-    addHotel(id, price) {
+    addHotel(id, searchRank, price) {
         var current_list = this.hotelPrices
-        current_list.push(new hotelPrice(id, price))
+        current_list.push(new hotelPrice(id, searchRank, price))
         this.hotelPrices = current_list
     }
 

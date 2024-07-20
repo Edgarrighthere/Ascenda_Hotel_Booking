@@ -16,27 +16,14 @@ router.get("/:ID/:DESTINATIONID/:CHECKIN/:CHECKOUT/:GUESTS", async function(req,
         const checkin = req.params.CHECKIN;
         const checkout = req.params.CHECKOUT;
         const guests = req.params.GUESTS
-        
-       
-
         const url = `https://hotelapi.loyalty.dev/api/hotels/${id}`;
-
         const response = await fetch(url)
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
-      
           // Parse the JSON data from the response
           const data = await response.json();
-          // res.set("Access-Control-Allow-Origin", "http://localhost:3000");
-          // res.json(data);
-
           const new_room = RoomsAvailable.fromJSON(data);
-
-          
-
-          // 2nd API CALL 
-          // try{
           var completed = false;
           var rooms_response;
           var rooms_text;
@@ -51,7 +38,6 @@ router.get("/:ID/:DESTINATIONID/:CHECKIN/:CHECKOUT/:GUESTS", async function(req,
           }
 
           rooms_json["rooms"].map(room_variations => {
-
             new_room.populateRoomList(room_variations);
           })
 

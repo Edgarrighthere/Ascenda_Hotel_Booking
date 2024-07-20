@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './room.css';
 import axios from 'axios';
 
-const Room = ({ roomType, imageUrl, roomOnlyPrice, breakfastPrice, cancelPolicy }) => {
+const Room = ({ roomType, imageUrl, roomOnlyPrice, breakfastPrice, cancelPolicy, all_room_info }) => {
+const [seeMore, setSeeMore] = useState(false)
+const [selectButton, setSelectButton] = useState("Select");
+const[breakfast, setBreakfast] = useState("No Breakfast Combo")
+console.log(JSON.stringify(all_room_info));
+
+
+if( all_room_info.roomAdditionalInfo.breakfastInfo !== "hotel_detail_room_only"){
+  setBreakfast(all_room_info.roomAdditionalInfo.breakfastInfo);
+}
   const handleSelectClick = async () => {
+    setSelectButton("Please Wait....");
     try {
       const response = await axios.post('http://localhost:5000/checkout', {
         roomType,
@@ -20,7 +30,50 @@ const Room = ({ roomType, imageUrl, roomOnlyPrice, breakfastPrice, cancelPolicy 
     }
   };
 
+  const handleSeeMoreClick = () =>{
+    setSeeMore(!seeMore);
+  }
+
+  const camelToText = (camelCase) => {
+    return camelCase
+      .replace(/([a-z])([A-Z])/g, '$1 $2') // Add space between camel case
+      .replace(/^./, str => str.toUpperCase()); // Capitalize the first letter
+  };
+
+  const renderDisplayFields = () => {
+    if (!all_room_info || !all_room_info.roomAdditionalInfo || !all_room_info.roomAdditionalInfo.displayFields) return null;
+
+    const { displayFields } = all_room_info.roomAdditionalInfo;
+
+    return Object.entries(displayFields).map(([key, value]) => {
+      if (key === 'surcharges' && Array.isArray(value) && value.length > 0) {
+        return (
+          <div key={key}>
+            <h3>Surcharges:</h3>
+            {value.length > 0 ? (
+              value.map((surcharge, index) => (
+                <p key={index}>{camelToText(surcharge.type)}: ${surcharge.amount.toFixed(2)}</p>
+              ))
+            ) : (
+              <p>None</p>
+            )}
+          </div>
+        );
+      }
+
+      const displayKey = camelToText(key);
+      const displayValue = value === null || (Array.isArray(value) && value.length === 0) ? 'None' : (typeof value === 'number' ? `$${value.toFixed(2)}` : value);
+
+      return (
+        <p key={key}>{displayKey}: {displayValue}</p>
+      );
+    });
+  };
+  
+
+
   return (
+  
     <div className="room">
       <div className="room-image">
         <img src={imageUrl} alt={roomType} />
@@ -30,19 +83,40 @@ const Room = ({ roomType, imageUrl, roomOnlyPrice, breakfastPrice, cancelPolicy 
         <div className="room-pricing">
           <div className="price-option">
             <span className="room-plan">Room Only</span>
-            <span className="room-price">${roomOnlyPrice}</span>
+            <span className="room-price">${roomOnlyPrice.toFixed(2)}</span>
           </div>
           <div className="price-option">
-            <span className="room-plan">With Breakfast</span>
-            <span className="room-price">${breakfastPrice}</span>
+            <span className="room-plan">{breakfast}</span>
           </div>
         </div>
         <div className={`cancel-policy ${cancelPolicy.includes('Non-refundable') ? 'non-refundable' : ''}`}>
           {cancelPolicy}
         </div>
-        <button className="select-button" onClick={handleSelectClick}>Select</button>
+        {seeMore && all_room_info && (
+          <div className="more-info">
+            {renderDisplayFields()}
+
+              <h3>Amenities:</h3>
+              {all_room_info.amenities && all_room_info.amenities.length > 0 ? (
+                all_room_info.amenities.map((value, index) => (
+                  <p key={index}>{camelToText(value)}</p>
+                ))
+              ) : (
+                <p>None</p>
+              )}
+            </div>
+
+
+        
+        )}
+        <div className="room-buttons">
+        <button className="see-more-button" onClick={handleSeeMoreClick}>{!seeMore && 'See More' } {seeMore && 'See Less' }</button>
+        <button className="select-button" onClick={handleSelectClick}>{selectButton}</button>
+            </div>
       </div>
+      
     </div>
+
   );
 };
 

@@ -12,7 +12,7 @@ router.post("/", async (req, res, next) => {
     const { email, password } = req.body;
 
     try {
-        const user = await model.UsersCollection.findOne({ email });
+        const user = await model.UsersCollection.findOne({ email: email });
         if (!user) {
             return res.status(400).json({ message: "Invalid email." });
         }
@@ -37,13 +37,13 @@ router.post("/", async (req, res, next) => {
         };
 
         await emailer.transporter.sendMail(mailOptions);
-
+        
         res.status(200).json({
             message: "Login successful. Verify with the OTP sent to your registered email...",
             email: user.email,
             salutation: user.salutation, // Include salutation in response
             firstName: user.firstName, // Include first name in response
-            lastName: user.lastName // Include last name in response
+            lastName: user.lastName, // Include last name in response
         });
     } catch (error) {
         console.error("Error during login:", error);
