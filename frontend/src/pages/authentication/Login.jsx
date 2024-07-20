@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
-import ErrorBoundary from "../../components/ErrorBoundary";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -56,40 +55,38 @@ const Login = () => {
 
     return (
         <div className="loginPage">
-            <ErrorBoundary>
-                <Navbar />
-                <div className="login">
-                    <div className="loginContainer">
-                        <div className="loginTitle">Log in</div>
+            <Navbar />
+            <div className="login">
+                <div className="loginContainer">
+                    <div className="loginTitle">Log in</div>
+                    <input
+                        type="text"
+                        placeholder="Enter your registered email."
+                        className="loginInput"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <div className="passwordInputContainer">
                         <input
-                            type="text"
-                            placeholder="Enter your registered email."
+                            type={passwordVisible ? "text" : "password"}
+                            placeholder="Enter your registered password."
                             className="loginInput"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
-                        <div className="passwordInputContainer">
-                            <input
-                                type={passwordVisible ? "text" : "password"}
-                                placeholder="Enter your registered password."
-                                className="loginInput"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            <span onClick={togglePasswordVisibility} className="passwordToggleIcon">
-                                {passwordVisible ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
-                            </span>
-                        </div>
-                        <div className="loginbuttonContainer">
-                            <button className="loginButton" onClick={handleLogin}>Login</button>
-                            <button className="forgotPassword" onClick={handleForgotPassword}>Forgot Password?</button>
-                        </div>
-                        {error && <div className="error">{error}</div>}
-                        {success && <div className="success">{success}</div>}
+                        <span onClick={togglePasswordVisibility} className="passwordToggleIcon">
+                            {passwordVisible ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+                        </span>
                     </div>
+                    <div className="loginbuttonContainer">
+                        <button className="loginButton" onClick={handleLogin}>Login</button>
+                        <button className="forgotPassword" onClick={handleForgotPassword}>Forgot Password?</button>
+                    </div>
+                    {error && <div className="error">{error}</div>}
+                    {success && <div className="success">{success}</div>}
                 </div>
-                <Footer />
-            </ErrorBoundary>
+            </div>
+            <Footer />
         </div>
     );
 };

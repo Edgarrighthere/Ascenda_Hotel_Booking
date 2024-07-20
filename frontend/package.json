@@ -71,24 +71,25 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/cli": "^7.13.0",
     "@babel/node": "^7.10.5",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-transform-modules-commonjs": "^7.13.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-jest": "^26.6.2",
     "cypress": "^13.13.1",
     "husky": "^9.0.11",
-    "jest-mock-axios": "^4.7.3",
-    "jest-cli": "^26.6.3"
+    "jest-cli": "^26.6.3",
+    "jest-mock-axios": "^4.7.3"
   },
-  "jest": { 
+  "jest": {
+    "verbose": true,
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
     },
     "moduleNameMapper": {
-    "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
-    "^login/(.*)$": "<rootDir>/src/pages/authentication/login/$1"
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
+      "^login/(.*)$": "<rootDir>/src/pages/authentication/login/$1"
     }
   },
   "proxy": "https://hotelapi.loyalty.dev/api/hotels"
