@@ -36,29 +36,41 @@ describe('Frontend Login Unit Test', async () => {
       expect(loginHeader).toBeInTheDocument();
       expect(loginHeader).toHaveClass('loginTitle');
 
-      //console.log('FRONTEND_LOGIN_1 passed: Login header is present.');
     });
 
     test('FRONTEND_LOGIN_2: Check if the "email" section is present', () => {
       const emailSection = screen.getByPlaceholderText(/Enter your registered email./i, { selector: 'input' });
       expect(emailSection).toBeInTheDocument();
 
-      //console.log('FRONTEND_LOGIN_2 passed: Email section is present.');
     });
 
     test('FRONTEND_LOGIN_3: Check if the "password" section is present', () => {
       const passwordSection = screen.getByPlaceholderText(/Enter your registered password./i, { selector: 'input' });
       expect(passwordSection).toBeInTheDocument();
 
-      //console.log('FRONTEND_LOGIN_3 passed: Password section is present.');
     });
 
     test('FRONTEND_LOGIN_4: Check if the "Login" button is present and clickable', async () => {
       const loginButton = screen.getByRole('button', { name: /Login/i });
       expect(loginButton).toBeInTheDocument();
-      userEvent.click(loginButton);
 
-      //console.log('FRONTEND_LOGIN_4 passed: Login button is present and clickable.');
+      // Simulate a successful login response from the server
+      await act(async () => {
+        userEvent.click(loginButton);
+
+        // Mock the response after the button is clicked
+        mockAxios.mockResponse({
+            data: {
+              success: false,
+              message: 'Invalid email.'
+            }
+          });
+      });
+
+      // Verify that the error message is displayed
+      const errorMessage = screen.getByText(/Invalid email./i);
+      expect(errorMessage).toBeInTheDocument();
+
     });
 
     test('FRONTEND_LOGIN_5: Check if the "Forgot Password?" button is present, clickable, and redirect to forgot password page', () => {
@@ -67,7 +79,6 @@ describe('Frontend Login Unit Test', async () => {
       userEvent.click(forgotPasswordButton);
       expect(mockNavigate).toHaveBeenCalledWith('/forgotPassword');
 
-      //console.log('FRONTEND_LOGIN_5 passed: Forgot Password button is present, clickable, and redirects to forgot password page.');
     });
 
     test('FRONTEND_LOGIN_6: Check for successful login', async () => {
