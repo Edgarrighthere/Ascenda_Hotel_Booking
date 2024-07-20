@@ -137,7 +137,7 @@ describe('Frontend Login Unit Test', async () => {
           mockAxios.mockResponse({
               data: {
                 success: false,
-                message: 'Invalid email.',
+                message: 'Invalid email.'
               }
           });
       });
@@ -151,7 +151,7 @@ describe('Frontend Login Unit Test', async () => {
       const emailInput3 = screen.getByPlaceholderText(/Enter your registered email./i);
       const passwordInput3 = screen.getByPlaceholderText(/Enter your registered password./i);
       const submitButton = screen.getByRole('button', { name: /Login/i });
-      
+
       // Check if the inputs have the correct values
       expect(emailInput3).toHaveValue('');
       expect(passwordInput3).toHaveValue('');
@@ -164,7 +164,7 @@ describe('Frontend Login Unit Test', async () => {
           mockAxios.mockResponse({
               data: {
                 success: false,
-                message: 'Invalid email.',
+                message: 'Invalid email.'
               }
           });
       });
@@ -196,7 +196,7 @@ describe('Frontend Login Unit Test', async () => {
           mockAxios.mockResponse({
               data: {
                 success: false,
-                message: 'Invalid password.',
+                message: 'Invalid password.'
               }
           });
       });
