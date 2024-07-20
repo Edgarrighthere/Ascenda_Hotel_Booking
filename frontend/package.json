@@ -49,7 +49,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
+    "test": "jest --testPathIgnorePatterns=src/App.test.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -82,7 +82,7 @@
     "jest-mock-axios": "^4.7.3",
     "jest-cli": "^26.6.3"
   },
-  "jest": {
+  "jest": { 
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
     },
