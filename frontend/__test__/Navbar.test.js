@@ -20,7 +20,7 @@ afterEach(() => {
     cleanup();
 });
 
-describe('Frontend Login Integration Test', () => {
+describe('Frontend Login Integration with Navbar Test', () => {
     const mockNavigate = jest.fn();
     useNavigate.mockReturnValue(mockNavigate);
 
@@ -35,7 +35,7 @@ describe('Frontend Login Integration Test', () => {
         });
     });
 
-    test('FRONTEND_NAVBAR_1: Check if the navbar displays correct info after successful login', async () => {
+    test('FRONTEND_NAVBAR_1: Check if the navbar displays correct welcome info after successful login', async () => {
         // First, simulate a successful login
         const emailInput = screen.getByPlaceholderText(/Enter your registered email./i);
         const passwordInput = screen.getByPlaceholderText(/Enter your registered password./i);

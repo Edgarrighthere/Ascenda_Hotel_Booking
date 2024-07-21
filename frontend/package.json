@@ -89,7 +89,8 @@
     },
     "moduleNameMapper": {
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
-      "^login/(.*)$": "<rootDir>/src/pages/authentication/login/$1"
+      "^login/(.*)$": "<rootDir>/src/pages/authentication/login/$1",
+      "^backend/(.*)$": "<rootDir>/../backend/$1"
     }
   },
   "proxy": "https://hotelapi.loyalty.dev/api/hotels"

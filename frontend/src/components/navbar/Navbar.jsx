@@ -99,7 +99,7 @@ const Navbar = () => {
                     </button>
                     <div data-test="welcomeMsg" className="dropdown" ref={dropdownRef}>
                         <button className="dropdownButton" onClick={toggleDropdown}>
-                            <FontAwesomeIcon className="dropdownMsg" icon={faUser} /> Welcome, {currentSalutation} {currentFirstName} {currentLastName}!
+                            <FontAwesomeIcon icon={faUser} /> Welcome, {currentSalutation} {currentFirstName} {currentLastName}!
                             <FontAwesomeIcon icon={faBars} className="menuIcon" />
                         </button>
                         <div className={`dropdownContent ${dropdownOpen ? 'show' : 'hide'}`}>
