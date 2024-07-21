@@ -35,19 +35,16 @@ describe('Frontend Login Unit Test', async () => {
       const loginHeader = screen.getByText('Log in', { selector: '.loginTitle' });
       expect(loginHeader).toBeInTheDocument();
       expect(loginHeader).toHaveClass('loginTitle');
-
     });
 
     test('FRONTEND_LOGIN_2: Check if the "email" section is present', () => {
       const emailSection = screen.getByPlaceholderText(/Enter your registered email./i, { selector: 'input' });
       expect(emailSection).toBeInTheDocument();
-
     });
 
     test('FRONTEND_LOGIN_3: Check if the "password" section is present', () => {
       const passwordSection = screen.getByPlaceholderText(/Enter your registered password./i, { selector: 'input' });
       expect(passwordSection).toBeInTheDocument();
-
     });
 
     test('FRONTEND_LOGIN_4: Check if the "Login" button is present and clickable', async () => {
@@ -70,7 +67,6 @@ describe('Frontend Login Unit Test', async () => {
       // Verify that the error message is displayed
       const errorMessage = screen.getByText(/Invalid email./i);
       expect(errorMessage).toBeInTheDocument();
-
     });
 
     test('FRONTEND_LOGIN_5: Check if the "Forgot Password?" button is present, clickable, and redirect to forgot password page', () => {
@@ -78,7 +74,6 @@ describe('Frontend Login Unit Test', async () => {
       expect(forgotPasswordButton).toBeInTheDocument();
       userEvent.click(forgotPasswordButton);
       expect(mockNavigate).toHaveBeenCalledWith('/forgotPassword');
-
     });
 
     test('FRONTEND_LOGIN_6: Check for successful login', async () => {

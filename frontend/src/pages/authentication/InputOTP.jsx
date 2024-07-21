@@ -2,6 +2,11 @@ import React, { useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { 
+    faCircleExclamation, 
+    faCheck 
+} from "@fortawesome/free-solid-svg-icons";
 import './inputOTP.css';
 
 const InputOTP = () => {
@@ -47,7 +52,7 @@ const InputOTP = () => {
     const handleVerify = async () => {
         const otpString = otp.join('');
         if (otpString.length !== 6) {
-            setError('OTP must be 6 digits');
+            setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> OTP must be 6 digits. </>);
             return;
         }
 
@@ -61,16 +66,16 @@ const InputOTP = () => {
             const data = await response.json();
 
             if (data.success) {
-                setSuccess('Valid OTP entered. Redirecting you to home page...');
+                setSuccess(<> <FontAwesomeIcon icon={faCheck} /> Valid OTP entered. Redirecting you to home page... </>);
                 setError(""); // Clear any previous errors
                 setTimeout(() => {
                     navigate('/', { state: { salutation, firstName, lastName } });
                 }, 3000); // Redirect after 3 seconds
             } else {
-                setError('Invalid OTP. Please make sure you entered the correct OTP sent.');
+                setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Invalid OTP. Please make sure you entered the correct OTP sent. </>);
             }
         } catch (error) {
-            setError('Error verifying OTP');
+            setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Error verifying OTP. </>);
             setSuccess(""); // Clear success message if there was any
         }
     };
@@ -88,7 +93,7 @@ const InputOTP = () => {
             if (data.success) {
                 alert('Check your registered email for the code.');
             } else {
-                setError('Error resending OTP. Please try again.');
+                setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Invalid email. </>);
             }
         } catch (error) {
             setError('Error resending OTP');
