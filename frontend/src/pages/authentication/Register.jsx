@@ -41,11 +41,11 @@ const Register = () => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
 
     if (!email || !password || !confirmPassword || !salutation || !firstName || !lastName || !countryCode || !phoneNumber) {
-        setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Check that all fields are filled </>);
+        setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Check that all fields are filled. </>);
     } else if (password !== confirmPassword) {
-        setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Passwords do not match </>);
+        setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Passwords do not match. </>);
     } else if (!passwordRegex.test(password)) {
-        setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Password must be at least 8 characters long, contain at least one uppercase letter, and one special character (!@#$%^&*) </>);
+        setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Password must be at least 8 characters long, contain at least one uppercase letter, and one special character (!@#$%^&*). </>);
     } else {
         try {
             const response = await axios.post("http://localhost:5000/register", {
@@ -96,8 +96,8 @@ const Register = () => {
         <div className="registerPage">
             <Navbar />
             <div className="register">
-                <div className="registerContainer">
-                    <div className="registerTitle">Register</div>
+                <div data-test="registerContainer" className="registerContainer">
+                    <div data-test="registerTitle" className="registerTitle">Register</div>
                     <div className="registerRow">
                         <div className="salutationInputContainer">
                             <select
@@ -114,7 +114,7 @@ const Register = () => {
                         </div>
                         <input
                             type="text"
-                            placeholder="Enter your first name"
+                            placeholder="Enter your first name."
                             className="registerInputFirstName"
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
@@ -122,7 +122,7 @@ const Register = () => {
                     </div>
                     <input
                         type="text"
-                        placeholder="Enter your last name"
+                        placeholder="Enter your last name."
                         className="registerInput"
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
@@ -149,7 +149,7 @@ const Register = () => {
                         </div>
                         <input
                             type="text"
-                            placeholder="Enter your phone number"
+                            placeholder="Enter your phone number."
                             className="registerInputPhoneNumber"
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
@@ -163,7 +163,7 @@ const Register = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <span onClick={togglePasswordVisibility} className="passwordToggleIcon">
+                        <span onClick={togglePasswordVisibility} data-test="pwdToggle" className="passwordToggleIcon">
                             {passwordVisible ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                         </span>
                     </div>
@@ -175,12 +175,12 @@ const Register = () => {
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
-                        <span onClick={toggleConfirmPasswordVisibility} className="passwordToggleIcon">
+                        <span onClick={toggleConfirmPasswordVisibility} data-test="confirmPwdToggle" className="passwordToggleIcon">
                             {confirmPasswordVisible ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                         </span>
                     </div>
                     <div className="registerbuttonContainer">
-                        <button className="registerButton" onClick={handleRegister}>Register Now!</button>
+                        <button data-test="registerBtn" className="registerButton" onClick={handleRegister}>Register Now!</button>
                     </div>
                     {error && <div className="error">{error}</div>}
                     {success && <div className="success">{success}</div>}
