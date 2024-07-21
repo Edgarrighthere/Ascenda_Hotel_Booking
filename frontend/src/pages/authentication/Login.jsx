@@ -57,8 +57,8 @@ const Login = () => {
         <div className="loginPage">
             <Navbar />
             <div className="login">
-                <div className="loginContainer">
-                    <div className="loginTitle">Log in</div>
+                <div data-test="loginContainer" className="loginContainer">
+                    <div data-test="loginTitle" className="loginTitle">Log in</div>
                     <input
                         type="text"
                         placeholder="Enter your registered email."
@@ -79,8 +79,8 @@ const Login = () => {
                         </span>
                     </div>
                     <div className="loginbuttonContainer">
-                        <button className="loginButton" onClick={handleLogin}>Login</button>
-                        <button className="forgotPassword" onClick={handleForgotPassword}>Forgot Password?</button>
+                        <button data-test="loginBtn" className="loginButton" onClick={handleLogin}>Login</button>
+                        <button data-test="fgtPwdBtn" className="forgotPassword" onClick={handleForgotPassword}>Forgot Password?</button>
                     </div>
                     {error && <div className="error">{error}</div>}
                     {success && <div className="success">{success}</div>}
