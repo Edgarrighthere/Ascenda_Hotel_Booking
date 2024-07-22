@@ -159,7 +159,7 @@ describe('Home Page Test', () => {
     })
 
     // Test that all inputs are filled correctly
-    it('should display success message upon successful registration', () => {
+    it('Display success message upon successful registration', () => {
         // Fill out the registration form
         cy.get('select.registerInputSalutation').select('Mr')
         cy.get('input[placeholder="Enter your first name."]').type('Test')

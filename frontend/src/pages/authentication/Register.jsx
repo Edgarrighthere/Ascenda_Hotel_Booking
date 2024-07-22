@@ -104,6 +104,7 @@ const Register = () => {
                                 value={salutation}
                                 onChange={(e) => setSalutation(e.target.value)}
                                 className="registerInputSalutation"
+                                data-testid="salutation-dropdown"
                             >
                                 <option value="">Select Salutation</option>
                                 <option value="Mr">Mr</option>
@@ -140,6 +141,7 @@ const Register = () => {
                                 value={countryCode}
                                 onChange={(e) => setCountryCode(e.target.value)}
                                 className="registerInputCountryCode"
+                                data-testid="countryCode-dropdown"
                             >
                                 <option value="">Select Country Code</option>
                                 {sortedCountryCodeOptions.map(([country, code]) => (
@@ -180,10 +182,10 @@ const Register = () => {
                         </span>
                     </div>
                     <div className="registerbuttonContainer">
-                        <button data-test="registerBtn" className="registerButton" onClick={handleRegister}>Register Now!</button>
+                        <button data-testid="registerBtn" data-test="registerBtn" className="registerButton" onClick={handleRegister}>Register Now!</button>
                     </div>
-                    {error && <div className="error">{error}</div>}
-                    {success && <div className="success">{success}</div>}
+                    {error && <div data-testid="error-message" className="error">{error}</div>}
+                    {success && <div data-testid="success-message" className="success">{success}</div>}
                 </div>
             </div> 
             <Footer />
