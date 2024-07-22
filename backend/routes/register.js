@@ -9,10 +9,15 @@ router.post('/', async (req, res, next) => {
     const { email, password, salutation, firstName, lastName, countryCode, phoneNumber } = req.body;
 
     try {
-        const existingUser = await model.UsersCollection.findOne({ email });
+        const existingUser = await model.UsersCollection.findOne({ email: email });
         if (existingUser) {
-            return res.status(400).json({ message: "User already exists. Please log in." });
+            return res.status(400).json({ message: "User Email already exists. Please log in." });
         }
+        const existingPhone = await model.UsersCollection.findOne({ phoneNumber });
+        if (existingPhone) {
+            return res.status(400).json({ message: "User Phone Number already exists. Please log in." });
+        }
+
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -26,7 +31,6 @@ router.post('/', async (req, res, next) => {
             countryCode: countryCode,
             phoneNumber: phoneNumber
         });
-
         await newUser.save();
         res.status(201).json({ message: "User successfully created. Please log in." });
     } catch (error) {
