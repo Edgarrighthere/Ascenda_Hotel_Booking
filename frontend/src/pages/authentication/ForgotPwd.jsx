@@ -31,8 +31,8 @@ const ForgotPwd = () => {
         <div className="forgotPasswordPage">
             <Navbar />
             <div className="forgotPwd">
-                <div className="forgotPasswordContainer">
-                    <h1 className="forgotPasswordTitle">Forgot Password</h1>
+                <div data-test="forgotPwdContainer" className="forgotPasswordContainer">
+                    <h1 data-test="forgotPwdTitle" className="forgotPasswordTitle">Forgot Password</h1>
                     <input
                         type="email"
                         placeholder="Enter your registered email."
@@ -41,10 +41,10 @@ const ForgotPwd = () => {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                     <div className="fgtpwdbuttonContainer">
-                        <button className="forgotPasswordButton" onClick={handleForgotPassword}>Send Reset Password Email</button>
+                        <button data-testid="forgotPwdBtn" data-test="forgotPwdBtn" className="forgotPasswordButton" onClick={handleForgotPassword}>Send Reset Password Email</button>
                     </div>
                     {success && <div className="success">{success}</div>}
-                    {error && <div className="error">{error}</div>}
+                    {error && <div data-testid="error-message" className="error">{error}</div>}
                 </div>
             </div>
             <Footer />

@@ -104,9 +104,9 @@ const InputOTP = () => {
         <div className="otpPage">
             <Navbar />
             <div className="inputotp">
-                <div className="otpContainer">
-                    <div className="otpTitle">2FA Authentication</div>
-                    <div className="otpTitle1">Please check your email for the OTP sent.</div>
+                <div data-test="otpContainer" className="otpContainer">
+                    <div data-test="otpTitle" className="otpTitle">2FA Authentication</div>
+                    <div data-test="otpTitle1" className="otpTitle1">Please check your email for the OTP sent.</div>
                     <div className="otpInputContainer">
                         {otp.map((digit, index) => (
                             <input
@@ -121,7 +121,7 @@ const InputOTP = () => {
                         ))}
                     </div>
                     <div className="buttonContainer">
-                        <button className="verifyButton" onClick={handleVerify}>Verify OTP</button>
+                        <button data-test="verifyOTPBtn" className="verifyButton" onClick={handleVerify}>Verify OTP</button>
                     </div>
                     {error && <div className="error">{error}</div>}
                     {success && <div className="success">{success}</div>} 

@@ -33,7 +33,7 @@ const ResetPwd = () => {
 
     const handleResetPassword = async () => {
         if (password !== confirmPassword) {
-            setError("Passwords do not match.");
+            setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> "Passwords do not match." </>);
             return;
         }
 
@@ -56,12 +56,12 @@ const ResetPwd = () => {
         <div className="resetPasswordPage">
             <Navbar />
             <div className="resetPassword">
-                <div className="resetPasswordContainer">
-                    <div className="resetPasswordTitle">Reset Password</div>
+                <div data-test="resetPwdContainer" className="resetPasswordContainer">
+                    <div data-test="resetPwdTitle" className="resetPasswordTitle">Reset Password</div>
                     <div className="resetPasswordInputContainer">
                         <input
                             type={passwordVisible ? "text" : "password"}
-                            placeholder="Enter your new password"
+                            placeholder="Enter your new password."
                             className="resetPasswordInput"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -73,7 +73,7 @@ const ResetPwd = () => {
                     <div className="confirmPasswordInputContainer">
                         <input
                             type={confirmPasswordVisible ? "text" : "password"}
-                            placeholder="Confirm your new password"
+                            placeholder="Confirm your new password."
                             className="confirmPasswordInput"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -82,11 +82,11 @@ const ResetPwd = () => {
                             {confirmPasswordVisible ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                         </span>
                     </div>
-                    <div className="resetPasswordButtonContainer">
-                        <button className="resetPasswordButton" onClick={handleResetPassword}>Reset Password</button>
-                    </div>
-                    {success && <div className="sucess">{success}</div>}
+                    {success && <div className="success">{success}</div>}
                     {error && <div className="error">{error}</div>}
+                    <div className="resetPasswordButtonContainer">
+                        <button data-test="resetPwdButton" className="resetPasswordButton" onClick={handleResetPassword}>Reset Password</button>
+                    </div>
                 </div>
             </div>
             <Footer />
