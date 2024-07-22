@@ -2,11 +2,18 @@ import "./navbar.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faBars } from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext} from "react";
 import axios from "axios";
 import React from "react"; 
 
+
 const Navbar = () => {
+
+
+
+
+
+
     const navigate = useNavigate();
     const location = useLocation();
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -85,6 +92,7 @@ const Navbar = () => {
 
     return (
         <div className="navbar">
+
             <div className="navContainer">
                 <img
                     src="/images/logo_ascenda.png"

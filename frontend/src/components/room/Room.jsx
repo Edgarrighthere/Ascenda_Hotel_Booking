@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import './room.css';
 import axios from 'axios';
 
@@ -9,9 +10,12 @@ const[breakfast, setBreakfast] = useState("No Breakfast Combo")
 console.log(JSON.stringify(all_room_info));
 
 
-if( all_room_info.roomAdditionalInfo.breakfastInfo !== "hotel_detail_room_only"){
-  setBreakfast(all_room_info.roomAdditionalInfo.breakfastInfo);
-}
+useEffect(() => {
+  if (all_room_info.roomAdditionalInfo.breakfastInfo !== "hotel_detail_room_only") {
+    setBreakfast(all_room_info.roomAdditionalInfo.breakfastInfo);
+  }
+}, [all_room_info.roomAdditionalInfo.breakfastInfo]);
+
   const handleSelectClick = async () => {
     setSelectButton("Please Wait....");
     try {
