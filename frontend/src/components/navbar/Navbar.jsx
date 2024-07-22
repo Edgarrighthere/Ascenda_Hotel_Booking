@@ -2,10 +2,18 @@ import "./navbar.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faBars } from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext} from "react";
 import axios from "axios";
+import React from "react"; 
+
 
 const Navbar = () => {
+
+
+
+
+
+
     const navigate = useNavigate();
     const location = useLocation();
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -16,23 +24,20 @@ const Navbar = () => {
     const dropdownRef = useRef(null); // Ref to handle dropdown close delay
 
     useEffect(() => {
-        if (location.state && location.state.salutation) {
-            setCurrentSalutation(location.state.salutation);
-            localStorage.setItem('salutation', location.state.salutation);
-        }
-    }, [location.state]);
-
-    useEffect(() => { 
-        if (location.state && location.state.firstName) {
-            setCurrentFirstName(location.state.firstName);
-            localStorage.setItem('firstName', location.state.firstName);
-        }
-    }, [location.state]);
-
-    useEffect(() => { 
-        if (location.state && location.state.lastName) {
-            setCurrentLastName(location.state.lastName);
-            localStorage.setItem('lastName', location.state.lastName);
+        if (location.state) {
+            const { salutation, firstName, lastName } = location.state;
+            if (salutation) {
+                setCurrentSalutation(salutation);
+                localStorage.setItem('salutation', salutation);
+            }
+            if (firstName) {
+                setCurrentFirstName(firstName);
+                localStorage.setItem('firstName', firstName);
+            }
+            if (lastName) {
+                setCurrentLastName(lastName);
+                localStorage.setItem('lastName', lastName);
+            }
         }
     }, [location.state]);
 
@@ -79,7 +84,6 @@ const Navbar = () => {
             localStorage.removeItem('firstName');
             localStorage.removeItem('lastName');
             setDropdownOpen(false);
-            navigate("/");
             alert("Logout successful");
         } catch (error) {
             console.error("Error during logout:", error);
@@ -88,6 +92,7 @@ const Navbar = () => {
 
     return (
         <div className="navbar">
+
             <div className="navContainer">
                 <img
                     src="/images/logo_ascenda.png"

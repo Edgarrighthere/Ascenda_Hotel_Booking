@@ -61,7 +61,6 @@ const Hotel = () => {
     };
 
     fetchRawInfo();
-   
   }, [id, destinationId, checkin, checkout, guests]);
 
   useEffect(() => {
@@ -75,7 +74,6 @@ const Hotel = () => {
             cancelPolicy: room_variation.freeCancellation
               ? 'Free cancellation (except a service fee, if applicable)'
               : 'No free cancellation',
-            all_room_info:room_variation,
           }))
         : [];
       setRooms(loadedRooms);
@@ -217,7 +215,7 @@ const Hotel = () => {
             </div>
           </div>
         </div>
-        {<div className="centeredContainer">
+        <div className="centeredContainer">
           <div className="centeredContent">
             <TrustYouScore
               overall={rawinfo.trustyou?.score?.overall || 0}
@@ -228,7 +226,7 @@ const Hotel = () => {
               business={rawinfo.trustyou?.score?.business || 0}
             />
           </div>
-        </div> }
+        </div>
         <div className="centeredContainer categoriesContainer">
           <div className="centeredContent">
             <Categories categories={categories} />

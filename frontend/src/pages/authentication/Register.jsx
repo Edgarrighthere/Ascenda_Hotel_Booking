@@ -16,7 +16,6 @@ const Register = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
     const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [salutation, setSalutation] = useState("");
@@ -51,7 +50,6 @@ const Register = () => {
         try {
             const response = await axios.post("http://localhost:5000/register", {
                 email: email,
-                username: username,
                 password: password,
                 salutation: salutation,
                 firstName: firstName,
