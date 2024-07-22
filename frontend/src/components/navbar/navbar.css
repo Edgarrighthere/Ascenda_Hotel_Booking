@@ -91,6 +91,36 @@
     margin-left: 5px;
 }
 
+.alert {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-family: 'Lato';
+    font-size: large;
+    cursor: pointer;
+    background-color:tomato;
+    border-radius: 10px;
+    margin-top:20px;
+}
+
+.alert Heading{
+    color: white;
+    font-family: 'Lato';
+    font-size: x-large;
+}
+.alert button{
+    width: 120px;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    cursor: pointer;
+    color: black;
+    font-family: 'Lato';
+    font-size: large;
+}
+
+
 @keyframes dropdownShow {
     0% { opacity: 0; transform: translateY(-10px); }
     100% { opacity: 1; transform: translateY(0); }
