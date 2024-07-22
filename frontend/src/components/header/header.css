@@ -190,7 +190,26 @@
     max-width: 100%;
     max-height: 100%;
     overflow:hidden;
+}
 
+.alert {
+    background-color: #280d0f;
+    border: #79282c 2px solid;
+    width: 100%;
+    padding: 10px 0px;
+    max-width: 1024px;
+    margin-top: 25px;
+}
 
+.alertHeading {
+    font-weight: bold;
+    font-size: 20px;
+    margin: 0px;
+    padding: 10px 15px;
+}
 
+.alertButton {
+    display: flex;
+    justify-content: end;
+    margin: 10px 15px
 }
