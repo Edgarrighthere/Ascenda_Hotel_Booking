@@ -311,7 +311,7 @@ const List = () => {
                         <div className="mapContainer">
                             {lat && lng && <Map lat={lat} lng={lng} />}
                         </div>
-                        <div className="listSearch">
+                        <div data-test="filterPanel" className="listSearch">
                             <h1 className="listTitle">Search</h1>
                             <div className="listItem">
                                 <label>Destination</label>
@@ -428,7 +428,7 @@ const List = () => {
                                     ))}
                                 </div>
                             </div>
-                            <button className="listSearchButton" onClick={handleSearch}>Search</button>
+                            <button data-test="filterPanelSearch" className="listSearchButton" onClick={handleSearch}>Search</button>
                         </div>
                     </div>
                     <div className="resultContainer">

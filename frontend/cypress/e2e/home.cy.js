@@ -84,7 +84,7 @@ describe('Home Page Test', () => {
   // Test destination search with correct input
   it('Displays suggestions with NO typo', () => {
     cy.get('[data-test="destinationSearch"] .headerSearchInput')
-      .type('Singapore', { delay: 100 }) // Type with a delay of 100ms per character to give autosuggest time to load 
+      .type('Singapore', { delay: 150 }) // Type with a delay of 100ms per character to give autosuggest time to load 
       .should('have.value', 'Singapore'); // Ensure the input value is correctly set
 
     cy.wait(1000);
@@ -106,7 +106,7 @@ describe('Home Page Test', () => {
   // Test destination search with wrong input
   it('Displays suggestions with typo', () => {
     cy.get('[data-test="destinationSearch"] .headerSearchInput')
-      .type('Singpore', { delay: 100 }) // Type with a delay of 100ms per character to give autosuggest time to load 
+      .type('Singpore', { delay: 150 }) // Type with a delay of 100ms per character to give autosuggest time to load 
       .should('have.value', 'Singpore'); // Ensure the input value is correctly set
 
     cy.wait(1000);
