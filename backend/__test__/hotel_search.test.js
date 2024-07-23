@@ -5,8 +5,8 @@ const getListing = hotelSearch.getListing
 const mapHotelList = hotelSearch.mapHotelList
 
 const destinationId = "tOik"
-const checkin = "2024-07-22"
-const checkout = "2024-07-23"
+const checkin = "2024-10-22"
+const checkout = "2024-10-23"
 const guests = "1"
 
 const mockPriceJson = {
@@ -42,7 +42,7 @@ describe("Backend Hotel Search API Unit Test", () => {
         const invalid_destinationId = "abce"
         const res = await fetch(`http://localhost:5000/hotel_search/${invalid_destinationId}/${checkin}/${checkout}/${guests}`, {
             headers: {
-"Content-type": "application/x-www-form-urlencoded"
+                "Content-type": "application/x-www-form-urlencoded"
             }
         });
         const text = await res.text();
@@ -58,7 +58,7 @@ describe("Backend Hotel Search API Unit Test", () => {
         const invalid_checkin = "2024-07-21";
         const res = await fetch(`http://localhost:5000/hotel_search/${destinationId}/${invalid_checkin}/${checkout}/${guests}`, {
             headers: {
-"Content-type": "application/x-www-form-urlencoded"
+                "Content-type": "application/x-www-form-urlencoded"
             }
         });
         const text = await res.text();
@@ -73,7 +73,7 @@ describe("Backend Hotel Search API Unit Test", () => {
         const invalid_checkout = "2024-07-22";
         const res = await fetch(`http://localhost:5000/hotel_search/${destinationId}/${checkin}/${invalid_checkout}/${guests}`, {
             headers: {
-"Content-type": "application/x-www-form-urlencoded"
+                "Content-type": "application/x-www-form-urlencoded"
             }
         });
         const text = await res.text();
@@ -88,7 +88,7 @@ describe("Backend Hotel Search API Unit Test", () => {
         const invalid_guests = "0";
         const res = await fetch(`http://localhost:5000/hotel_search/${destinationId}/${checkin}/${checkout}/${invalid_guests}`, {
             headers: {
-"Content-type": "application/x-www-form-urlencoded"
+                "Content-type": "application/x-www-form-urlencoded"
             }
         });
         const text = await res.text();
