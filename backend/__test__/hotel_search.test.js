@@ -56,14 +56,118 @@ async function setUpHotelList() {
 
 describe("Backend Hotel Search API Unit Test", () => {
 
-    test("BACKEND_HOTEL_SEARCH_API_1: Test Pricing API with valid inputs", async() => {
+    test("BACKEND_HOTEL_SEARCH_API_UNIT_1: Test Pricing API with valid inputs", async() => {
         const json = await getPricing(destinationId, checkin, checkout, guests);
         const prices = json["hotels"]
         const prices_notEmpty = prices.length > 0;
         expect(prices_notEmpty).toEqual(true); // hotels should not be empty
     }, 20000)
 
-    test("BACKEND_HOTEL_SEARCH_API_2: Test Pricing API with invalid inputs (destination id does not exist)", async() => {
+    test("BACKEND_HOTEL_SEARCH_API_UNIT_2: Test Pricing API with valid inputs but no possible output", async() => {
+        const new_destinationId = "aq3t"
+        const new_guests = "3|3|3|3|3|3|3|3|3|3"
+        const json = await getPricing(new_destinationId, checkin, checkout, new_guests);
+        const prices = json["hotels"]
+        const prices_Empty = prices.length <= 0;
+        expect(prices_Empty).toEqual(true);
+    }, 10000)
+
+    test("BACKEND_HOTEL_SEARCH_API_UNIT_3: Test adding a new hotelPrice object to existing hotelPriceList object", async() => {
+        const mockHotelPriceList = await setupPriceList()
+        mockHotelPriceList.addHotel(mockHotelPrice2.id, mockHotelPrice2.searchRank, mockHotelPrice2.price)
+        const expectedPriceList = {"hotelPrices": [
+            {"id": "0CjM", "searchRank": "0.5", "price": "100.00"},
+            {"id": "00Y3", "searchRank": "2.5", "price": "500.20"}
+        ]}
+        expect(mockHotelPriceList).toEqual(expectedPriceList)
+    })
+
+    test("BACKEND_HOTEL_SEARCH_API_UNIT_4: Test mapping price json to price list object", async() => {
+        const priceList = await mapPriceList(mockPriceJson)
+        const expectedPriceList = {"hotelPrices": [
+            {"id": "0CjM", "searchRank": "0.5", "price": "100.00"},
+            {"id": "00Y3", "searchRank": "2.5", "price": "500.20"},
+            {"id": "0dJR", "searchRank": "1.0", "price": "300.16"},
+            {"id": "0E35", "searchRank": "1.5", "price": "450.00"}
+        ]}
+        expect(priceList).toEqual(expectedPriceList)
+    })
+
+    test("BACKEND_HOTEL_SEARCH_API_UNIT_5: Test Listing API with valid inputs", async() => {
+        const json = await getListing(destinationId);
+        const json_notEmpty = json.length > 0;
+        expect(json_notEmpty).toEqual(true); // hotels should not be empty
+    })
+
+    test("BACKEND_HOTEL_SEARCH_API_UNIT_6: Test Listing API with invalid inputs (destination id is undefined)", async() => {
+        const invalid_destinationId = "undefined"
+        const json = await getListing(invalid_destinationId);
+        const json_Empty = json.length <= 0;
+        expect(json_Empty).toEqual(true);
+    })
+
+    test("BACKEND_HOTEL_SEARCH_API_UNIT_7: Test Listing API with invalid inputs (destination id does not exist)", async() => {
+        const invalid_destinationId = "abce"
+        const json = await getListing(invalid_destinationId);
+        const json_Empty = json.length <= 0;
+        expect(json_Empty).toEqual(true);
+    })
+
+    test("BACKEND_HOTEL_SEARCH_API_UNIT_8: Test adding a new hotel object to existing hotelList object", async() => {
+        const {mockPriceList, mockHotelList} = await setUpHotelList()
+        mockHotelList.addHotel(mockHotel4.id, mockHotel4.image_details.prefix, mockHotel4.image_details.count, mockHotel4.image_details.suffix, mockHotel4.name, mockHotel4.address, mockHotel4.distance, mockHotel4.description, mockHotel4.categories, mockHotel4.amenities, mockHotel4.amenities_ratings, mockHotel4.trustyou.score, mockHotel4.trustyou.score.kaligo_overall, mockPriceList["hotelPrices"])
+        const expectedHotelList = {"hotels": [
+            {id: '0dJR',image_prefix: 'https://d2ey9sqrvkqdfs.cloudfront.net/0dJR/',image_count: 2,image_suffix: '.jpg',name: 'WAIZENEGGER PENSION',address: 'Mommsenstrasse, 6 - 10629',distance: '5.97',description: 'HOTEL: This guesthouse it is situated in an old building and is ideal for holidays',categories: [],amenities: [],amenities_rating: [],score: {"business": "67.0", "couple": "76.0", "family": "76.0", "solo": "71.0"},rating: '3.9',starRating: 3,searchRank: '1.0',price: '300.16'},
+            {id: '0CjM',image_prefix: 'https://d2ey9sqrvkqdfs.cloudfront.net/0CjM/',image_count: 62,image_suffix: '.jpg',name: 'Amc Apartments Ku Damm',address: 'Joachimstaler Str. 19 (office)',distance: '5.97',description: 'Property Location',categories: [],amenities: [],amenities_rating: [],score: {"business": "80.0", "couple": "78.0", "family": "79.0", "solo": "80.0"},rating: '4.2',starRating: 4,searchRank: '0.5',price: '100.00'},
+            {id: '00Y3',image_prefix: 'https://d2ey9sqrvkqdfs.cloudfront.net/00Y3/',image_count: 0,image_suffix: '.jpg',name: 'Berlinlux Apartments City',address: 'Bruckenstra E 1A',distance: '5.97',description: undefined,categories: [],amenities: [],amenities_rating: [],score: {"business": null, "couple": null, "family": null, "solo": null},rating: '3.2',starRating: 3,searchRank: '2.5',price: '500.20'},
+            {id: '0E35',image_prefix: 'https://d2ey9sqrvkqdfs.cloudfront.net/0E35/',image_count: 16,image_suffix: '.jpg',name: 'RockChair Apartment Greifswalder Straße',address: 'Greifswalder Str.',distance: '5.97',description: 'Free self parking is available onsite.',categories: [],amenities: [],amenities_rating: [],score: {"business": null, "couple": null, "family": null, "solo": null},rating: '0.5',starRating: 0,searchRank: '1.5',price: '450.00'}
+                
+        ]}
+        expect(mockHotelList).toEqual(expectedHotelList)
+    })
+
+    test("BACKEND_HOTEL_SEARCH_API_UNIT_9: Test sorting hotelList object", async() => {
+        const {mockPriceList, mockHotelList} = await setUpHotelList()
+        mockHotelList.sortBySearchRank()
+        const expectedHotelList = {"hotels": [
+            {"address": "Bruckenstra E 1A", "amenities": [], "amenities_rating": [], "categories": [], "description": undefined, "distance": "5.97", "id": "00Y3", "image_count": 0, "image_prefix": "https://d2ey9sqrvkqdfs.cloudfront.net/00Y3/", "image_suffix": ".jpg", "name": "Berlinlux Apartments City", "price": "500.20", "rating": "3.2", "score": {"business": null, "couple": null, "family": null, "solo": null}, "searchRank": "2.5", "starRating": 3},
+            {"address": "Mommsenstrasse, 6 - 10629", "amenities": [], "amenities_rating": [], "categories": [], "description": "HOTEL: This guesthouse it is situated in an old building and is ideal for holidays", "distance": "5.97", "id": "0dJR", "image_count": 2, "image_prefix": "https://d2ey9sqrvkqdfs.cloudfront.net/0dJR/", "image_suffix": ".jpg", "name": "WAIZENEGGER PENSION", "price": "300.16", "rating": "3.9", "score": {"business": "67.0","couple": "76.0","family": "76.0","solo": "71.0"}, "searchRank": "1.0", "starRating": 3},
+            {"address": "Joachimstaler Str. 19 (office)", "amenities": [], "amenities_rating": [], "categories": [], "description": "Property Location", "distance": "5.97", "id": "0CjM", "image_count": 62, "image_prefix": "https://d2ey9sqrvkqdfs.cloudfront.net/0CjM/", "image_suffix": ".jpg", "name": "Amc Apartments Ku Damm", "price": "100.00", "rating": "4.2", "score": {"business": "80.0", "couple": "78.0", "family": "79.0", "solo": "80.0"}, "searchRank": "0.5", "starRating": 4},
+        ]}
+        expect(mockHotelList).toEqual(expectedHotelList)
+    })
+
+    test("BACKEND_HOTEL_SEARCH_API_UNIT_10: Test mapping hotel json to hotel list object", async() => {
+        const priceList = await mapPriceList(mockPriceJson)
+        const hotelListings = await mapHotelList(mockHotelJson, priceList)
+        const expectedHotelListings = {"hotels": [
+            {"address": "Bruckenstra E 1A", "amenities": [], "amenities_rating": [], "categories": [], "description": undefined, "distance": "5.97", "id": "00Y3", "image_count": 0, "image_prefix": "https://d2ey9sqrvkqdfs.cloudfront.net/00Y3/", "image_suffix": ".jpg", "name": "Berlinlux Apartments City", "price": "500.20", "rating": "3.2", "score": {"business": null, "couple": null, "family": null, "solo": null}, "searchRank": "2.5", "starRating": 3},
+            {"address": "Mommsenstrasse, 6 - 10629", "amenities": [], "amenities_rating": [], "categories": [], "description": "HOTEL: This guesthouse it is situated in an old building and is ideal for holidays", "distance": "5.97", "id": "0dJR", "image_count": 2, "image_prefix": "https://d2ey9sqrvkqdfs.cloudfront.net/0dJR/", "image_suffix": ".jpg", "name": "WAIZENEGGER PENSION", "price": "300.16", "rating": "3.9", "score": {"business": "67.0","couple": "76.0","family": "76.0","solo": "71.0"}, "searchRank": "1.0", "starRating": 3}, 
+            {"address": "Joachimstaler Str. 19 (office)", "amenities": [], "amenities_rating": [], "categories": [], "description": "Property Location", "distance": "5.97", "id": "0CjM", "image_count": 62, "image_prefix": "https://d2ey9sqrvkqdfs.cloudfront.net/0CjM/", "image_suffix": ".jpg", "name": "Amc Apartments Ku Damm", "price": "100.00", "rating": "4.2", "score": {"business": "80.0", "couple": "78.0", "family": "79.0", "solo": "80.0"}, "searchRank": "0.5", "starRating": 4},
+        ]}
+        expect(hotelListings).toEqual(expectedHotelListings)
+    })
+
+})
+
+describe("Backend Hotel Search API Integration Test", () => {
+
+    // Call graph:
+    test("BACKEND_HOTEL_SEARCH_API_INT_1: Test hotel search route with valid inputs", async() => {
+        const res = await fetch(`http://localhost:5000/hotel_search/${destinationId}/${checkin}/${checkout}/${guests}`, {
+            headers: {
+                "Content-type": "application/x-www-form-urlencoded"
+            }
+        });
+        const text = await res.text();
+        const json = JSON.parse(text);
+        const hotels_notEmpty = json.length > 0;
+
+        expect(res.status).toEqual(200);
+        expect(hotels_notEmpty).toEqual(true); // hotels should not be empty
+    })
+
+    test("BACKEND_HOTEL_SEARCH_API_INT_2: Test hotel search route with invalid inputs (destination id does not exist)", async() => {
         // even if completed is true, hotels should be empty
         const invalid_destinationId = "abce"
         const res = await fetch(`http://localhost:5000/hotel_search/${invalid_destinationId}/${checkin}/${checkout}/${guests}`, {
@@ -79,7 +183,7 @@ describe("Backend Hotel Search API Unit Test", () => {
         
     }, 10000)
 
-    test("BACKEND_HOTEL_SEARCH_API_3: Test Pricing API with invalid inputs (check-in date < current date)", async() => {
+    test("BACKEND_HOTEL_SEARCH_API_INT_3: Test hotel search route with invalid inputs (check-in date < current date)", async() => {
         // even if completed is true, hotels should be empty
         const invalid_checkin = "2024-07-21";
         const res = await fetch(`http://localhost:5000/hotel_search/${destinationId}/${invalid_checkin}/${checkout}/${guests}`, {
@@ -94,7 +198,7 @@ describe("Backend Hotel Search API Unit Test", () => {
         expect(json.message).toBe("Invalid Input: Check-in date cannot be before current date.")
     }, 10000)
 
-    test("BACKEND_HOTEL_SEARCH_API_4: Test Pricing API with invalid inputs (check-in date <= check-out date)", async() => {
+    test("BACKEND_HOTEL_SEARCH_API_INT_4: Test hotel search route with invalid inputs (check-in date <= check-out date)", async() => {
         // even if completed is true, hotels should be empty
         const invalid_checkout = "2024-07-22";
         const res = await fetch(`http://localhost:5000/hotel_search/${destinationId}/${checkin}/${invalid_checkout}/${guests}`, {
@@ -110,7 +214,7 @@ describe("Backend Hotel Search API Unit Test", () => {
         
     }, 10000)
 
-    test("BACKEND_HOTEL_SEARCH_API_5: Test Pricing API with invalid inputs (zero guests)", async() => {
+    test("BACKEND_HOTEL_SEARCH_API_INT_5: Test hotel search route with invalid inputs (zero guests)", async() => {
         const invalid_guests = "0";
         const res = await fetch(`http://localhost:5000/hotel_search/${destinationId}/${checkin}/${checkout}/${invalid_guests}`, {
             headers: {
@@ -124,99 +228,19 @@ describe("Backend Hotel Search API Unit Test", () => {
         expect(json.message).toBe("Invalid Input: There must be at least 1 guest.")
     }, 10000)
 
-    test("BACKEND_HOTEL_SEARCH_API_6: Test Pricing API with valid inputs but no possible output", async() => {
+    test("BACKEND_HOTEL_SEARCH_API_INT_6: Test hotel search route with valid inputs but no possible output", async() => {
         const new_destinationId = "aq3t"
         const new_guests = "3|3|3|3|3|3|3|3|3|3"
-        const json = await getPricing(new_destinationId, checkin, checkout, new_guests);
-        const prices = json["hotels"]
-        const prices_Empty = prices.length <= 0;
-        expect(prices_Empty).toEqual(true);
+        const res = await fetch(`http://localhost:5000/hotel_search/${new_destinationId}/${checkin}/${checkout}/${new_guests}`, {
+            headers: {
+                "Content-type": "application/x-www-form-urlencoded"
+            }
+        });
+        const text = await res.text();
+        const json = JSON.parse(text);
+
+        expect(res.status).toEqual(400);
+        expect(json.message).toBe("No hotel listings found.")
     }, 10000)
 
-    test("BACKEND_HOTEL_SEARCH_API_7: Test adding a new hotelPrice object to existing hotelPriceList object", async() => {
-        const mockHotelPriceList = await setupPriceList()
-        mockHotelPriceList.addHotel(mockHotelPrice2.id, mockHotelPrice2.searchRank, mockHotelPrice2.price)
-        const expectedPriceList = {"hotelPrices": [
-            {"id": "0CjM", "searchRank": "0.5", "price": "100.00"},
-            {"id": "00Y3", "searchRank": "2.5", "price": "500.20"}
-        ]}
-        expect(mockHotelPriceList).toEqual(expectedPriceList)
-    })
-
-    test("BACKEND_HOTEL_SEARCH_API_8: Test mapping price json to price list object", async() => {
-        const priceList = await mapPriceList(mockPriceJson)
-        const expectedPriceList = {"hotelPrices": [
-            {"id": "0CjM", "searchRank": "0.5", "price": "100.00"},
-            {"id": "00Y3", "searchRank": "2.5", "price": "500.20"},
-            {"id": "0dJR", "searchRank": "1.0", "price": "300.16"},
-            {"id": "0E35", "searchRank": "1.5", "price": "450.00"}
-        ]}
-        expect(priceList).toEqual(expectedPriceList)
-    })
-
-    test("BACKEND_HOTEL_SEARCH_API_9: Test Listing API with valid inputs", async() => {
-        const json = await getListing(destinationId);
-        const json_notEmpty = json.length > 0;
-        expect(json_notEmpty).toEqual(true); // hotels should not be empty
-    })
-
-    test("BACKEND_HOTEL_SEARCH_API_10: Test Listing API with invalid inputs (destination id is undefined)", async() => {
-        const invalid_destinationId = "undefined"
-        const json = await getListing(invalid_destinationId);
-        const json_Empty = json.length <= 0;
-        expect(json_Empty).toEqual(true);
-    })
-
-    test("BACKEND_HOTEL_SEARCH_API_11: Test Listing API with invalid inputs (destination id does not exist)", async() => {
-        const invalid_destinationId = "abce"
-        const json = await getListing(invalid_destinationId);
-        const json_Empty = json.length <= 0;
-        expect(json_Empty).toEqual(true);
-    })
-
-    test("BACKEND_HOTEL_SEARCH_API_12: Test adding a new hotel object to existing hotelList object", async() => {
-        const {mockPriceList, mockHotelList} = await setUpHotelList()
-        mockHotelList.addHotel(mockHotel4.id, mockHotel4.image_details.prefix, mockHotel4.image_details.count, mockHotel4.image_details.suffix, mockHotel4.name, mockHotel4.address, mockHotel4.distance, mockHotel4.description, mockHotel4.categories, mockHotel4.amenities, mockHotel4.amenities_ratings, mockHotel4.trustyou.score, mockHotel4.trustyou.score.kaligo_overall, mockPriceList["hotelPrices"])
-        const expectedHotelList = {"hotels": [
-            {id: '0dJR',image_prefix: 'https://d2ey9sqrvkqdfs.cloudfront.net/0dJR/',image_count: 2,image_suffix: '.jpg',name: 'WAIZENEGGER PENSION',address: 'Mommsenstrasse, 6 - 10629',distance: '5.97',description: 'HOTEL: This guesthouse it is situated in an old building and is ideal for holidays',categories: [],amenities: [],amenities_rating: [],score: {"business": "67.0", "couple": "76.0", "family": "76.0", "solo": "71.0"},rating: '3.9',starRating: 3,searchRank: '1.0',price: '300.16'},
-            {id: '0CjM',image_prefix: 'https://d2ey9sqrvkqdfs.cloudfront.net/0CjM/',image_count: 62,image_suffix: '.jpg',name: 'Amc Apartments Ku Damm',address: 'Joachimstaler Str. 19 (office)',distance: '5.97',description: 'Property Location',categories: [],amenities: [],amenities_rating: [],score: {"business": "80.0", "couple": "78.0", "family": "79.0", "solo": "80.0"},rating: '4.2',starRating: 4,searchRank: '0.5',price: '100.00'},
-            {id: '00Y3',image_prefix: 'https://d2ey9sqrvkqdfs.cloudfront.net/00Y3/',image_count: 0,image_suffix: '.jpg',name: 'Berlinlux Apartments City',address: 'Bruckenstra E 1A',distance: '5.97',description: undefined,categories: [],amenities: [],amenities_rating: [],score: {"business": null, "couple": null, "family": null, "solo": null},rating: '3.2',starRating: 3,searchRank: '2.5',price: '500.20'},
-            {id: '0E35',image_prefix: 'https://d2ey9sqrvkqdfs.cloudfront.net/0E35/',image_count: 16,image_suffix: '.jpg',name: 'RockChair Apartment Greifswalder Straße',address: 'Greifswalder Str.',distance: '5.97',description: 'Free self parking is available onsite.',categories: [],amenities: [],amenities_rating: [],score: {"business": null, "couple": null, "family": null, "solo": null},rating: '0.5',starRating: 0,searchRank: '1.5',price: '450.00'}
-                
-        ]}
-        expect(mockHotelList).toEqual(expectedHotelList)
-    })
-
-    test("BACKEND_HOTEL_SEARCH_API_13: Test sorting hotelList object", async() => {
-        const {mockPriceList, mockHotelList} = await setUpHotelList()
-        mockHotelList.sortBySearchRank()
-        const expectedHotelList = {"hotels": [
-            {"address": "Bruckenstra E 1A", "amenities": [], "amenities_rating": [], "categories": [], "description": undefined, "distance": "5.97", "id": "00Y3", "image_count": 0, "image_prefix": "https://d2ey9sqrvkqdfs.cloudfront.net/00Y3/", "image_suffix": ".jpg", "name": "Berlinlux Apartments City", "price": "500.20", "rating": "3.2", "score": {"business": null, "couple": null, "family": null, "solo": null}, "searchRank": "2.5", "starRating": 3},
-            {"address": "Mommsenstrasse, 6 - 10629", "amenities": [], "amenities_rating": [], "categories": [], "description": "HOTEL: This guesthouse it is situated in an old building and is ideal for holidays", "distance": "5.97", "id": "0dJR", "image_count": 2, "image_prefix": "https://d2ey9sqrvkqdfs.cloudfront.net/0dJR/", "image_suffix": ".jpg", "name": "WAIZENEGGER PENSION", "price": "300.16", "rating": "3.9", "score": {"business": "67.0","couple": "76.0","family": "76.0","solo": "71.0"}, "searchRank": "1.0", "starRating": 3},
-            {"address": "Joachimstaler Str. 19 (office)", "amenities": [], "amenities_rating": [], "categories": [], "description": "Property Location", "distance": "5.97", "id": "0CjM", "image_count": 62, "image_prefix": "https://d2ey9sqrvkqdfs.cloudfront.net/0CjM/", "image_suffix": ".jpg", "name": "Amc Apartments Ku Damm", "price": "100.00", "rating": "4.2", "score": {"business": "80.0", "couple": "78.0", "family": "79.0", "solo": "80.0"}, "searchRank": "0.5", "starRating": 4},
-        ]}
-        expect(mockHotelList).toEqual(expectedHotelList)
-    })
-
-    test("BACKEND_HOTEL_SEARCH_API_14: Test mapping hotel json to hotel list object", async() => {
-        const priceList = await mapPriceList(mockPriceJson)
-        const hotelListings = await mapHotelList(mockHotelJson, priceList)
-        const expectedHotelListings = {"hotels": [
-            {"address": "Bruckenstra E 1A", "amenities": [], "amenities_rating": [], "categories": [], "description": undefined, "distance": "5.97", "id": "00Y3", "image_count": 0, "image_prefix": "https://d2ey9sqrvkqdfs.cloudfront.net/00Y3/", "image_suffix": ".jpg", "name": "Berlinlux Apartments City", "price": "500.20", "rating": "3.2", "score": {"business": null, "couple": null, "family": null, "solo": null}, "searchRank": "2.5", "starRating": 3},
-            {"address": "Mommsenstrasse, 6 - 10629", "amenities": [], "amenities_rating": [], "categories": [], "description": "HOTEL: This guesthouse it is situated in an old building and is ideal for holidays", "distance": "5.97", "id": "0dJR", "image_count": 2, "image_prefix": "https://d2ey9sqrvkqdfs.cloudfront.net/0dJR/", "image_suffix": ".jpg", "name": "WAIZENEGGER PENSION", "price": "300.16", "rating": "3.9", "score": {"business": "67.0","couple": "76.0","family": "76.0","solo": "71.0"}, "searchRank": "1.0", "starRating": 3}, 
-            {"address": "Joachimstaler Str. 19 (office)", "amenities": [], "amenities_rating": [], "categories": [], "description": "Property Location", "distance": "5.97", "id": "0CjM", "image_count": 62, "image_prefix": "https://d2ey9sqrvkqdfs.cloudfront.net/0CjM/", "image_suffix": ".jpg", "name": "Amc Apartments Ku Damm", "price": "100.00", "rating": "4.2", "score": {"business": "80.0", "couple": "78.0", "family": "79.0", "solo": "80.0"}, "searchRank": "0.5", "starRating": 4},
-        ]}
-        expect(hotelListings).toEqual(expectedHotelListings)
-    })
-
 })
-
-// describe("Backend Hotel Search API Integration Test", () => {
-
-//     // Call graph:
-
-
-
-//     test("BACKEND_HOTEL_SEARCH")
-
-// })
