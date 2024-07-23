@@ -6,7 +6,7 @@ const destinationJSON = require("../destinations.json");
 router.get("/:destination", async function (req, res, next) {
     const destinationName = req.params.destination
     console.log(destinationName)
-    var destinationId
+    var destinationId = null
     
     for (let getDestination of destinationJSON) {
         if (destinationName.includes(getDestination.term)) {
@@ -16,8 +16,12 @@ router.get("/:destination", async function (req, res, next) {
         }
     }
 
-    res.set("Access-Control-Allow-Origin", "http://localhost:3000");
-    res.send(`${destinationId}`);
+    if (destinationId != null) {
+        res.set("Access-Control-Allow-Origin", "http://localhost:3000");
+        res.send(`${destinationId}`);
+    } else {
+        return res.status(400).json({message: "Invalid Input: Destination name is invalid."})
+    }
 });
 
 router.get("/", async function (req, res, next) {
