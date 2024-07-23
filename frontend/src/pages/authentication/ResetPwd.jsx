@@ -82,10 +82,10 @@ const ResetPwd = () => {
                             {confirmPasswordVisible ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
                         </span>
                     </div>
-                    {success && <div className="success">{success}</div>}
-                    {error && <div className="error">{error}</div>}
+                    {success && <div data-testid="success-message" className="success">{success}</div>}
+                    {error && <div data-testid="error-message" className="error">{error}</div>}
                     <div className="resetPasswordButtonContainer">
-                        <button data-test="resetPwdButton" className="resetPasswordButton" onClick={handleResetPassword}>Reset Password</button>
+                        <button data-testid="resetPwdButton" data-test="resetPwdButton" className="resetPasswordButton" onClick={handleResetPassword}>Reset Password</button>
                     </div>
                 </div>
             </div>

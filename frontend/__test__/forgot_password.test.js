@@ -26,13 +26,13 @@ describe('Frontend Forgot Password Unit and Integration Test', () => {
       });
     });
   
-    test('FRONTEND_FORGOTPWD_1: Check if the register header is present', () => {
+    test('FRONTEND_FORGOTPWD_1: Check if the forgot password header is present', () => {
       const forgotPwdHeader = screen.getByText('Forgot Password', { selector: '.forgotPasswordTitle' });
       expect(forgotPwdHeader).toBeInTheDocument();
       expect(forgotPwdHeader).toHaveClass('forgotPasswordTitle');
     });
 
-    test('FRONTEND_FORGOTPWD_2: Check if the register header is present', () => {
+    test('FRONTEND_FORGOTPWD_2: Check if the email section is present', () => {
         const emailSection = screen.getByPlaceholderText(/Enter your registered email./i, { selector: 'input' });
         expect(emailSection).toBeInTheDocument();
     });
