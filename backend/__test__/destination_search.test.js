@@ -5,20 +5,20 @@ const expectedId = "RsBU";
 
 describe("Backend Destination Search Unit Test", () => {
     test("BACKEND_DEST_SEARCH_UNIT_1: Test retrieving destination id with valid destination text", async() => {
-        const id = getDestinationId(destinationText)
+        const id = await getDestinationId(destinationText)
         expect(id).toBe(expectedId)
     }, 10000)
 
     test("BACKEND_DEST_SEARCH_UNIT_2: Test retrieving destination id with invalid destination text", async() => {
         const invalid_destinationText = "Singapore";
-        const id = getDestinationId(destinationText)
+        const id = await getDestinationId(invalid_destinationText)
         expect(id).toBe(null)
     }, 10000)
 })
 
 describe("Backend Destination Search Integration Test", () => {
     test("BACKEND_DEST_SEARCH_INT_1: Test destination search route with valid destination text", async() => {
-        const res = await fetch(`http://localhost:5000/destination_search/`, {
+        const res = await fetch(`http://localhost:5000/destination_search/${destinationText}`, {
             headers: {
                 "Content-type": "application/x-www-form-urlencoded"
             }

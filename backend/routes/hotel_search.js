@@ -6,7 +6,7 @@ const {hotelList} = require("../models/hotelList.js")
 async function getPricing(destinationId, checkin, checkout, guests) {
     var completed = false
     const price_api_url = "https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=" + destinationId + "&checkin=" + checkin + "&checkout=" + checkout + "&lang=en_US&currency=SGD&country_code=SG" + "&guests=" + guests + "&partner_id=1"
-    console.log(price_api_url)
+    //console.log(price_api_url)
 
     var price_response;
     var price_text;
@@ -17,7 +17,7 @@ async function getPricing(destinationId, checkin, checkout, guests) {
         price_text = await price_response.text()
         price_json = JSON.parse(price_text)
 
-        console.log(price_json["completed"])
+        //console.log(price_json["completed"])
         completed = price_json["completed"]
     }
 
@@ -35,7 +35,7 @@ async function mapPriceList(price_json) {
 
 async function getListing(destinationId) {
     const hotel_api_url = "https://hotelapi.loyalty.dev/api/hotels?destination_id=" + destinationId
-    console.log(hotel_api_url)
+    //console.log(hotel_api_url)
 
     const hotel_response = await fetch(hotel_api_url)
     const hotel_text = await hotel_response.text()
@@ -61,7 +61,6 @@ async function mapHotelList(hotel_json, priceList) {
                 amenities_rating=jsonHotels.amenities_ratings,
                 score=jsonHotels.trustyou.score,
                 rating=jsonHotels.trustyou.score.kaligo_overall,
-                starRating=Math.floor(jsonHotels.trustyou.score.kaligo_overall),
                 priceListings=priceList["hotelPrices"])
         }
     })
@@ -94,7 +93,7 @@ router.get("/:id/:checkin/:checkout/:guests", async function (req, res, next) {
             const hotelListings = mapHotelList(hotel_json, priceList)
             res.send(`${JSON.stringify(hotelListings["hotels"])}`); // return a list of hotels
         } else {
-            console.log(price_json["hotels"])
+            //console.log(price_json["hotels"])
             return res.status(400).json({message: "No hotel listings found."})
         }
     }

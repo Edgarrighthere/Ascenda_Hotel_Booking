@@ -26,7 +26,8 @@ var completePaymentRouter = require("./routes/complete_payment.js");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var destinationSearchRoute = require('./routes/destination_search');
+var destinationSearch = require('./routes/destination_search');
+var destinationSearchRoute = destinationSearch.router;
 var hotelSearch = require('./routes/hotel_search');
 var hotelSearchRoute = hotelSearch.router;
 var roomDetails = require('./routes/room_details')
