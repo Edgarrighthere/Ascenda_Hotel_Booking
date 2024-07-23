@@ -11,10 +11,18 @@ console.log(JSON.stringify(all_room_info));
 
 
 useEffect(() => {
-  if (all_room_info.roomAdditionalInfo.breakfastInfo !== "hotel_detail_room_only") {
-    setBreakfast(all_room_info.roomAdditionalInfo.breakfastInfo);
-  }
-}, [all_room_info.roomAdditionalInfo.breakfastInfo]);
+    if (
+      all_room_info.roomAdditionalInfo.breakfastInfo ===
+      "hotel_detail_room_only"
+    ) {
+      setBreakfast("No Breakfast Combo || Hotel Room Only");
+    } else if (
+      all_room_info.roomAdditionalInfo.breakfastInfo ===
+      "hotel_detail_breakfast_included"
+    ) {
+      setBreakfast("Breakfast Included || Price Inclusive of Breakfast");
+    }
+  }, [all_room_info.roomAdditionalInfo.breakfastInfo]);
 
   const handleSelectClick = async () => {
     setSelectButton("Please Wait....");
