@@ -17,7 +17,7 @@ afterEach(() => {
     cleanup();
 });
 
-describe('Frontend Login Integration with emailer Test', async () => {
+describe('Frontend Login Integration with emailer Test', () => {
     const mockNavigate = jest.fn();
     useNavigate.mockReturnValue(mockNavigate);
   

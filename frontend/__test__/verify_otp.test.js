@@ -17,7 +17,7 @@ afterEach(() => {
     cleanup();
 });
 
-describe('Frontend Login Integration with verify_OTP Test', async () => {
+describe('Frontend Login Integration with verify_OTP Test', () => {
     const mockNavigate = jest.fn();
     useNavigate.mockReturnValue(mockNavigate);
   

@@ -17,7 +17,7 @@ afterEach(() => {
     cleanup();
 });
 
-describe('Frontend Login Unit Test', async () => {
+describe('Frontend Login Unit Test', () => {
     const mockNavigate = jest.fn();
     useNavigate.mockReturnValue(mockNavigate);
   
