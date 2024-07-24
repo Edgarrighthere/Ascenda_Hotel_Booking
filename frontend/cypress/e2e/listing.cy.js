@@ -1,6 +1,6 @@
 import { format, addDays } from 'date-fns';
 
-describe('Listings Page Navigation', () => {
+describe('Listings Page Test', () => {
     it('Navigate to listings page with mocked parameters from home search bar, checking for components', () => {
         // Visit the home page
         cy.visit('/');

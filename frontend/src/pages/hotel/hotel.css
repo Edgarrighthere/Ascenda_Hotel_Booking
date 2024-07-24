@@ -168,34 +168,32 @@
     justify-content: center;
     flex-direction: column;
     margin-top: 20px; /* Adjust margin as needed */
-    
-  }
+}
   
-  .centeredContent {
+.centeredContent {
     width: 100%; /* Ensure content takes full width */
-    max-width: 1050px; /* Adjust max-width as per design */
-    
-  }
+    max-width: 1050px; /* Adjust max-width as per design */ 
+}
 
-  .amenitiesContainer {
+.amenitiesContainer {
     display: flex;
     justify-content: center; /* Center content horizontally */
     width: 100%; /* Ensure content takes full width */
     max-width: 1050px; /* Adjust max-width as per design */
-    
-  }
+}
   
-  .amenitiesContainer .centeredContent {
+.amenitiesContainer .centeredContent {
     max-width: 79%; /* Adjust max-width as needed */
-    margin-left: auto; /* Push content to the right */
+    padding-left: 2%;
     width: 100%; /* Ensure content takes full width */
     max-width: 1050px; /* Adjust max-width as per design */
-  }
+}
 
-  .roomListContainer {
+.roomListContainer {
     height: 110%;
     width: 65%; /* Ensure it takes full width */
     display: flex;
+    padding-right: 2%;
     justify-content: center; /* Center the RoomList horizontally */
     width: 100%; /* Ensure content takes full width */
     max-width: 1050px; /* Adjust max-width as per design */
@@ -203,9 +201,8 @@
 
 .mapContainer {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+    align-self: center;
+    width: 55%;
 }
 
 .roomList {
@@ -214,4 +211,4 @@
     align-items: center; /* Center children horizontally */
     width: 100%;
     max-width: 800px; /* Adjust max-width as needed */
-  }
+}

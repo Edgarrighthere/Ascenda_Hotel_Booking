@@ -1,6 +1,6 @@
 import { format, addDays } from 'date-fns';
 
-describe('SearchItem Container Test', () => {
+describe('Hotel Page Test', () => {
     it('Navigate to listings page with mocked parameters from home search bar, checking for searched hotel components', () => {
         // Visit the home page
         cy.visit('/');
@@ -41,30 +41,28 @@ describe('SearchItem Container Test', () => {
         cy.get('[data-test="searchTest"]').click();
         cy.wait(10000); // wait to fetch for info from API
 
-        // Check that Hotel items exist
-        cy.get('.searchItem').should('exist');
-
-        // Check that Hotel image exist
-        cy.get('.siImg').should('exist');
-
-        // Check that Hotel title exist
-        cy.get('.siTitle').should('exist');
-
-        // Check that Hotel address exist
-        cy.get('.siAddress').should('exist');
-
-        // Check that Hotel details exist
-        cy.get('.siDetails').should('exist');
-
-        // Check that Hotel rating exist
-        cy.get('.siRating').should('exist');
-
-        // Check that Hotel price exist
-        cy.get('.siPrice').should('exist');
-
-        // Check that see availability button exist and is functional
+        // Click on first "see availability" button to go to that Hotel page
         cy.get('.searchItem').first().within(() => {
             cy.get('.siCheckButton').should('exist').click();
         });
+
+        // Check that Hotel Title exist
+        cy.get('.hotelTitle').should('exist');
+
+        // Check that "book now" button exist
+        cy.get('.bookNow').should('exist');
+
+        // Check that Hotel address exist
+        cy.get('.hotelAddress').should('exist');
+
+        // Check that Hotel distance from center exist
+        cy.get('.hotelDistance').should('exist');
+
+        // Check that Hotel price highlight from center exist
+        cy.get('.hotelPriceHighlight').should('exist');
+
+        // Check that Hotel images exist
+        cy.get('.hotelImages').should('exist');
+
     });
 });
