@@ -8,6 +8,7 @@ import {
   faPerson,
 } from "@fortawesome/free-solid-svg-icons";
 import "./header.css";
+import React from "react";
 import { DateRange } from "react-date-range";
 import { useState, useEffect, useRef } from "react";
 import Autosuggest from "react-autosuggest";
@@ -230,7 +231,7 @@ const Header = ({ type }) => {
               </div>
             )}
             {!loading && (
-              <div className="headerSearch">
+              <div className="headerSearch" data-testid='headerSearchBar'>
                 <div data-test="destinationSearch" className="headerSearchItem">
                   <FontAwesomeIcon icon={faBed} className="headerIcon" />
                   <Autosuggest
