@@ -308,12 +308,12 @@ const List = () => {
             <div className="listContainer">
                 <div className="listWrapper">
                     <div className="searchAndMapContiner">
-                        <div className="mapContainer">
+                        <div data-test="maps" className="mapContainer">
                             {lat && lng && <Map lat={lat} lng={lng} />}
                         </div>
                         <div data-test="filterPanel" className="listSearch">
-                            <h1 className="listTitle">Search</h1>
-                            <div className="listItem">
+                            <h1 data-test="listTitle" className="listTitle">Search</h1>
+                            <div data-test="listItem1" className="listItem">
                                 <label>Destination</label>
                                 <Autosuggest
                                     suggestions={suggestions}
@@ -336,7 +336,7 @@ const List = () => {
                                     }}
                                 />
                             </div>
-                            <div className="listItem">
+                            <div data-test="listItem2" className="listItem">
                                 <label>Check-in Date</label>
                                 <span className="listDatepicker" onClick={() => setOpenDate(!openDate)}>
                                     {`${format(date[0].startDate, "dd/MM/yyyy")} to 
@@ -355,17 +355,17 @@ const List = () => {
                                     </div>
                                 )}
                             </div>
-                            <div className="listItem">
-                                <label>Options</label>
+                            <div data-test="listItem3" className="listItem">
+                                <label>Guest Information</label>
                                 <div className="listOptions">
                                     <div className="listOptionItem">
                                         <span className="listOptionText">
                                             Adults 
                                         </span>
                                         <div className="optionCounter">
-                                            <button disabled={options.adult <= 1} onClick={() => decrementOption('adult')} className="optionCounterButton">-</button>
-                                            <span className="optionCounterNumber">{options.adult}</span>
-                                            <button onClick={() => incrementOption('adult')} className="optionCounterButton">+</button>
+                                            <button data-test="adultsDecrease" disabled={options.adult <= 1} onClick={() => decrementOption('adult')} className="optionCounterButton">-</button>
+                                            <span data-test="adultsNum" className="optionCounterNumber">{options.adult}</span>
+                                            <button data-test="adultsIncrease" onClick={() => incrementOption('adult')} className="optionCounterButton">+</button>
                                         </div>
                                     </div>
                                     <div className="listOptionItem">
@@ -373,9 +373,9 @@ const List = () => {
                                             Children 
                                         </span>
                                         <div className="optionCounter">
-                                            <button disabled={options.children <= 0} onClick={() => decrementOption('children')} className="optionCounterButton">-</button>
-                                            <span className="optionCounterNumber">{options.children}</span>
-                                            <button onClick={() => incrementOption('children')} className="optionCounterButton">+</button>
+                                            <button data-test="childrenDecrease" disabled={options.children <= 0} onClick={() => decrementOption('children')} className="optionCounterButton">-</button>
+                                            <span data-test="childrenNum" className="optionCounterNumber">{options.children}</span>
+                                            <button data-test="childrenIncrease" onClick={() => incrementOption('children')} className="optionCounterButton">+</button>
                                         </div>
                                     </div>
                                     <div className="listOptionItem">
@@ -383,14 +383,14 @@ const List = () => {
                                             Rooms 
                                         </span>
                                         <div className="optionCounter">
-                                            <button disabled={options.rooms <= 1} onClick={() => decrementOption('rooms')} className="optionCounterButton">-</button>
-                                            <span className="optionCounterNumber">{options.rooms}</span>
-                                            <button onClick={() => incrementOption('rooms')} className="optionCounterButton">+</button>
+                                            <button data-test="roomsDecrease" disabled={options.rooms <= 1} onClick={() => decrementOption('rooms')} className="optionCounterButton">-</button>
+                                            <span data-test="roomsNum" className="optionCounterNumber">{options.rooms}</span>
+                                            <button data-test="roomsIncrease" onClick={() => incrementOption('rooms')} className="optionCounterButton">+</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="listItem">
+                            <div data-test="listItem4" className="listItem">
                                 <label>Price per night</label>
                                 <RangeSlider
                                     min={priceRange[0]}
@@ -399,6 +399,7 @@ const List = () => {
                                     value={newPriceRange}
                                     onInput={handlePriceRangeChange}
                                     className="rangeSlider"
+                                    data-test="priceRangeSlider"
                                 />
                                 <div className="priceRangeValues">
                                     <div className="priceRangeMin">
@@ -411,7 +412,7 @@ const List = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="listItem">
+                            <div data-test="listItem5" className="listItem">
                                 <label>Hotel Rating</label>
                                 <div className="listStarRatings">
                                     {Object.keys(starRatings).map(star => (

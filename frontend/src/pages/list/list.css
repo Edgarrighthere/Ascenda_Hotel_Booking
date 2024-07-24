@@ -73,12 +73,12 @@
 
 .autosuggestSuggestionsContainer {
     position: absolute;
-    background-color: white;
     margin-top: 6px;
     overflow-y: auto;
     z-index: 5;
     max-height: 400px; 
-    border-color: transparent;
+    border: none;
+    width: 100%;
 }
 
 .autosuggestSuggestions {
