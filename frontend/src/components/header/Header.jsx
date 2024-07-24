@@ -1,3 +1,4 @@
+import React from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendarDays,
@@ -227,7 +228,7 @@ const Header = ({ type }) => {
             )}
             {!loading && (
               <div className="headerSearch">
-                <div data-test="destinationSearch" className="headerSearchItem">
+                <div data-testid="destinationSearchInput" data-test="destinationSearch" className="headerSearchItem">
                   <FontAwesomeIcon icon={faBed} className="headerIcon" />
                   <Autosuggest
                     suggestions={suggestions}
@@ -252,7 +253,7 @@ const Header = ({ type }) => {
                     }}
                   />
                 </div>
-                <div data-test="dateSearch" className="headerSearchItem">
+                <div data-testid="dateSearchInput" data-test="dateSearch" className="headerSearchItem">
                   <FontAwesomeIcon
                     icon={faCalendarDays}
                     className="headerIcon"
@@ -260,6 +261,7 @@ const Header = ({ type }) => {
                   <span
                     onClick={() => setOpenDate(!openDate)}
                     className="headerSearchText"
+                    data-testid="datePickerDropdown"
                   >
                     {`${format(date[0].startDate, "dd/MM/yyyy")} to ${format(
                       date[0].endDate,
@@ -279,11 +281,12 @@ const Header = ({ type }) => {
                     </div>
                   )}
                 </div>
-                <div data-test="guestInfoSearch" className="headerSearchItem">
+                <div data-testid="guestInfoSearch" data-test="guestInfoSearch" className="headerSearchItem">
                   <FontAwesomeIcon icon={faPerson} className="headerIcon" />
                   <span
                     onClick={() => setOpenOptions(!openOptions)}
                     className="headerSearchText"
+                    data-testid="guestInfoDropdown"
                   >
                     {`${options.adult} adult · 
                                 ${options.children} children · 
@@ -297,6 +300,7 @@ const Header = ({ type }) => {
                           <button
                             disabled={options.adult <= 1}
                             data-test="adultsDecrease"
+                            data-testid="decreaseAdult"
                             className="optionCounterButton"
                             onClick={() => handleOption("adult", "d")}
                           >
@@ -304,12 +308,14 @@ const Header = ({ type }) => {
                           </button>
                           <span
                             data-test="adultsNum"
+                            data-testid="adultCount"
                             className="optionCounterNumber"
                           >
                             {options.adult}
                           </span>
                           <button
                             data-test="adultsIncrease"
+                            data-testid="increaseAdult"
                             className="optionCounterButton"
                             onClick={() => handleOption("adult", "i")}
                           >
@@ -374,6 +380,7 @@ const Header = ({ type }) => {
                 </div>
                 <div className="headerSearchItem">
                   <button
+                    data-testid="searchTest"
                     data-test="searchTest"
                     className="headerBtn"
                     onClick={handleSearch}
