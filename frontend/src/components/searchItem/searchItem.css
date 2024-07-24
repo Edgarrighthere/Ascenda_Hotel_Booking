@@ -139,3 +139,7 @@
     border-radius: 5px;
     font-family: 'Lato';
 }
+
+.siCheckButton:hover {
+    background-color: orangered;
+}
