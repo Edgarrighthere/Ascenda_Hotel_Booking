@@ -101,7 +101,7 @@ useEffect(() => {
             <span className="room-plan">{breakfast}</span>
           </div>
         </div>
-        <div className={`cancel-policy ${cancelPolicy.includes('Non-refundable') ? 'non-refundable' : ''}`}>
+        <div data-test="cancelPolicy" className={`cancel-policy ${cancelPolicy.includes('Non-refundable') ? 'non-refundable' : ''}`}>
           {cancelPolicy}
         </div>
         {seeMore && all_room_info && (

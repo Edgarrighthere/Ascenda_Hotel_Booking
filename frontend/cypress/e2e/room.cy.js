@@ -51,5 +51,44 @@ describe('Room Component Test', () => {
         // Check that Categories component exists
         cy.get('[data-test="rooms"]').should('exist');
 
+        // Check that room images exist
+        cy.get('.room-image').should('exist');
+
+        // Check that room type section exist
+        cy.get('.room-type').should('exist');
+
+        // Check that pricing option exist
+        cy.get('.price-option').should('exist');
+
+        // Check that room plan section exist
+        cy.get('.room-plan').should('exist');
+
+        // Check that cancel policy section exist
+        cy.get('[data-test="cancelPolicy"]').should('exist');
+
+        // Initial height check before clicking "See More"
+        cy.get('.room').first().invoke('height').then((initialHeight) => {
+            // Click the "See More" button
+            cy.get('.room').first().within(() => {
+                cy.get('.see-more-button').click();
+            });
+
+            // Wait for the height to change
+            cy.wait(1000);
+
+            // Check that the container height increases
+            cy.get('.room').first().invoke('height').should('be.gt', initialHeight);
+
+            // Click the "See Less" button
+            cy.get('.room').first().within(() => {
+                cy.get('.see-more-button').click();
+            });
+
+            // Wait for the height to change back
+            cy.wait(1000);
+        });
+
+        // Check that select button exist
+        cy.get('.select-button').should('exist');
     });
 });
