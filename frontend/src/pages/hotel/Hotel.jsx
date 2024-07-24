@@ -148,6 +148,7 @@ const Hotel = () => {
             <FontAwesomeIcon
               icon={faCircleArrowLeft}
               className="arrow"
+              data-test="arrowLeft"
               onClick={() => handleMove('l')}
             />
             <div className="sliderWrapper">
@@ -155,11 +156,13 @@ const Hotel = () => {
                 src={photos[slideNumber].src}
                 alt=""
                 className="sliderImg"
+                data-test="sliderImgCurrent"
               />
             </div>
             <FontAwesomeIcon
               icon={faCircleArrowRight}
               className="arrow"
+              data-test="arrowRight"
               onClick={() => handleMove('r')}
             />
           </div>
@@ -198,7 +201,7 @@ const Hotel = () => {
           </div>
           <div className="hotelDetails">
             <div className="hotelDetailsTexts">
-              <h1 className="hotelTitle">Stay in the Heart of the City</h1>
+              <h1 data-test="hotelDescTitle" className="hotelTitle">Stay in the Heart of the City</h1>
               <p
                 className="hotelDescription"
                 dangerouslySetInnerHTML={{ __html: rawinfo.description }}
@@ -213,12 +216,12 @@ const Hotel = () => {
               <h2>
                 <b>${price * 9}</b> (9 nights)
               </h2>
-              <button>Reserve or Book Now!</button>
+              <button className="bookNow">Reserve or Book Now!</button>
             </div>
           </div>
         </div>
         {<div className="centeredContainer">
-          <div className="centeredContent">
+          <div data-test="trustYouScore" className="centeredContent">
             <TrustYouScore
               overall={rawinfo.trustyou?.score?.overall || 0}
               kaligo={rawinfo.trustyou?.score?.kaligo_overall || 0}
@@ -230,22 +233,22 @@ const Hotel = () => {
           </div>
         </div> }
         <div className="centeredContainer categoriesContainer">
-          <div className="centeredContent">
+          <div data-test="categories" className="centeredContent">
             <Categories categories={categories} />
           </div>
         </div>
         <div className="centeredContainer amenitiesContainer">
-          <div className="centeredContent">
+          <div data-test="amenities" className="centeredContent">
             <AmenitiesList amenities={amenities} />
           </div>
         </div>
         <div className="centeredContainer roomListContainer">
-          <div className="centeredContent">
+          <div data-test="rooms" className="centeredContent">
             <RoomList rooms={rooms} />
           </div>
         </div>
         <div className="centeredContainer mapContainer">
-          <div className="centeredContent">
+          <div data-test="maps" className="centeredContent">
             <Map lat={rawinfo.latitude} lng={rawinfo.longitude} />
           </div>
         </div>

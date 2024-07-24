@@ -168,11 +168,13 @@
     justify-content: center;
     flex-direction: column;
     margin-top: 20px; /* Adjust margin as needed */
+    
 }
   
 .centeredContent {
     width: 100%; /* Ensure content takes full width */
-    max-width: 1050px; /* Adjust max-width as per design */ 
+    max-width: 1050px; /* Adjust max-width as per design */
+    
 }
 
 .amenitiesContainer {
@@ -180,11 +182,12 @@
     justify-content: center; /* Center content horizontally */
     width: 100%; /* Ensure content takes full width */
     max-width: 1050px; /* Adjust max-width as per design */
+    
 }
   
 .amenitiesContainer .centeredContent {
     max-width: 79%; /* Adjust max-width as needed */
-    padding-left: 2%;
+    margin-left: auto; /* Push content to the right */
     width: 100%; /* Ensure content takes full width */
     max-width: 1050px; /* Adjust max-width as per design */
 }
@@ -193,7 +196,6 @@
     height: 110%;
     width: 65%; /* Ensure it takes full width */
     display: flex;
-    padding-right: 2%;
     justify-content: center; /* Center the RoomList horizontally */
     width: 100%; /* Ensure content takes full width */
     max-width: 1050px; /* Adjust max-width as per design */
@@ -201,8 +203,9 @@
 
 .mapContainer {
     display: flex;
-    align-self: center;
-    width: 55%;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 .roomList {
