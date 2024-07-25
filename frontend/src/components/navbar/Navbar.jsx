@@ -76,7 +76,7 @@ const Navbar = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.post("http://localhost:5000/logout");
+            await axios.post("http://localhost:4999/logout");
             setCurrentSalutation("Guest");
             setCurrentFirstName("");
             setCurrentLastName("");
@@ -115,7 +115,7 @@ const Navbar = () => {
                                 Log in
                             </div>
                             <div className="dropdownItem" onClick={() => handleOptionClick("/account")}>
-                                Account info.
+                                Account Info
                             </div>
                             <div className="dropdownItem" onClick={() => handleOptionClick("/bookings")}>
                                 Bookings

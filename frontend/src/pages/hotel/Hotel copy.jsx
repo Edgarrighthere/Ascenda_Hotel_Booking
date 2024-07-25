@@ -40,7 +40,7 @@ const Hotel = () => {
     const fetchRawInfo = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/room_details/${id}/${destinationId}/${checkin}/${checkout}/${guests}`, 
+          `http://localhost:4999/room_details/${id}/${destinationId}/${checkin}/${checkout}/${guests}`, 
           {
             headers: {
               'Content-type': 'application/x-www-form-urlencoded',

@@ -1,22 +1,14 @@
-const db=require("./db.js"); 
-const collectionName="Users";
+const mongoose = require('mongoose');
 
-const userSchema = new db.mongoose.Schema({
-    email: { type: String, unique: true, required: true },
-    password: { type: String, required: true },
-    salutation: { type: String, required: true },
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    countryCode: { type: String, required: true },
-    phoneNumber: { type: String, unique: true, required: true },
-    otp: String, 
-    otpExpiration: Date,
-    resetPasswordToken: String,
-    resetPasswordExpires: Date
+const userSchema = new mongoose.Schema({
+    salutation: String,
+    firstName: String,
+    lastName: String,
+    email: String,
+    phoneNumber: String,
+    // Other fields...
 });
 
+const User = mongoose.model('User', userSchema);
 
-const UsersCollection = db.mongoose.model(collectionName, userSchema);
-
-
-module.exports={UsersCollection, userSchema};
+module.exports = User;

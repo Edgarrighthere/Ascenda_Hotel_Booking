@@ -9,14 +9,10 @@ import axios from "axios";
 
 const Login = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
-    const [identifier, setIdentifier] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
-    const [salutation, setSalutation] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
 
     const navigate = useNavigate();
 
@@ -25,26 +21,31 @@ const Login = () => {
     };
 
     const handleLogin = async () => {
+        // Client-side validation
+        if (!email || !password) {
+            setError(<><FontAwesomeIcon icon={faCircleExclamation} /> Please fill in all fields.</>);
+            setSuccess(""); // Clear success message if there was any
+            return;
+        }
+
         try {
-            const response = await axios.post("http://localhost:5000/login", {
+            const response = await axios.post("http://localhost:4999/login", {
                 email,
                 password
             });
 
             if (response && response.data && response.status === 200) {
-                setSuccess(<> <FontAwesomeIcon icon={faCheck} /> {response.data.message} </>);
+                setSuccess(<><FontAwesomeIcon icon={faCheck} /> {response.data.message}</>);
                 setError(""); // Clear any previous errors
-                setSalutation(response.data.salutation); 
-                setFirstName(response.data.firstName); 
-                setLastName(response.data.lastName); 
+                const { salutation, firstName, lastName } = response.data;
                 setTimeout(() => {
-                    navigate("/inputOTP", { state: { email, salutation: response.data.salutation, firstName: response.data.firstName, lastName: response.data.lastName } }); // Pass email, salutation, firstName and lastName to inputOTP
+                    navigate("/inputOTP", { state: { email, salutation, firstName, lastName } });
                 }, 2000);
             } else {
                 setError("Invalid response from server."); // Handle unexpected response
             }
         } catch (err) {
-            setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> {err.response?.data?.message} </> || "An error occurred. Please try again.");
+            setError(<><FontAwesomeIcon icon={faCircleExclamation} /> {err.response?.data?.message || "An error occurred. Please try again."}</>);
             setSuccess(""); // Clear success message if there was any
         }
     };
@@ -86,7 +87,9 @@ const Login = () => {
                     {success && <div className="success">{success}</div>}
                 </div>
             </div>
-            <Footer />
+            <div className="footerContainer">
+                <Footer />
+            </div>
         </div>
     );
 };

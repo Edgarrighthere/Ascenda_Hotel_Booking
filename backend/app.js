@@ -13,26 +13,25 @@ const db = require("./models/db.js");
 process.on('SIGINT', db.mongoose.disconnect);
 process.on('SIGTERM', db.mongoose.disconnect);
 
-//Define routers
+// Define routers
 var registerRouter = require("./routes/register.js");
-var loginRouter = require("./routes/login.js")
+var loginRouter = require("./routes/login.js");
 var verifyOtpRouter = require("./routes/verify_otp.js");
 var resendOtpRouter = require("./routes/resend_otp.js");
 var forgotPasswordRouter = require("./routes/forgot_password.js");
 var resetPasswordRouter = require("./routes/reset_password.js");
 var checkoutRouter = require("./routes/checkout.js");
 var completePaymentRouter = require("./routes/complete_payment.js");
-
+var usersRouter = require('./routes/users'); // Changed from accountRouter to usersRouter
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var destinationSearchRoute = require('./routes/destination_search');
 var hotelSearchRoute = require('./routes/hotel_search');
-var roomDetails = require('./routes/room_details')
+var roomDetails = require('./routes/room_details');
 
 var app = express();
 
-// view engine setup
+// View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -46,12 +45,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
-    origin: 'http://localhost:3000', 
+    origin: 'http://localhost:3000',
     credentials: true,
 }));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/destination_search', destinationSearchRoute);
 app.use('/hotel_search', hotelSearchRoute);
 app.use('/room_details', roomDetails);
@@ -61,6 +59,9 @@ app.use("/register", registerRouter);
 
 // Login route
 app.use("/login", loginRouter);
+
+// Account route
+app.use('/account', usersRouter); // Updated route to use usersRouter
 
 // Verify OTP route
 app.use("/verify_otp", verifyOtpRouter);
@@ -82,28 +83,25 @@ app.post("/logout", (req, res) => {
 // Create Stripe Checkout Session route
 app.use("/checkout", checkoutRouter);
 
-// complete payment 
+// Complete payment route
 app.use("/complete", completePaymentRouter);
 
-// cancel payment -> return to hotels/:id page
+// Cancel payment -> return to hotels/:id page
 app.get('/cancel', (req, res) => {
     res.redirect('/hotels');
 });
 
-// catch 404 and forward to error handler
+// Catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+    next(createError(404));
 });
- 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+// Error handler
+app.use(function(err, req, res, next) {
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 module.exports = app;

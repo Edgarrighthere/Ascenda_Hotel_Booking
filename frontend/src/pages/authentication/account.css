@@ -1,0 +1,73 @@
+/* Ensure the entire page has some background and padding */
+body {
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.accountContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px; /* Increase padding for better spacing */
+}
+
+.accountContent {
+    width: 100%;
+    max-width: 1000px; /* Increase max-width for a larger container */
+    background-color: #fff;
+    padding: 40px; /* Increase padding inside the container */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Slightly larger shadow for emphasis */
+    border-radius: 10px; /* Slightly larger border radius */
+    max-height: 600px
+}
+
+.accountTitle {
+    font-size: 28px; /* Increase font size */
+    font-weight: bold;
+    margin-bottom: 30px; /* Increase margin for better spacing */
+    text-align: center;
+}
+
+.accountDetails {
+    margin-top: 30px; /* Increase top margin */
+}
+
+.accountDetail {
+    margin-bottom: 15px; /* Increase bottom margin */
+    font-size: 20px; /* Increase font size */
+    line-height: 1.5;
+}
+
+.error {
+    color: red;
+    margin-bottom: 20px;
+    font-size: 18px; /* Increase font size */
+    text-align: center;
+}
+
+.footerContainer {
+    margin-top: 40px; /* Increase top margin */
+    width: 100%;
+    text-align: center;
+}
+
+.accountDetail {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.deleteAccountButton {
+    background-color: #e74c3c; /* Red color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.deleteAccountButton:hover {
+    background-color: #c0392b; /* Darker red */
+}

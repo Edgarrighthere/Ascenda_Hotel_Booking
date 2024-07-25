@@ -76,7 +76,7 @@ const List = () => {
 
     useEffect(() => {
         // Fetch destinations from JSON file via backend
-        fetch(`http://localhost:5000/destination_search/`, {
+        fetch(`http://localhost:4999/destination_search/`, {
             headers: {
                 "Content-type": "application/x-www-form-urlencoded"
             }

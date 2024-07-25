@@ -57,7 +57,7 @@ const InputOTP = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/verify_otp', {
+            const response = await fetch('http://localhost:4999/verify_otp', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, otp: otpString })
@@ -82,7 +82,7 @@ const InputOTP = () => {
 
     const handleResend = async () => {
         try {
-            const response = await fetch('http://localhost:5000/resend_otp', {
+            const response = await fetch('http://localhost:4999/resend_otp', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email })

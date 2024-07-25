@@ -98,3 +98,10 @@
     font-family: 'Lato';
     font-size: medium;
 }
+
+.footerContainer {
+    display: flex;
+    justify-content: center; /* Center the footer horizontally */
+    padding: 10px 0;
+    background-color: #f0f0f0; /* Optional: match the background color of the page */
+}
