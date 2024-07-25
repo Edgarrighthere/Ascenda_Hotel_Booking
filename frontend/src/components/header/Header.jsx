@@ -385,7 +385,7 @@ const Header = ({ type }) => {
             )}
             {show && (
               <div className="alert">
-                <Alert show={show} variant="success">
+                <Alert show={show}>
                   <Alert.Heading>Destination not entered</Alert.Heading>
                   <p>Please fill up the options below :)</p>
                   <hr />

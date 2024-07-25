@@ -112,7 +112,7 @@ describe('Hotel component', () => {
     );
 
      waitFor(() => {
-      const loadingText = screen.getByText(/loading.../i);
+      const loadingText = screen.getByAltText(/loading.../i);
       expect(loadingText).toBeInTheDocument();
     });
   });
@@ -215,7 +215,7 @@ describe('Hotel component', () => {
       </BrowserRouter>
     );
 
-    waitFor(() => {
+     waitFor(() => {
       // Check hotel name, address, and description
       expect(screen.getByText('Dynamic Hotel')).toBeInTheDocument();
       expect(screen.getByText('456 Dynamic St')).toBeInTheDocument();
