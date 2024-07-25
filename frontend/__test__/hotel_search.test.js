@@ -118,7 +118,7 @@ describe('Frontend Hotel Search Unit Test', () => {
 
         // Wait for the alert to appear
         await waitFor(() => {
-            const alertHeading = screen.getByText('Destination not entered');
+            const alertHeading = screen.getByText('Destination not found: Please fill up the options below 😊');
             expect(alertHeading).toBeInTheDocument();
         });
     });
