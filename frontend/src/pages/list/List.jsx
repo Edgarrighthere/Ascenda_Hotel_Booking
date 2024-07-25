@@ -308,10 +308,10 @@ const List = () => {
             <div className="listContainer">
                 <div className="listWrapper">
                     <div className="searchAndMapContiner">
-                        <div data-test="maps" className="mapContainer">
+                        <div data-testid="maps" data-test="maps" className="mapContainer">
                             {lat && lng && <Map lat={lat} lng={lng} />}
                         </div>
-                        <div data-test="filterPanel" className="listSearch">
+                        <div data-testid="filterPanel" data-test="filterPanel" className="listSearch">
                             <h1 data-test="listTitle" className="listTitle">Search</h1>
                             <div data-test="listItem1" className="listItem">
                                 <label>Destination</label>
