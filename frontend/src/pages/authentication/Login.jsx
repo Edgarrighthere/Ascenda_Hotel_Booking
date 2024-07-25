@@ -86,7 +86,7 @@ const Login = () => {
                     {success && <div className="success">{success}</div>}
                 </div>
             </div>
-            <Footer />
+            <Footer className/>
         </div>
     );
 };
