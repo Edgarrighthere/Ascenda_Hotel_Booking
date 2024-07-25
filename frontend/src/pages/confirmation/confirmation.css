@@ -1,0 +1,19 @@
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  .heading {
+    text-align: center;  /* center the text */
+    margin-bottom: 20px;
+  }
+  
+  .paragraph {
+    margin-bottom: 10px;
+  }
+  
