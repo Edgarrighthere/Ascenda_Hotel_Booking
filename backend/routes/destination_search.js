@@ -16,7 +16,8 @@ async function getDestinationId(destName) {
 /* GET destination ID from name */
 router.get("/:destination", async function (req, res, next) {
     const destName = req.params.destination
-    const destinationId = getDestinationId(destName)
+    const destinationId = await getDestinationId(destName)
+    console.log(destinationId)
 
     if (destinationId != null) {
         res.set("Access-Control-Allow-Origin", "http://localhost:3000");

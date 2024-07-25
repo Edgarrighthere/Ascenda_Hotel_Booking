@@ -23,7 +23,9 @@ describe("Backend Destination Search Integration Test", () => {
                 "Content-type": "application/x-www-form-urlencoded"
             }
         })
+        //console.log(res)
         const text = await res.text();
+        //console.log(text)
         expect(text).toBe(expectedId)
     }, 10000)
 
@@ -35,6 +37,7 @@ describe("Backend Destination Search Integration Test", () => {
             }
         })
         const text = await res.text();
+        //console.log(text)
         const json = JSON.parse(text);
 
         expect(res.status).toEqual(400);

@@ -85,12 +85,14 @@ router.get("/:id/:checkin/:checkout/:guests", async function (req, res, next) {
     } else if (guests == 0 || guests == null) {
         return res.status(400).json({message: "Invalid Input: There must be at least 1 guest."})
     } else {
-        const price_json = getPricing(destinationId, checkin, checkout, guests)
+        const price_json = await getPricing(destinationId, checkin, checkout, guests)
+
+        //console.log(price_json["hotels"])
         
         if (price_json["hotels"].length > 0) {
-            const priceList = mapPriceList(price_json)
-            const hotel_json = getListing(destinationId)
-            const hotelListings = mapHotelList(hotel_json, priceList)
+            const priceList = await mapPriceList(price_json)
+            const hotel_json = await getListing(destinationId)
+            const hotelListings = await mapHotelList(hotel_json, priceList)
             res.send(`${JSON.stringify(hotelListings["hotels"])}`); // return a list of hotels
         } else {
             //console.log(price_json["hotels"])

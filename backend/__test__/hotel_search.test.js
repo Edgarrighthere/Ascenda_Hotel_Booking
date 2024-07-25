@@ -165,7 +165,7 @@ describe("Backend Hotel Search API Integration Test", () => {
 
         expect(res.status).toEqual(200);
         expect(hotels_notEmpty).toEqual(true); // hotels should not be empty
-    })
+    }, 10000)
 
     test("BACKEND_HOTEL_SEARCH_API_INT_2: Test hotel search route with invalid inputs (destination id does not exist)", async() => {
         // even if completed is true, hotels should be empty
