@@ -438,6 +438,7 @@ const List = () => {
                                     ))}
                                 </div>
                             </div>
+                            {loading && <button className="listSearchButton">Loading...</button>}
                             <button data-test="filterPanelSearch" className="listSearchButton" onClick={handleSearch}>Search</button>
                         </div>
                     </div>
