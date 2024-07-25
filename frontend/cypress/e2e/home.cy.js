@@ -128,22 +128,15 @@ describe('Home Page Test', () => {
   // Test that clicking on dateSearch launches date picker and selects date range
   it('Displays the date picker and selects a date range', () => {
     const startDate = new Date();
-    const endDate = addDays(new Date(), 5);
+    const endDate = addDays(new Date(), 3);
 
     cy.log(`Expected start date: ${format(startDate, "dd/MM/yyyy")}`);
     cy.log(`Expected end date: ${format(endDate, "dd/MM/yyyy")}`);
 
     cy.get('[data-test="dateSearch"] .headerSearchText').click();
     
-    // Select the next day as the start date
-    cy.get('.rdrDayNumber span')
-      .contains(startDate.getDate())
-      .click({ force: true });
-
-    // Select 5 days later as the end date
-    cy.get('.rdrDayNumber span')
-      .contains(endDate.getDate())
-      .click({ force: true });
+    cy.get('.rdrDayNumber span').contains(startDate.getDate()).click({ force: true });
+    cy.get('.rdrDayNumber span').contains(endDate.getDate()).click({ force: true });
 
     cy.get('body').click(0, 0);
 
@@ -235,7 +228,7 @@ describe('Home Page Test', () => {
     });
 
     const startDate = new Date();
-    const endDate = addDays(new Date(), 5);
+    const endDate = addDays(new Date(), 3);
 
     cy.get('[data-test="dateSearch"] .headerSearchText').click();
     cy.get('.rdrDayNumber span').contains(startDate.getDate()).click({ force: true });
