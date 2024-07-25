@@ -22,6 +22,8 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 import Header from '../../components/header/Header';
 import Navbar from '../../components/navbar/Navbar';
+import MailList from '../../components/mailList/MailList';
+import Footer from '../../components/footer/Footer';
 import HotelSearch from '../../controllers/HotelSearch';
 import HotelFilter from '../../controllers/HotelFilter';
 import Paging from '../../controllers/Paging';
@@ -314,176 +316,178 @@ const List = () => {
         <div>
             <Navbar />
             <Header type="list" />
-            <div className="listContainer">
-                <div className="listWrapper">
-                    <div className="searchAndMapContiner">
-                        <div data-testid="maps" data-test="maps" className="mapContainer">
-                            {lat && lng && <Map lat={lat} lng={lng} />}
-                        </div>
-                        <div data-testid="filterPanel" data-test="filterPanel" className="listSearch">
-                            <h1 data-test="listTitle" className="listTitle">Search</h1>
-                            <div data-test="listItem1" className="listItem">
-                                <label>Destination</label>
-                                <Autosuggest
-                                    suggestions={suggestions}
-                                    onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-                                    onSuggestionsClearRequested={onSuggestionsClearRequested}
-                                    getSuggestionValue={suggestion => suggestion.term}
-                                    renderSuggestion={renderSuggestion}
-                                    inputProps={{
-                                        placeholder: destinationPrompt,
-                                        value: destination,
-                                        onChange: onChange,
-                                        className: "listSearchInput"
-                                    }}
-                                    theme={{
-                                        suggestionsContainer: "autosuggestSuggestionsContainer",
-                                        suggestionsList: "autosuggestSuggestions",
-                                        suggestion: "autosuggestSuggestion",
-                                        suggestionHighlighted: "autosuggestSuggestion--highlighted",
-                                        container: "autosuggestContainer"
-                                    }}
-                                />
+            <div className="mainContainer">
+                <div className="listContainer">
+                    <div className="listWrapper">
+                        <div className="searchAndMapContiner">
+                            <div data-testid="maps" data-test="maps" className="mapContainer">
+                                {lat && lng && <Map lat={lat} lng={lng} />}
                             </div>
-                            <div data-test="listItem2" className="listItem">
-                                <label>Check-in Date</label>
-                                <span className="listDatepicker" onClick={() => setOpenDate(!openDate)}>
-                                    {`${format(date[0].startDate, "dd/MM/yyyy")} to 
-                                    ${format(date[0].endDate, "dd/MM/yyyy")}`}
-                                </span>
-                                {openDate && (
-                                    <div className="datePickerOverlay">
-                                        <DateRange
-                                            onChange={(item)=> {
-                                                setDate([item.selection]);
-                                                setDateChanged(true);
-                                            }}
-                                            minDate={new Date()}
-                                            ranges={date}
-                                        />
+                            <div data-testid="filterPanel" data-test="filterPanel" className="listSearch">
+                                <h1 data-test="listTitle" className="listTitle">Search</h1>
+                                <div data-test="listItem1" className="listItem">
+                                    <label>Destination</label>
+                                    <Autosuggest
+                                        suggestions={suggestions}
+                                        onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                                        onSuggestionsClearRequested={onSuggestionsClearRequested}
+                                        getSuggestionValue={suggestion => suggestion.term}
+                                        renderSuggestion={renderSuggestion}
+                                        inputProps={{
+                                            placeholder: destinationPrompt,
+                                            value: destination,
+                                            onChange: onChange,
+                                            className: "listSearchInput"
+                                        }}
+                                        theme={{
+                                            suggestionsContainer: "autosuggestSuggestionsContainer",
+                                            suggestionsList: "autosuggestSuggestions",
+                                            suggestion: "autosuggestSuggestion",
+                                            suggestionHighlighted: "autosuggestSuggestion--highlighted",
+                                            container: "autosuggestContainer"
+                                        }}
+                                    />
+                                </div>
+                                <div data-test="listItem2" className="listItem">
+                                    <label>Check-in Date</label>
+                                    <span className="listDatepicker" onClick={() => setOpenDate(!openDate)}>
+                                        {`${format(date[0].startDate, "dd/MM/yyyy")} to 
+                                        ${format(date[0].endDate, "dd/MM/yyyy")}`}
+                                    </span>
+                                    {openDate && (
+                                        <div className="datePickerOverlay">
+                                            <DateRange
+                                                onChange={(item)=> {
+                                                    setDate([item.selection]);
+                                                    setDateChanged(true);
+                                                }}
+                                                minDate={new Date()}
+                                                ranges={date}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                                <div data-test="listItem3" className="listItem">
+                                    <label>Guest Information</label>
+                                    <div className="listOptions">
+                                        <div className="listOptionItem">
+                                            <span className="listOptionText">
+                                                Adults 
+                                            </span>
+                                            <div className="optionCounter">
+                                                <button data-test="adultsDecrease" disabled={options.adult <= 1} onClick={() => decrementOption('adult')} className="optionCounterButton">-</button>
+                                                <span data-test="adultsNum" className="optionCounterNumber">{options.adult}</span>
+                                                <button data-test="adultsIncrease" onClick={() => incrementOption('adult')} className="optionCounterButton">+</button>
+                                            </div>
+                                        </div>
+                                        <div className="listOptionItem">
+                                            <span className="listOptionText">
+                                                Children 
+                                            </span>
+                                            <div className="optionCounter">
+                                                <button data-test="childrenDecrease" disabled={options.children <= 0} onClick={() => decrementOption('children')} className="optionCounterButton">-</button>
+                                                <span data-test="childrenNum" className="optionCounterNumber">{options.children}</span>
+                                                <button data-test="childrenIncrease" onClick={() => incrementOption('children')} className="optionCounterButton">+</button>
+                                            </div>
+                                        </div>
+                                        <div className="listOptionItem">
+                                            <span className="listOptionText">
+                                                Rooms 
+                                            </span>
+                                            <div className="optionCounter">
+                                                <button data-test="roomsDecrease" disabled={options.rooms <= 1} onClick={() => decrementOption('rooms')} className="optionCounterButton">-</button>
+                                                <span data-test="roomsNum" className="optionCounterNumber">{options.rooms}</span>
+                                                <button data-test="roomsIncrease" onClick={() => incrementOption('rooms')} className="optionCounterButton">+</button>
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
+                                <div data-test="listItem4" className="listItem">
+                                    <label>Price per night</label>
+                                    <RangeSlider
+                                        min={priceRange[0]}
+                                        max={priceRange[1]}
+                                        step={10}
+                                        value={newPriceRange}
+                                        onInput={handlePriceRangeChange}
+                                        className="rangeSlider"
+                                        data-test="priceRangeSlider"
+                                    />
+                                    <div className="priceRangeValues">
+                                        <div className="priceRangeMin">
+                                            <label>MIN</label>
+                                            <span>S${newPriceRange[0]}</span>
+                                        </div>
+                                        <div className="priceRangeMax">
+                                            <label>MAX</label>
+                                            <span>S${newPriceRange[1]}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div data-test="listItem5" className="listItem">
+                                    <label>Hotel Rating</label>
+                                    <div className="listStarRatings">
+                                        {Object.keys(starRatings).map(star => (
+                                            <div key={star} className="listStarRatingItem">
+                                                <input
+                                                    type="checkbox"
+                                                    id={`star-${star}`}
+                                                    onChange={() => handleStarRatingChange(star)}
+                                                />
+                                                <label htmlFor={`star-${star}`}>
+                                                    {renderStars(star)}
+                                                </label>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                {loading && <button className="listSearchButton">Loading...</button>}
+                                <button data-test="filterPanelSearch" className="listSearchButton" onClick={handleSearch}>Search</button>
+                            </div>
+                        </div>
+                        <div className="resultContainer">
+                            <span>{hotelListings.length} hotels found</span>
+                            <div className="sortContainer">
+                                <FormControl className="sortButton">
+                                    <InputLabel>Sort by:</InputLabel>
+                                    <Select
+                                        label="Sort by:"
+                                        value={sortBy}
+                                        onChange={handleSortingRequest}
+                                    >
+                                        <MenuItem value={0}>---</MenuItem>
+                                        <MenuItem value={1}>Price (lowest first)</MenuItem>
+                                        <MenuItem value={2}>Rating (highest first)</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </div>
+                            <div className="listResult">
+                                {paginatedListings.map(hotel =>
+                                    <SearchItem 
+                                    destinationId = {destinationId}
+                                    hotel={hotel} 
+                                    destination={destination}
+                                    checkin={checkin}
+                                    checkout={checkout}
+                                    guests={guests}
+                                    />
                                 )}
                             </div>
-                            <div data-test="listItem3" className="listItem">
-                                <label>Guest Information</label>
-                                <div className="listOptions">
-                                    <div className="listOptionItem">
-                                        <span className="listOptionText">
-                                            Adults 
-                                        </span>
-                                        <div className="optionCounter">
-                                            <button data-test="adultsDecrease" disabled={options.adult <= 1} onClick={() => decrementOption('adult')} className="optionCounterButton">-</button>
-                                            <span data-test="adultsNum" className="optionCounterNumber">{options.adult}</span>
-                                            <button data-test="adultsIncrease" onClick={() => incrementOption('adult')} className="optionCounterButton">+</button>
-                                        </div>
-                                    </div>
-                                    <div className="listOptionItem">
-                                        <span className="listOptionText">
-                                            Children 
-                                        </span>
-                                        <div className="optionCounter">
-                                            <button data-test="childrenDecrease" disabled={options.children <= 0} onClick={() => decrementOption('children')} className="optionCounterButton">-</button>
-                                            <span data-test="childrenNum" className="optionCounterNumber">{options.children}</span>
-                                            <button data-test="childrenIncrease" onClick={() => incrementOption('children')} className="optionCounterButton">+</button>
-                                        </div>
-                                    </div>
-                                    <div className="listOptionItem">
-                                        <span className="listOptionText">
-                                            Rooms 
-                                        </span>
-                                        <div className="optionCounter">
-                                            <button data-test="roomsDecrease" disabled={options.rooms <= 1} onClick={() => decrementOption('rooms')} className="optionCounterButton">-</button>
-                                            <span data-test="roomsNum" className="optionCounterNumber">{options.rooms}</span>
-                                            <button data-test="roomsIncrease" onClick={() => incrementOption('rooms')} className="optionCounterButton">+</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div data-test="listItem4" className="listItem">
-                                <label>Price per night</label>
-                                <RangeSlider
-                                    min={priceRange[0]}
-                                    max={priceRange[1]}
-                                    step={10}
-                                    value={newPriceRange}
-                                    onInput={handlePriceRangeChange}
-                                    className="rangeSlider"
-                                    data-test="priceRangeSlider"
-                                />
-                                <div className="priceRangeValues">
-                                    <div className="priceRangeMin">
-                                        <label>MIN</label>
-                                        <span>S${newPriceRange[0]}</span>
-                                    </div>
-                                    <div className="priceRangeMax">
-                                        <label>MAX</label>
-                                        <span>S${newPriceRange[1]}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div data-test="listItem5" className="listItem">
-                                <label>Hotel Rating</label>
-                                <div className="listStarRatings">
-                                    {Object.keys(starRatings).map(star => (
-                                        <div key={star} className="listStarRatingItem">
-                                            <input
-                                                type="checkbox"
-                                                id={`star-${star}`}
-                                                onChange={() => handleStarRatingChange(star)}
-                                            />
-                                            <label htmlFor={`star-${star}`}>
-                                                {renderStars(star)}
-                                            </label>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            {loading && <button className="listSearchButton">Loading...</button>}
-                            <button data-test="filterPanelSearch" className="listSearchButton" onClick={handleSearch}>Search</button>
-                        </div>
-                    </div>
-                    <div className="resultContainer">
-                        <span>{hotelListings.length} hotels found</span>
-                        <div className="sortContainer">
-                            <FormControl className="sortButton">
-                                <InputLabel>Sort by:</InputLabel>
-                                <Select
-                                    label="Sort by:"
-                                    value={sortBy}
-                                    onChange={handleSortingRequest}
-                                >
-                                    <MenuItem value={0}>---</MenuItem>
-                                    <MenuItem value={1}>Price (lowest first)</MenuItem>
-                                    <MenuItem value={2}>Rating (highest first)</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </div>
-                        <div className="listResult">
-                            {paginatedListings.map(hotel =>
-                                <SearchItem 
-                                destinationId = {destinationId}
-                                hotel={hotel} 
-                                destination={destination}
-                                checkin={checkin}
-                                checkout={checkout}
-                                guests={guests}
-                                />
-
-
-                            )}
                         </div>
                     </div>
                 </div>
+                <div className="paginationBar">
+                    <Pagination 
+                        count = {totalPages}
+                        shape="rounded"
+                        page = {currentPage}
+                        onChange = {handlePageChange}
+                    />
+                </div>
+                <MailList />
+                <Footer />
+                <ScrollToTop />
             </div>
-            <div className="paginationBar">
-                <Pagination 
-                    count = {totalPages}
-                    shape="rounded"
-                    page = {currentPage}
-                    onChange = {handlePageChange}
-                />
-            </div>
-            <ScrollToTop />
         </div>
     );
 };
