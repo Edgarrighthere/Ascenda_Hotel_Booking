@@ -9,6 +9,7 @@ import {
   faPerson,
 } from "@fortawesome/free-solid-svg-icons";
 import "./header.css";
+import React from "react";
 import { DateRange } from "react-date-range";
 import { useState, useEffect, useRef } from "react";
 import Autosuggest from "react-autosuggest";
@@ -17,13 +18,15 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { format, addDays } from "date-fns";
 import { useNavigate } from "react-router-dom";
-import HotelSearch from "../../interfaces/HotelSearch.js";
-import Paging from "../../interfaces/Paging.js";
+import HotelSearch from "../../controllers/HotelSearch.js";
+import Paging from "../../controllers/Paging.js";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Header = ({ type }) => {
   const [show, setShow] = useState(false);
+  const [alertText, setAlertText] = useState("");
   const [destination, setDestination] = useState(""); // what you enter into search bar
   const [openDate, setOpenDate] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
@@ -78,52 +81,54 @@ const Header = ({ type }) => {
 
   async function handleSearch() {
     if (destination === "") {
+      setAlertText("Destination not found: Please fill up the options below 😊");
       setShow(true);
       setDestinationPrompt("Please fill this up");
     } else {
       setLoading(true);
       const searchResults = await HotelSearch(destination, date, options);
-      const params = searchResults.searchParameters;
-      const hotelListings = searchResults.listings;
-      const paginatedListings = await Paging(hotelListings, 1);
-      const priceRange = searchResults.range;
-      const currentPage = 1;
-      const totalPages = searchResults.pageCount;
+      const success = searchResults.success;
 
-      const originalListings = hotelListings;
-      const originalPriceRange = priceRange;
-      const originalTotalPages = totalPages;
-      const filteredListings = hotelListings;
-      const sortedListings = hotelListings;
+      console.log(success)
 
-      const navigateURL =
-        "/hotels/" +
-        params.id +
-        "/" +
-        params.checkin +
-        "/" +
-        params.checkout +
-        "/" +
-        params.guests +
-        "/1";
+      if (success == true) {
+        const params = searchResults.searchParameters;
+        const hotelListings = searchResults.listings;
+        const paginatedListings = await Paging(hotelListings, 1);
+        const priceRange = searchResults.range;
+        const currentPage = 1;
+        const totalPages = searchResults.pageCount;
 
-      navigate(navigateURL, {
-        state: {
-          destination,
-          date,
-          options,
-          hotelListings,
-          paginatedListings,
-          priceRange,
-          currentPage,
-          totalPages,
-          originalListings,
-          originalPriceRange,
-          originalTotalPages,
-          filteredListings,
-          sortedListings,
-        },
-      });
+        const originalListings = hotelListings;
+        const originalPriceRange = priceRange;
+        const originalTotalPages = totalPages;
+        const filteredListings = hotelListings;
+        const sortedListings = hotelListings;
+
+        const navigateURL = "/hotels/" + params.id + "/" + params.checkin + "/" + params.checkout + "/" + params.guests + "/1";
+
+        navigate(navigateURL, {
+          state: {
+            destination,
+            date,
+            options,
+            hotelListings,
+            paginatedListings,
+            priceRange,
+            currentPage,
+            totalPages,
+            originalListings,
+            originalPriceRange,
+            originalTotalPages,
+            filteredListings,
+            sortedListings,
+          },
+        });
+      } else {
+        setAlertText("No listings found.");
+        setShow(true);
+        setLoading(false);
+      }
     }
   }
 
@@ -391,22 +396,12 @@ const Header = ({ type }) => {
               </div>
             )}
             {show && (
-              <div className="alert">
-                <Alert show={show} variant="success">
-                  <Alert.Heading>Destination not entered</Alert.Heading>
-                  <p>Please fill up the options below :)</p>
-                  <hr />
-                  <div>
-                    <Button
-                      onClick={() => setShow(false)}
-                      variant="outline-success"
-                    >
-                      Close
-                    </Button>
+                <Alert show={show}>
+                  <p className="alertHeading">{alertText}</p>
+                  <div className="alertButton">
+                    <Button onClick={() => setShow(false)}>Close</Button>
                   </div>
-                </Alert>
-              </div>
-            )}
+                </Alert>)}
           </>
         )}
       </div>

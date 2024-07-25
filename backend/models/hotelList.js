@@ -7,7 +7,7 @@ class hotelList {
         this.hotels = hotels // list
     }
 
-    addHotel(id, image_prefix, image_count, image_suffix, name, address, distance, description, categories, amenities, amenities_rating, score, rating, starRating, priceListings) {
+    addHotel(id, image_prefix, image_count, image_suffix, name, address, distance, description, categories, amenities, amenities_rating, score, rating, priceListings) {
         var current_list = this.hotels
         var price = null
         var searchRank = null
@@ -22,6 +22,7 @@ class hotelList {
         if (price != null) {
             // Calculate distance
             const new_distance = (distance / 1000).toFixed(2);
+            rating = parseFloat(rating).toFixed(1);
 
             // Process categories object into list
             var categories_list = []
@@ -51,6 +52,8 @@ class hotelList {
             // process score
             delete score.overall
             delete score.kaligo_overall
+
+            const starRating = Math.floor(rating)
 
             current_list.push(new Hotel(id, image_prefix, image_count, image_suffix, name, address, new_distance, description, categories_list, amenities_list, amenities_rating, score, rating, starRating, searchRank, price))
         }

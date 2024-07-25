@@ -33,6 +33,7 @@ function filterByRating(starRatings, hotelListings) {
 
 async function HotelFilter(hotelListings, priceRange, filterPrice, starRatings, filterRating) {
     var filtered_hotels = []
+    var filteredPriceRange = []
 
     if (filterPrice === true && filterRating === true) {
         var filtered_price = filterByPrice(priceRange, hotelListings)
@@ -48,14 +49,27 @@ async function HotelFilter(hotelListings, priceRange, filterPrice, starRatings, 
     const filtered_count = filtered_hotels.length
     const filtered_pages = Math.ceil(filtered_count/10)
 
-    var listings = filtered_hotels
-    var priceArray = []
-    listings.filter(obj => {
-        priceArray.push(obj.price)
-    })
-    const minPrice = Math.min(...priceArray)
-    const maxPrice = Math.max(...priceArray)
-    const filteredPriceRange = [minPrice, maxPrice]
+    console.log(filtered_hotels.length)
+
+    if (filtered_count == 0) {
+        filteredPriceRange = [0.00, 0.00]
+
+    } else {
+        var listings = filtered_hotels
+        var priceArray = []
+        listings.filter(obj => {
+            priceArray.push(obj.price)
+        })
+
+        var minPrice = Math.min(...priceArray)
+        var maxPrice = Math.max(...priceArray)
+        var roundedMinPrice = Math.round(minPrice/10)*10
+        var roundedMaxPrice = Math.round(maxPrice/10)*10
+
+        console.log(minPrice, maxPrice, roundedMinPrice, roundedMaxPrice)
+
+        filteredPriceRange = [roundedMinPrice, roundedMaxPrice]
+    }
     
     return {
         hotels: filtered_hotels,

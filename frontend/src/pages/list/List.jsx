@@ -22,10 +22,10 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 import Header from '../../components/header/Header';
 import Navbar from '../../components/navbar/Navbar';
-import HotelSearch from '../../interfaces/HotelSearch';
-import HotelFilter from '../../interfaces/HotelFilter';
-import Paging from '../../interfaces/Paging';
-import HotelSorting from '../../interfaces/HotelSorting';
+import HotelSearch from '../../controllers/HotelSearch';
+import HotelFilter from '../../controllers/HotelFilter';
+import Paging from '../../controllers/Paging';
+import HotelSorting from '../../controllers/HotelSorting';
 import ScrollToTop from '../../components/ScrollToTop';
 
 const List = () => {
@@ -38,6 +38,8 @@ const List = () => {
     const [lng, setLng] = useState(null);
     const [suggestions, setSuggestions] = useState([]);
     const [destinations, setDestinations] = useState([]);
+    const [destinationPrompt, setDestinationPrompt] =useState('Where are you going?');
+    const [loading, setLoading] = useState(false);
     
     const [starRatings, setStarRatings] = useState([false, false, false, false, false])
     const [priceRange, setPriceRange] = useState(location.state.priceRange);
@@ -219,31 +221,38 @@ const List = () => {
     async function handleSearch() {
         // New search request
         if (destinationChanged || dateChanged || optionsChanged) {
-            const searchResults = await HotelSearch(destination, date, options)
-            const newParams = searchResults.searchParameters
-            const newHotelListings = searchResults.listings
-            const range = searchResults.range
-            const newTotalPages = searchResults.pageCount
-            const newPageListings = await Paging(newHotelListings, currentPage)
+            if(destination === ""){
+                setDestinationPrompt("Please fill this up")
+            }
+            else{
+                setLoading(true);
+                const searchResults = await HotelSearch(destination, date, options)
+                const newParams = searchResults.searchParameters
+                const newHotelListings = searchResults.listings
+                const range = searchResults.range
+                const newTotalPages = searchResults.pageCount
+                const newPageListings = await Paging(newHotelListings, currentPage)
 
-            setHotelListings(newHotelListings)
-            setPaginatedListings(newPageListings)
-            setOriginalListings(newHotelListings)
-            setFilteredListings(newHotelListings)
-            setSortedListings(newHotelListings)
-            setPriceRange(range)
-            setNewPriceRange(range)
-            setTotalPages(newTotalPages)
-            setSortBy(0)
+                setHotelListings(newHotelListings)
+                setPaginatedListings(newPageListings)
+                setOriginalListings(newHotelListings)
+                setFilteredListings(newHotelListings)
+                setSortedListings(newHotelListings)
+                setPriceRange(range)
+                setNewPriceRange(range)
+                setTotalPages(newTotalPages)
+                setSortBy(0)
 
-            setDestinationChanged(false);
-            setDateChanged(false);
-            setOptionsChanged(false);
-            setPriceRangeChanged(false);
-            setRatingsChanged(false);
+                setDestinationChanged(false);
+                setDateChanged(false);
+                setOptionsChanged(false);
+                setPriceRangeChanged(false);
+                setRatingsChanged(false);
+                setLoading(false);
 
-            const navigateURL = "/hotels/" + newParams.id + "/" + newParams.checkin + "/" + newParams.checkout + "/" + newParams.guests + "/1"
-            navigate(navigateURL, {state: {destination, date, options, hotelListings, paginatedListings, priceRange, currentPage, totalPages, originalListings, originalPriceRange, originalTotalPages, filteredListings, sortedListings}});
+                const navigateURL = "/hotels/" + newParams.id + "/" + newParams.checkin + "/" + newParams.checkout + "/" + newParams.guests + "/1"
+                navigate(navigateURL, {state: {destination, date, options, hotelListings, paginatedListings, priceRange, currentPage, totalPages, originalListings, originalPriceRange, originalTotalPages, filteredListings, sortedListings}});
+            }
         }
 
         // Filtering for price & rating
@@ -322,7 +331,7 @@ const List = () => {
                                     getSuggestionValue={suggestion => suggestion.term}
                                     renderSuggestion={renderSuggestion}
                                     inputProps={{
-                                        placeholder: 'Enter destination',
+                                        placeholder: destinationPrompt,
                                         value: destination,
                                         onChange: onChange,
                                         className: "listSearchInput"

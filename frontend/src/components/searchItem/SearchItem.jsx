@@ -11,7 +11,6 @@ const SearchItem = ({destinationId,hotel,destination, checkin, checkout, guests}
 
     useEffect(() => {
         convertRatings()
-        convertScores()
     }, [])
 
     function convertRatings() {
@@ -28,17 +27,6 @@ const SearchItem = ({destinationId,hotel,destination, checkin, checkout, guests}
         } else if (hotel.rating < 2.5) {
             setTextRating("Subpar")
         }
-    }
-
-    function convertScores() {
-        var newScores = []
-        for (let x of Object.keys(hotel.score)) {
-            if (hotel.score[x] != null) {
-                const score_category = x.charAt(0).toUpperCase() + x.slice(1);
-                newScores.push({"name": score_category, "score": hotel.score[x]})
-            }
-        }
-        setHotelScores(newScores)
     }
 
     const handleSeeAvailability = () => {
@@ -59,9 +47,8 @@ const SearchItem = ({destinationId,hotel,destination, checkin, checkout, guests}
                 />
             </div>
             <div className="siDescription">
-                <h1 className="siTitle">{hotel.name} ({hotel.id})</h1>
+                <h1 className="siTitle">{hotel.name}</h1>
                 <span className="siAddress">{hotel.address} <em>({hotel.distance}km from centre)</em></span>
-                <span>put hotel room details here</span>
                 {/* <span className="siTaxiOp">Free Airport Transfer</span>
                 <span className="siSubtitle">Suite with Air conditioning</span>
                 <span className="siFeatures">1 Queen bed • 1 bathroom</span>
