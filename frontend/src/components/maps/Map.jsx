@@ -39,20 +39,22 @@ const Map = ({ lat, lng }) => {
         center={{ lat: lat || center.lat, lng: lng || center.lng }}
         zoom={10}
         options={isMapEnlarged ? mapOptions : { ...mapOptions, draggable: false, scrollwheel: false, disableDoubleClickZoom: true }}
+        data-testid="google-map"
       >
         {lat && lng && (
           <Marker 
             position={{ lat, lng }}
+            data-testid="marker"
           />
         )}
       </GoogleMap>
       {!isMapEnlarged && (
-        <button className="toggle-map-button-map" onClick={toggleMapSize}>
+        <button data-testid="view-map" className="toggle-map-button-map" onClick={toggleMapSize}>
           View Map
         </button>
       )}
       {isMapEnlarged && (
-        <button className="toggle-map-button-list" onClick={toggleMapSize}>
+        <button data-testid="view-list" className="toggle-map-button-list" onClick={toggleMapSize}>
           View List
         </button>
       )}
