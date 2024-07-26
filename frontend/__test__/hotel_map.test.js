@@ -10,7 +10,7 @@ jest.mock('@react-google-maps/api', () => ({
   Marker: ({ position }) => <div data-testid="marker" data-position={JSON.stringify(position)}>Marker</div>,
 }));
 
-describe('Map Component', () => {
+describe('Frontend Map Component Unit Test', () => {
   it('FRONTEND_HOTEL_MAP_1: Should render the map with correct center position', () => {
     render(
     <Map 
@@ -48,7 +48,9 @@ describe('Map Component', () => {
     // Simulate button click to return to the map view
     fireEvent.click(viewListButton);
   });
+});
 
+describe('Frontend Map Component Integration Test', () => {
   it('FRONTEND_HOTEL_MAP_3: Should update marker position when lat and lng props change', () => {
     const { rerender } = render(
       <Map 

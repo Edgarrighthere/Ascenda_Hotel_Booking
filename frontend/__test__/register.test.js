@@ -18,7 +18,7 @@ afterEach(() => {
     cleanup();
 });
 
-describe('Frontend Register Unit and Integration Test', () => {
+describe('Frontend Register Unit Test', () => {
     const mockNavigate = jest.fn();
     useNavigate.mockReturnValue(mockNavigate);
   
@@ -105,6 +105,21 @@ describe('Frontend Register Unit and Integration Test', () => {
     test('FRONTEND_REGISTER_9: Check if the "confirm password" section is present', () => {
         const confirmPwdSection = screen.getByPlaceholderText(/Re-enter your password./i, { selector: 'input' });
         expect(confirmPwdSection).toBeInTheDocument();
+    });
+});
+
+describe('Frontend Register Integration Test', () => {
+    const mockNavigate = jest.fn();
+    useNavigate.mockReturnValue(mockNavigate);
+    
+    beforeEach(() => {
+        act(() => {
+            render(
+                <BrowserRouter>
+                    <Register />
+                </BrowserRouter>
+            );
+        });
     });
 
     test('FRONTEND_REGISTER_10: Check if the "register" button is present and clickable', async () => {

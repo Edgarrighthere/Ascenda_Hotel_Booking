@@ -18,7 +18,7 @@ afterEach(() => {
     cleanup();
 });
 
-describe('Frontend Reset Password Unit and Integration Test', () => {
+describe('Frontend Reset Password Unit Test', () => {
     const mockNavigate = jest.fn();
     useNavigate.mockReturnValue(mockNavigate);
   
@@ -30,7 +30,7 @@ describe('Frontend Reset Password Unit and Integration Test', () => {
                 </BrowserRouter>
             );
         });
-      });
+    });
   
     test('FRONTEND_RESETPWD_1: Check if the reset password header is present', () => {
       const resetPwdHeader = screen.getByText('Reset Password', { selector: '.resetPasswordTitle' });
@@ -66,6 +66,21 @@ describe('Frontend Reset Password Unit and Integration Test', () => {
         // Check if the error message is displayed
         const errorMessage = screen.getByText(/Invalid or expired token./i);
         expect(errorMessage).toBeInTheDocument();
+    });
+});
+
+describe('Frontend Reset Password Unit and Integration Test', () => {
+    const mockNavigate = jest.fn();
+    useNavigate.mockReturnValue(mockNavigate);
+  
+    beforeEach(() => {
+        act(() => {
+            render(
+                <BrowserRouter>
+                    <ResetPwd />
+                </BrowserRouter>
+            );
+        });
     });
 
     test('FRONTEND_RESETPWD_5: Shows error message when passwords do not match', async () => {
@@ -131,5 +146,4 @@ describe('Frontend Reset Password Unit and Integration Test', () => {
         // Wait for redirection
         expect(mockNavigate).toHaveBeenCalledWith('/login');
     });
-
 });

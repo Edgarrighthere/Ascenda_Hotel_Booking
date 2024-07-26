@@ -109,6 +109,16 @@ describe('Frontend Hotel Search Unit Test', () => {
         const searchButton = screen.getByTestId('searchTest');
         expect(searchButton).toBeInTheDocument();
     });
+});
+
+describe('Frontend Hotel Search Integration Test', () => {
+    beforeEach(() => {
+        render(
+            <Router>
+                <Header />
+            </Router>
+        );
+    });
 
     it('FRONTEND_HOTEL_SEARCH_9: shows an alert when destination is not entered and search is clicked', async () => {
         const searchButton = screen.getByTestId('searchTest');

@@ -20,7 +20,7 @@ afterEach(() => {
     cleanup();
 });
 
-describe('Frontend Login Integration with Navbar Test', () => {
+describe('Frontend Navbar Component Unit and Integration Test', () => {
     const mockNavigate = jest.fn();
     useNavigate.mockReturnValue(mockNavigate);
 

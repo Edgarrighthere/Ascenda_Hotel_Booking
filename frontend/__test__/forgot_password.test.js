@@ -12,7 +12,7 @@ jest.mock('react-router-dom', () => ({
     useNavigate: jest.fn(),
 }));
 
-describe('Frontend Forgot Password Unit and Integration Test', () => {
+describe('Frontend Forgot Password Unit Test', () => {
     const mockNavigate = jest.fn();
     useNavigate.mockReturnValue(mockNavigate);
   
@@ -55,6 +55,21 @@ describe('Frontend Forgot Password Unit and Integration Test', () => {
         // Check if the error message is displayed
         const errorMessage = screen.getByText(/Invalid email. Please try again./i);
         expect(errorMessage).toBeInTheDocument();
+    });
+});
+
+describe('Frontend Forgot Password Integration Test', () => {
+    const mockNavigate = jest.fn();
+    useNavigate.mockReturnValue(mockNavigate);
+    
+    beforeEach(() => {
+        act(() => {
+            render(
+                <BrowserRouter>
+                    <ForgotPwd />
+                </BrowserRouter>
+            );
+        });
     });
 
     test('FRONTEND_FORGOTPWD_4: Checks for success message after user input his email and clicks on button', async () => {    

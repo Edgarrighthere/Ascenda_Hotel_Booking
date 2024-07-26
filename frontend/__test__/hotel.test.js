@@ -30,7 +30,7 @@ jest.mock('../src/components/amenities/Amenities', () => () => <div>Amenities Mo
 jest.mock('../src/components/room/Room', () => () => <div>RoomList Mock</div>);
 jest.mock('../src/components/maps/Map', () => () => <div>Map Mock</div>);
 
-describe('Hotel component', () => {
+describe('Frontend Hotel Component Unit Test', () => {
   beforeEach(() => {
     jest.clearAllMocks(); // Clear any previous mock data
   });
@@ -39,7 +39,7 @@ describe('Hotel component', () => {
     jest.resetAllMocks(); // Reset all mocks after each test
   });
 
-  it('HOTEL_1: Renders without crashing and displays hotel information',  () => {
+  it('FRONTEND_HOTEL_1: Renders without crashing and displays hotel information',  () => {
     const mockData = {
       name: 'Test Hotel',
       address: '123 Test St',
@@ -102,7 +102,7 @@ describe('Hotel component', () => {
     });
   });
 
-  it('HOTEL_2: Loading element present',  () => {
+  it('FRONTEND_HOTEL_2: Loading element present',  () => {
     render(
       <BrowserRouter initialEntries={['/hotels/1']}>
         <Routes>
@@ -116,8 +116,18 @@ describe('Hotel component', () => {
       expect(loadingText).toBeInTheDocument();
     });
   });
+});
 
-  it('HOTEL_3: Handles fetch error gracefully',  () => {
+describe('Frontend Hotel Component Integration Test', () => {
+  beforeEach(() => {
+    jest.clearAllMocks(); // Clear any previous mock data
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks(); // Reset all mocks after each test
+  });
+
+  it('FRONTEND_HOTEL_3: Handles fetch error gracefully',  () => {
     global.fetch = jest.fn(() => Promise.reject('API is down'));
 
     render(
@@ -133,7 +143,7 @@ describe('Hotel component', () => {
     });
   });
 
-  it('HOTEL_4: Displays message when no rooms are available',  () => {
+  it('FRONTEND_HOTEL_4: Displays message when no rooms are available',  () => {
     const mockData = {
       name: 'Test Hotel',
       address: '123 Test St',
@@ -173,7 +183,7 @@ describe('Hotel component', () => {
     });
   });
 
-  it('HOTEL_5: Displays dynamic content correctly',  () => {
+  it('FRONTEND_HOTEL_5: Displays dynamic content correctly',  () => {
     const mockData = {
       name: 'Dynamic Hotel',
       address: '456 Dynamic St',
