@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import './room.css';
 import axios from 'axios';
 
-const Room = ({ roomType, imageUrl, roomOnlyPrice, breakfastPrice, cancelPolicy, all_room_info }) => {
+const Room = ({ roomType, imageUrl, roomOnlyPrice, breakfastPrice, cancelPolicy, all_room_info, hotelId }) => {
 const [seeMore, setSeeMore] = useState(false)
 const [selectButton, setSelectButton] = useState("Select");
 const[breakfast, setBreakfast] = useState("No Breakfast Combo")
@@ -28,6 +28,7 @@ useEffect(() => {
     setSelectButton("Please Wait....");
     try {
       const response = await axios.post('http://localhost:5000/checkout', {
+        hotelId,
         roomType,
         roomOnlyPrice,
         breakfastPrice,
@@ -35,7 +36,7 @@ useEffect(() => {
       });
 
       const { id } = response.data;
-      const stripe = window.Stripe('pk_test_51PcmhS2Ndp6I7VS5ncMBMPsAp2sYzZdhgrhqVffCHZParhBEMHGfq4cyIuEKJ9COzJ4oNYMuoUu1QKy7OHPYmqT000EIYgg88w'); // Stripe publishable key 
+      const stripe = window.Stripe('pk_test_51PhBxoIrFKgjx0G0vtgffzyhVUjaLsGvvY4JPQXNSypxTUhg2jiluBiMDV6ws23piwulM7jgiI7bgz8NWP1UcSCS00vzlK2lj1'); // Stripe publishable key 
       await stripe.redirectToCheckout({ sessionId: id });
     } catch (error) {
       console.error('Error redirecting to checkout:', error);
@@ -132,7 +133,7 @@ useEffect(() => {
   );
 };
 
-const RoomList = ({ rooms }) => {
+const RoomList = ({ rooms, hotelId }) => {
   if (!rooms) {
     return null;
   }
@@ -140,7 +141,7 @@ const RoomList = ({ rooms }) => {
   return (
     <div className="room-list">
       {rooms.map((room, index) => (
-        <Room key={index} {...room} />
+        <Room key={index} hotelId={hotelId} {...room} />
       ))}
     </div>
   );

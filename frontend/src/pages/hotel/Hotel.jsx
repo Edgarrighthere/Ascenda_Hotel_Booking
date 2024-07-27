@@ -249,7 +249,7 @@ const Hotel = () => {
             </div>
             <div className="centeredContainer roomListContainer">
               <div className="centeredContent">
-                <RoomList rooms={rooms} />
+                <RoomList rooms={rooms} hotelId={id} />
               </div>
             </div>
             <div className="centeredContainer mapContainer">
