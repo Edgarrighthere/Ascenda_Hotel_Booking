@@ -25,9 +25,9 @@ import Navbar from '../../components/navbar/Navbar';
 import MailList from '../../components/mailList/MailList';
 import Footer from '../../components/footer/Footer';
 import HotelSearch from '../../controllers/HotelSearch';
-import HotelFilter from '../../controllers/HotelFilter';
+import HotelFilterController from '../../controllers/HotelFilter';
 import Paging from '../../controllers/Paging';
-import HotelSorting from '../../controllers/HotelSorting';
+import HotelSortingController from '../../controllers/HotelSorting';
 import ScrollToTop from '../../components/ScrollToTop';
 
 const List = () => {
@@ -72,6 +72,9 @@ const List = () => {
 
     const { destinationId, checkin, checkout, guests, page } = useParams();
     const navigate = useNavigate();
+
+    const HotelFilter = HotelFilterController.HotelFilter;
+    const HotelSorting = HotelSortingController.HotelSorting;
 
     useEffect(() => {
         console.log(priceRange)
@@ -194,9 +197,9 @@ const List = () => {
         }
     }
 
-    async function handleSorting(sortByPrice, sortByRating) {
+    async function handleSorting(sortPrice, sortRating) {
         const listings = JSON.parse(JSON.stringify(filteredListings))
-        const sorted = await HotelSorting(listings, sortByPrice, sortByRating)
+        const sorted = await HotelSorting(listings, sortPrice, sortRating)
         const sortedPaginated = await Paging(sorted, 1)
 
         setSortedListings(sorted)
@@ -258,7 +261,7 @@ const List = () => {
         }
 
         // Filtering for price & rating
-        if (priceRangeChanged || ratingsChanged) {
+        else if (priceRangeChanged || ratingsChanged) {
             
             // Check for no ratings selected
             let ratingsNotSelected = starRatings.every(val => val === false)
