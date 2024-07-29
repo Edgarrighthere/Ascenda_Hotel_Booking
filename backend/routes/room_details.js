@@ -54,7 +54,6 @@ router.get("/:ID/:DESTINATIONID/:CHECKIN/:CHECKOUT/:GUESTS", async function(req,
 
 module.exports = router;var express = require('express');
 var router = express.Router();
-const { RoomsAvailable } = require("../models/roomsAvailable.js");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

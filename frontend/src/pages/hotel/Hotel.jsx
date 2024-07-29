@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "./hotel.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
@@ -21,6 +21,7 @@ import Map from "../../components/maps/Map";
 const Hotel = () => {
   const { id } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const stateFromParams = queryParams.get("state")
     ? JSON.parse(decodeURIComponent(queryParams.get("state")))
@@ -46,6 +47,7 @@ const Hotel = () => {
   const [loadingRawInfo, setLoadingRawInfo] = useState(true);
   const [loadingRooms, setLoadingRooms] = useState(true);
   const [differenceinDays, setDifferenceInDays] = useState(0);
+  const roomListRef = useRef(null);
 
   useEffect(() => {
     const fetchRawInfo = async () => {
@@ -95,6 +97,7 @@ const Hotel = () => {
         : [];
       setRooms(loadedRooms);
       setLoadingRooms(false);
+      setIsRoomListReady(true);
     }
   }, [rawinfo]);
 
@@ -150,6 +153,16 @@ const Hotel = () => {
 
   const amenities = rawinfo?.amenities || [];
 
+  const [isRoomListReady, setIsRoomListReady] = useState(false);
+
+  const handleBookingClick = () => {
+    if (isRoomListReady && roomListRef.current) {
+      roomListRef.current.scrollIntoView({ behavior: "smooth" });
+    } else {
+      console.error("Room list is not ready or roomListRef.current is null");
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -189,7 +202,9 @@ const Hotel = () => {
               </div>
             )}
             <div className="hotelWrapper">
-              <button className="bookNow">Book Now!</button>
+              <button className="bookNow" onClick={handleBookingClick}>
+                Book Now!
+              </button>
               <h1 className="hotelTitle">{rawinfo.name}</h1>
               <div className="hotelAddress">
                 <FontAwesomeIcon icon={faLocationDot} />
@@ -237,7 +252,9 @@ const Hotel = () => {
                   <h2>
                     <b>${(price * differenceinDays).toFixed(2)}</b>
                   </h2>
-                  <button>Reserve or Book Now!</button>
+                  <button onClick={handleBookingClick}>
+                    Reserve or Book Now!
+                  </button>
                 </div>
               </div>
             </div>
@@ -264,7 +281,7 @@ const Hotel = () => {
               </div>
             </div>
             <div className="centeredContainer roomListContainer">
-              <div className="centeredContent">
+              <div className="centeredContent" ref={roomListRef}>
                 <RoomList
                   rooms={rooms}
                   hotelId={id}

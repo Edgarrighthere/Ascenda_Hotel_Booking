@@ -1,0 +1,61 @@
+.booking-form {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .booking-form h2 {
+    text-align: center;
+  }
+  
+  .booking-form form {
+    display: inline-flex;
+    flex-direction: column;
+    margin-top: 10px
+  
+  }
+  
+  .booking-form form div {
+    margin-bottom: 7px;
+  }
+  
+  .booking-form form label {
+    margin-bottom: 5px;
+  }
+  
+  .booking-form form input,
+  .booking-form form textarea {
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .booking-form form button {
+    display: inline-block; /* Wrap button around text */
+    padding: 10px 20px; /* Adjust padding to your preference */
+    margin-bottom: 20px auto;
+    border: none;
+    border-radius: 20px; /* Rounded corners */
+    background-color: orange;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease-in;
+  }
+  
+  .booking-form form button:hover {
+    background-color: darkorange;
+  }
+
+  .checkbox-options {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .checkbox-options label {
+    margin-right: 10px;
+  }

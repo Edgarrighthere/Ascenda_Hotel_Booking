@@ -1,6 +1,22 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page-content {
+  flex: 1;
+} 
+
 .container {
     max-width: 600px;
     margin: 40px auto;
+    margin-bottom: 0px;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -15,5 +31,35 @@
   
   .paragraph {
     margin-bottom: 10px;
+  }
+
+  .button-container {
+    text-align: center; /* Center the button horizontally */
+    margin: 20px auto; /* Add some space above the button container */
+  }
+
+  .backToHomeButton {
+    display: inline-block; /* Wrap button around text */
+    padding: 10px 20px; /* Adjust padding to your preference */
+    margin-bottom: 20px auto;
+    border: none;
+    border-radius: 20px; /* Rounded corners */
+    background-color: orange;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+
+  .backToHomeButton:hover {
+    background-color: darkorange;
+  }
+
+  .footer-container {
+    padding: 10px 0;
+    background-color: #fff;
+    text-align: center;
+    border-top: 1px solid #ddd;
   }
   
