@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "./hotel.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
@@ -17,12 +17,29 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import RoomList from "../../components/room/Room";
 import Map from "../../components/maps/Map";
+
 const Hotel = () => {
   const { id } = useParams();
   const location = useLocation();
-  const { destinationId, hotel, destination, checkin, checkout, guests } =
-    location.state || {};
-  const [price, setPrice] = useState(location.state?.price || 0);
+  const navigate = useNavigate();
+  const queryParams = new URLSearchParams(location.search);
+  const stateFromParams = queryParams.get("state")
+    ? JSON.parse(decodeURIComponent(queryParams.get("state")))
+    : {};
+
+  const {
+    destinationId,
+    hotel,
+    destination,
+    checkin,
+    checkout,
+    guests,
+    roomOnlyPrice,
+  } = location.state || stateFromParams || {};
+
+  const [price, setPrice] = useState(
+    stateFromParams.roomOnlyPrice || location.state?.price || 0
+  );
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const [rawinfo, setRawInfo] = useState(null);
@@ -30,6 +47,7 @@ const Hotel = () => {
   const [loadingRawInfo, setLoadingRawInfo] = useState(true);
   const [loadingRooms, setLoadingRooms] = useState(true);
   const [differenceinDays, setDifferenceInDays] = useState(0);
+  const roomListRef = useRef(null);
 
   useEffect(() => {
     const fetchRawInfo = async () => {
@@ -64,27 +82,6 @@ const Hotel = () => {
   }, [id, destinationId, checkin, checkout, guests]);
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-    const hotelId = queryParams.get('hotelId');
-    const destinationId = queryParams.get('destinationId');
-    const checkin = queryParams.get('checkin');
-    const checkout = queryParams.get('checkout');
-    const guests = queryParams.get('guests');
-
-    if (hotelId && destinationId && checkin && checkout && guests) {
-        fetch(`http://localhost:5000/room_details/${id}/${destinationId}/${checkin}/${checkout}/${guests}`)
-            .then(response => response.json())
-            .then(data => {
-                // Handle the data from the room details endpoint
-                console.log(data);
-            })
-            .catch(error => {
-                console.error('Error fetching room details:', error);
-            });
-    }
-  }, []);
-
-  useEffect(() => {
     if (rawinfo) {
       const loadedRooms = rawinfo.rooms_available
         ? rawinfo.rooms_available.slice(0, 10).map((room_variation) => ({
@@ -100,6 +97,7 @@ const Hotel = () => {
         : [];
       setRooms(loadedRooms);
       setLoadingRooms(false);
+      setIsRoomListReady(true);
     }
   }, [rawinfo]);
 
@@ -155,6 +153,16 @@ const Hotel = () => {
 
   const amenities = rawinfo?.amenities || [];
 
+  const [isRoomListReady, setIsRoomListReady] = useState(false);
+
+  const handleBookingClick = () => {
+    if (isRoomListReady && roomListRef.current) {
+      roomListRef.current.scrollIntoView({ behavior: "smooth" });
+    } else {
+      console.error("Room list is not ready or roomListRef.current is null");
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -194,7 +202,9 @@ const Hotel = () => {
               </div>
             )}
             <div className="hotelWrapper">
-              <button className="bookNow">Book Now!</button>
+              <button className="bookNow" onClick={handleBookingClick}>
+                Book Now!
+              </button>
               <h1 className="hotelTitle">{rawinfo.name}</h1>
               <div className="hotelAddress">
                 <FontAwesomeIcon icon={faLocationDot} />
@@ -242,7 +252,9 @@ const Hotel = () => {
                   <h2>
                     <b>${(price * differenceinDays).toFixed(2)}</b>
                   </h2>
-                  <button>Reserve or Book Now!</button>
+                  <button onClick={handleBookingClick}>
+                    Reserve or Book Now!
+                  </button>
                 </div>
               </div>
             </div>
@@ -269,10 +281,10 @@ const Hotel = () => {
               </div>
             </div>
             <div className="centeredContainer roomListContainer">
-              <div className="centeredContent">
-                <RoomList 
-                  rooms={rooms} 
-                  hotelId={id} 
+              <div className="centeredContent" ref={roomListRef}>
+                <RoomList
+                  rooms={rooms}
+                  hotelId={id}
                   destinationId={destinationId}
                   destination={destination}
                   checkin={checkin}
