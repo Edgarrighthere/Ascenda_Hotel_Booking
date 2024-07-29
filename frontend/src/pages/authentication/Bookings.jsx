@@ -50,9 +50,7 @@ const Bookings = () => {
                         )}
                     </div>
                 </div>
-                <div className="footerContainer">
-                    <Footer />
-                </div>
+                <Footer />
             </div>
         </div>
     );

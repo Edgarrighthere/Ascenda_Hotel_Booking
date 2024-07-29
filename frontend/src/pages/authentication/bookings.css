@@ -66,21 +66,3 @@ body {
     font-size: 18px;
     color: #666;
 }
-
-/* Footer-specific styles */
-.footer {
-    background-color: #fff; /* Ensure the footer has the same background color */
-    color: #333;
-    padding: 20px 0; /* Add padding for the footer */
-    text-align: center;
-}
-
-.footer-content a {
-    color: #333;
-    margin: 0 10px;
-    text-decoration: none;
-}
-
-.footer-content a:hover {
-    text-decoration: underline;
-}

@@ -82,9 +82,7 @@ const Account = () => {
                         message="Are you sure you want to delete your account? This action cannot be undone."
                     />
                 </div>
-                <div className="footerContainer">
-                    <Footer />
-                </div>
+                <Footer />
             </div>
         </div>
     );
