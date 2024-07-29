@@ -115,7 +115,7 @@ const Navbar = () => {
                                 Log in
                             </div>
                             <div className="dropdownItem" onClick={() => handleOptionClick("/account")}>
-                                Account info.
+                                Account Info
                             </div>
                             <div className="dropdownItem" onClick={() => handleOptionClick("/bookings")}>
                                 Bookings
