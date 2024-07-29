@@ -26,7 +26,7 @@ afterEach(() => {
     jest.useRealTimers();
 });
 
-describe('Frontend Hotel Search Unit Test', () => {
+describe('Frontend Hotel Search Integration Test', () => {
     beforeEach(() => {
         render(
             <Router>
@@ -111,7 +111,7 @@ describe('Frontend Hotel Search Unit Test', () => {
     });
 });
 
-describe('Frontend Hotel Search Integration Test', () => {
+describe('Frontend Hotel Search Unit Test', () => {
     beforeEach(() => {
         render(
             <Router>
@@ -120,7 +120,7 @@ describe('Frontend Hotel Search Integration Test', () => {
         );
     });
 
-    it('FRONTEND_HOTEL_SEARCH_9: shows an alert when destination is not entered and search is clicked', async () => {
+    it('FRONTEND_HOTEL_SEARCH_1: shows an alert when destination is not entered and search is clicked', async () => {
         const searchButton = screen.getByTestId('searchTest');
         
         // Click the search button with empty destination
