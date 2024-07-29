@@ -9,7 +9,6 @@ import axios from "axios";
 
 const Login = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
-    const [identifier, setIdentifier] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -86,7 +85,9 @@ const Login = () => {
                     {success && <div className="success">{success}</div>}
                 </div>
             </div>
-            <Footer className/>
+            <div className="footerContainer">
+                <Footer />
+            </div>
         </div>
     );
 };

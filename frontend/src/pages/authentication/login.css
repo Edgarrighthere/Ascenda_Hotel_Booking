@@ -35,7 +35,7 @@
     font-weight: bold;
 }
 
-.loginInput{
+.loginInput {
     height: 30px;
     padding: 10px;
     font-family: 'Lato';
@@ -97,4 +97,40 @@
     text-align: center;
     font-family: 'Lato';
     font-size: medium;
+}
+
+.footerContainer {
+    margin-top: auto; /* Push the footer to the bottom */
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: #f0f0f0; /* Optional: match the background color of the page */
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px 0; /* Add padding to the footer */
+    background-color: #f0f0f0;
+}
+
+.fLists {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    max-width: 1024px;
+    margin-bottom: 50px;
+    font-size: medium;
+}
+
+.fList {
+    list-style: none;
+}
+
+.fListItem {
+    margin-bottom: 10px;
+    color: midnightblue;
+    cursor: pointer;
 }

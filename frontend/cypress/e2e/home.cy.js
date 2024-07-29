@@ -33,7 +33,7 @@ describe('Home Page Test', () => {
     // Check if each option is clickable
     const options = [
       { text: 'Log in', path: '/login' },
-      { text: 'Account info.', path: '/account' },
+      { text: 'Account Info', path: '/account' },
       { text: 'Bookings', path: '/bookings' },
       { text: 'Log out', path: '/' }
     ];
