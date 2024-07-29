@@ -120,7 +120,7 @@ describe('Frontend Hotel Search Unit Test', () => {
         );
     });
 
-    it('FRONTEND_HOTEL_SEARCH_1: shows an alert when destination is not entered and search is clicked', async () => {
+    it('FRONTEND_HOTEL_SEARCH_9: shows an alert when destination is not entered and search is clicked', async () => {
         const searchButton = screen.getByTestId('searchTest');
         
         // Click the search button with empty destination

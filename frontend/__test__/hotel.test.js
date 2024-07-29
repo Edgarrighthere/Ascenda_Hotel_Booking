@@ -30,7 +30,7 @@ jest.mock('../src/components/amenities/Amenities', () => () => <div>Amenities Mo
 jest.mock('../src/components/room/Room', () => () => <div>RoomList Mock</div>);
 jest.mock('../src/components/maps/Map', () => () => <div>Map Mock</div>);
 
-describe('Frontend Hotel Component Unit Test', () => {
+describe('Frontend Hotel Component Integration Test', () => {
   beforeEach(() => {
     jest.clearAllMocks(); // Clear any previous mock data
   });
@@ -118,7 +118,7 @@ describe('Frontend Hotel Component Unit Test', () => {
   });
 });
 
-describe('Frontend Hotel Component Integration Test', () => {
+describe('Frontend Hotel Component Unit Test', () => {
   beforeEach(() => {
     jest.clearAllMocks(); // Clear any previous mock data
   });
