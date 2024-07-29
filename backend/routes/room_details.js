@@ -45,13 +45,6 @@ router.get("/:ID/:DESTINATIONID/:CHECKIN/:CHECKOUT/:GUESTS", async function(req,
           res.set("Access-Control-Allow-Origin", "http://localhost:3000");
           res.json(new_room);
 
-
-
-
-
-        
-
-          
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).json({ error: 'Failed to fetch data' });

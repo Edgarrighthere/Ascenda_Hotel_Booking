@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import './room.css';
 import axios from 'axios';
 
-const Room = ({ roomType, imageUrl, roomOnlyPrice, breakfastPrice, cancelPolicy, all_room_info, hotelId }) => {
+const Room = ({ roomType, imageUrl, roomOnlyPrice, breakfastPrice, cancelPolicy, all_room_info, hotelId, destinationId, destination, checkin, checkout, guests }) => {
 const [seeMore, setSeeMore] = useState(false)
 const [selectButton, setSelectButton] = useState("Select");
 const[breakfast, setBreakfast] = useState("No Breakfast Combo")
@@ -33,6 +33,11 @@ useEffect(() => {
         roomOnlyPrice,
         breakfastPrice,
         cancelPolicy,
+        destinationId,
+        destination,
+        checkin,
+        checkout,
+        guests,
       });
 
       const { id } = response.data;
@@ -133,15 +138,22 @@ useEffect(() => {
   );
 };
 
-const RoomList = ({ rooms, hotelId }) => {
+const RoomList = ({ rooms, hotelId, destinationId, destination, checkin, checkout, guests }) => {
   if (!rooms) {
     return null;
   }
-  
   return (
     <div className="room-list">
       {rooms.map((room, index) => (
-        <Room key={index} hotelId={hotelId} {...room} />
+        <Room 
+          key={index} 
+          hotelId={hotelId} 
+          destinationId={destinationId}
+          destination={destination}
+          checkin={checkin}
+          checkout={checkout}
+          guests={guests}
+          {...room} />
       ))}
     </div>
   );

@@ -64,6 +64,27 @@ const Hotel = () => {
   }, [id, destinationId, checkin, checkout, guests]);
 
   useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const hotelId = queryParams.get('hotelId');
+    const destinationId = queryParams.get('destinationId');
+    const checkin = queryParams.get('checkin');
+    const checkout = queryParams.get('checkout');
+    const guests = queryParams.get('guests');
+
+    if (hotelId && destinationId && checkin && checkout && guests) {
+        fetch(`http://localhost:5000/room_details/${id}/${destinationId}/${checkin}/${checkout}/${guests}`)
+            .then(response => response.json())
+            .then(data => {
+                // Handle the data from the room details endpoint
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error fetching room details:', error);
+            });
+    }
+  }, []);
+
+  useEffect(() => {
     if (rawinfo) {
       const loadedRooms = rawinfo.rooms_available
         ? rawinfo.rooms_available.slice(0, 10).map((room_variation) => ({
@@ -249,7 +270,15 @@ const Hotel = () => {
             </div>
             <div className="centeredContainer roomListContainer">
               <div className="centeredContent">
-                <RoomList rooms={rooms} hotelId={id} />
+                <RoomList 
+                  rooms={rooms} 
+                  hotelId={id} 
+                  destinationId={destinationId}
+                  destination={destination}
+                  checkin={checkin}
+                  checkout={checkout}
+                  guests={guests}
+                />
               </div>
             </div>
             <div className="centeredContainer mapContainer">
