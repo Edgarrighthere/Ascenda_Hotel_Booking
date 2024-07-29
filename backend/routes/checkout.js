@@ -7,7 +7,18 @@ var router = express.Router();
 
 router.post('/', async (req, res, next) => {
     const { hotelId, roomType, roomOnlyPrice, breakfastPrice, cancelPolicy, destinationId, destination, checkin, checkout, guests } = req.body;
-    console.log(req.body, hotelId);
+    console.log("PENIS",
+        hotelId,
+        roomType,
+        roomOnlyPrice,
+        breakfastPrice,
+        cancelPolicy,
+        destinationId,
+        destination,
+        checkin,
+        checkout,
+        guests
+    )
 
     const state = {
         hotelId,

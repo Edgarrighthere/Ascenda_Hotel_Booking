@@ -17,12 +17,28 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import RoomList from "../../components/room/Room";
 import Map from "../../components/maps/Map";
+
 const Hotel = () => {
   const { id } = useParams();
   const location = useLocation();
-  const { destinationId, hotel, destination, checkin, checkout, guests } =
-    location.state || {};
-  const [price, setPrice] = useState(location.state?.price || 0);
+  const queryParams = new URLSearchParams(location.search);
+  const stateFromParams = queryParams.get("state")
+    ? JSON.parse(decodeURIComponent(queryParams.get("state")))
+    : {};
+
+  const {
+    destinationId,
+    hotel,
+    destination,
+    checkin,
+    checkout,
+    guests,
+    roomOnlyPrice,
+  } = location.state || stateFromParams || {};
+
+  const [price, setPrice] = useState(
+    stateFromParams.roomOnlyPrice || location.state?.price || 0
+  );
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const [rawinfo, setRawInfo] = useState(null);
@@ -62,27 +78,6 @@ const Hotel = () => {
     const time_diff = checkoutDate.getTime() - checkinDate.getTime();
     setDifferenceInDays(Math.round(time_diff / (1000 * 3600 * 24)));
   }, [id, destinationId, checkin, checkout, guests]);
-
-  useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-    const hotelId = queryParams.get('hotelId');
-    const destinationId = queryParams.get('destinationId');
-    const checkin = queryParams.get('checkin');
-    const checkout = queryParams.get('checkout');
-    const guests = queryParams.get('guests');
-
-    if (hotelId && destinationId && checkin && checkout && guests) {
-        fetch(`http://localhost:5000/room_details/${id}/${destinationId}/${checkin}/${checkout}/${guests}`)
-            .then(response => response.json())
-            .then(data => {
-                // Handle the data from the room details endpoint
-                console.log(data);
-            })
-            .catch(error => {
-                console.error('Error fetching room details:', error);
-            });
-    }
-  }, []);
 
   useEffect(() => {
     if (rawinfo) {
@@ -270,9 +265,9 @@ const Hotel = () => {
             </div>
             <div className="centeredContainer roomListContainer">
               <div className="centeredContent">
-                <RoomList 
-                  rooms={rooms} 
-                  hotelId={id} 
+                <RoomList
+                  rooms={rooms}
+                  hotelId={id}
                   destinationId={destinationId}
                   destination={destination}
                   checkin={checkin}
