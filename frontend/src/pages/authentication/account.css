@@ -48,16 +48,19 @@
 }
 
 .deleteAccountButton {
-    background-color: #e74c3c; /* Red color */
+    background-color: red; /* Red color */
     color: white;
     border: none;
     padding: 10px 20px;
     margin-top: 20px;
     cursor: pointer;
-    font-size: 16px;
-    border-radius: 8px; /* Add this line to round the corners */
+    font-weight: bold;
+    font-size: medium;
+    font-family: 'Lato';
+    border-radius: 10px;
+    text-align: center;
 }
 
 .deleteAccountButton:hover {
-    background-color: #c0392b; /* Darker red */
+    background-color: darkred; /* Darker red */
 }
