@@ -90,7 +90,7 @@ const Header = ({ type }) => {
 
       console.log(success)
 
-      if (success == true) {
+      if (success == true) { // there are listings found, move on to view list of hotels
         const params = searchResults.searchParameters;
         const hotelListings = searchResults.listings;
         const paginatedListings = await Paging(hotelListings, 1);
@@ -123,7 +123,7 @@ const Header = ({ type }) => {
             sortedListings,
           },
         });
-      } else {
+      } else { // there are no listings found
         setAlertText("No listings found.");
         setShow(true);
         setLoading(false);

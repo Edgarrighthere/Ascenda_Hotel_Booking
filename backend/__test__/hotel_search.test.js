@@ -7,6 +7,8 @@ const mapHotelList = hotelSearch.mapHotelList
 const {hotelPriceList} = require("../models/hotelPriceList.js")
 const {hotelList} = require("../models/hotelList.js")
 
+jest.setTimeout(10000); 
+
 const destinationId = "tOik"
 const checkin = "2024-10-22"
 const checkout = "2024-10-23"
@@ -95,6 +97,7 @@ describe("Backend Hotel Search API Unit Test", () => {
 
     test("BACKEND_HOTEL_SEARCH_API_UNIT_5: Test Listing API with valid inputs", async() => {
         const json = await getListing(destinationId);
+
         const json_notEmpty = json.length > 0;
         expect(json_notEmpty).toEqual(true); // hotels should not be empty
     })

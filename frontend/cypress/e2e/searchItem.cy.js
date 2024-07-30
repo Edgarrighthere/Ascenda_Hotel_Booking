@@ -21,7 +21,7 @@ describe('SearchItem Container Test', () => {
         });
 
         const startDate = new Date();
-        const endDate = addDays(new Date(), 3);
+        const endDate = addDays(new Date(), 2);
 
         cy.get('[data-test="dateSearch"] .headerSearchText').click();
         cy.get('.rdrDayNumber span').contains(startDate.getDate()).click({ force: true });
@@ -39,7 +39,7 @@ describe('SearchItem Container Test', () => {
 
         // navigate to a specific listings page
         cy.get('[data-test="searchTest"]').click();
-        cy.wait(10000); // wait to fetch for info from API
+        cy.wait(5000); // wait to fetch for info from API
 
         // Check that Hotel items exist
         cy.get('.searchItem').should('exist');
