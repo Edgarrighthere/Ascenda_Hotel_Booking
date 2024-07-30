@@ -18,6 +18,11 @@ router.post('/', async (req, res, next) => {
             return res.status(400).json({ message: "User Phone Number already exists. Please log in." });
         }
 
+        // Validate phone number format
+        const phoneNumberRegex = /^\d+$/;
+        if (!phoneNumberRegex.test(phoneNumber)) {
+            return res.status(400).json({ message: "Phone number must contain only digits." });
+        }
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
