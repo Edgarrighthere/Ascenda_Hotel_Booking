@@ -8,8 +8,8 @@ const Modal = ({ isOpen, onClose, onConfirm, message }) => {
         <div className="modalOverlay">
             <div className="modalContent">
                 <p>{message}</p>
-                <button onClick={onConfirm}>Yes, Delete</button>
-                <button onClick={onClose}>Cancel</button>
+                <button className="deleteBtn" onClick={onConfirm}>Yes, Delete</button>
+                <button className="cancelBtn" onClick={onClose}>Cancel</button>
             </div>
         </div>
     );

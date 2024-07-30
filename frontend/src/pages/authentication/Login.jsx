@@ -37,7 +37,15 @@ const Login = () => {
                 setFirstName(response.data.firstName); 
                 setLastName(response.data.lastName); 
                 setTimeout(() => {
-                    navigate("/inputOTP", { state: { email, salutation: response.data.salutation, firstName: response.data.firstName, lastName: response.data.lastName } }); // Pass email, salutation, firstName and lastName to inputOTP
+                    navigate("/inputOTP", 
+                        { state: { 
+                            email, 
+                            salutation: response.data.salutation, 
+                            firstName: response.data.firstName, 
+                            lastName: response.data.lastName, 
+                            countryCode: response.data.countryCode,
+                            phoneNumber: response.data.phoneNumber
+                        } }); // Pass email, salutation, firstName and lastName to inputOTP
                 }, 2000);
             } else {
                 setError("Invalid response from server."); // Handle unexpected response

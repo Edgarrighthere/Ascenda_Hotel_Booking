@@ -1,40 +1,67 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
-import Modal from "../../components/modal/Modal"; // Import the Modal component
-import "./account.css";
+import Modal from "../../components/modal/Modal";
+import axios from 'axios';
+import './account.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 const Account = () => {
-    const [fullName, setFullName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
+    const location = useLocation();
+    const user = location.state || {};
+    const [userDetails, setUserDetails] = useState(user);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const [isGuest, setIsGuest] = useState(user.isGuest || false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const userId = "66a20511354023c1886dff06"; // Replace with actual user ID
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchAccountDetails = async () => {
+        if (isGuest) {
+            setLoading(false);
+            setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Please log in to view account information</>);
+            return;
+        }
+
+        const fetchUserDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/users/66a49c20c6dbb7f51d718613`);
-                if (response && response.data) {
-                    const { salutation, firstName, lastName, email, phoneNumber } = response.data;
-                    setFullName(`${salutation} ${firstName} ${lastName}`);
-                    setEmail(email);
-                    setPhoneNumber(phoneNumber);
-                } else {
-                    setError("Failed to fetch account details.");
-                }
-            } catch (err) {
-                setError("An error occurred while fetching account details.");
-                console.error("Error fetching account details:", err);
+                const response = await axios.get('http://localhost:5000/account/details', {
+                    params: {
+                        firstName: user.firstName,
+                        lastName: user.lastName
+                    }
+                });
+                setUserDetails(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching user details:', error);
+                setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Failed to fetch user details </>);
+                setLoading(false);
             }
         };
 
-        fetchAccountDetails();
-    }, []);
+        if (user.firstName && user.lastName) {
+            fetchUserDetails();
+        } else {
+            setLoading(false);
+            setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Failed to fetch user details </>);
+        }
+    }, [user.firstName, user.lastName]);
+
+    const handleLogout = () => {
+        setUserDetails({
+            email: '',
+            salutation: '',
+            firstName: '',
+            lastName: '',
+            countryCode: '',
+            phoneNumber: ''
+        });
+        setIsGuest(true);
+        setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Please log in to view account information</>);
+    };
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -46,33 +73,38 @@ const Account = () => {
 
     const handleDeleteAccount = async () => {
         try {
-            await axios.delete(`http://localhost:5000/users/66a49c20c6dbb7f51d718613`);
-            setSuccess("Account deleted successfully.");
-            setIsModalOpen(false);
-            // Clear account details or redirect to another page
-            setFullName("");
-            setEmail("");
-            setPhoneNumber("");
-            // Optionally, redirect the user to the home page or login page
-            // window.location.href = "/login";
-        } catch (err) {
-            setError("An error occurred while deleting the account.");
-            console.error("Error deleting account:", err);
+            // Send a request to generate and send an OTP to the user's email
+            await axios.post('http://localhost:5000/send_delete_otp', {
+                email: userDetails.email
+            });
+    
+            // Redirect to the InputOTP page
+            navigate('/inputOTP', { 
+                state: { 
+                    email: userDetails.email, 
+                    isDeletion: true
+                }
+            });
+    
+            handleCloseModal();
+        } catch (error) {
+            console.error('Error initiating account deletion:', error);
+            setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Failed to initiate account deletion </>);
         }
     };
 
+    if (loading) return <div>Loading...</div>;
+
     return (
-        <div>
-            <Navbar />
-            <div className="accountContainer">
-                <div className="accountContent">
-                    <div className="accountTitle">Account Information</div>
-                    {error && <div className="error">{error}</div>}
-                    {success && <div className="success">{success}</div>}
-                    <div className="accountDetails">
-                        <div className="accountDetail"><strong>Name:</strong> {fullName}</div>
-                        <div className="accountDetail"><strong>Email:</strong> {email}</div>
-                        <div className="accountDetail"><strong>Phone Number:</strong> {phoneNumber}</div>
+        <div className="accountPage">
+            <Navbar onLogout={handleLogout}/>
+            <div className="account">
+                <div data-test="accountContainer" className="accountContainer">
+                    <div data-test="accontTitle" className="accountTitle">Account Information</div>
+                    <div className="accountInfo">
+                        <p><strong>Email:</strong> {userDetails.email || ' '}</p>
+                        <p><strong>Name:</strong> {userDetails.salutation || ' '} {userDetails.firstName || ' '} {userDetails.lastName || ' '}</p>
+                        <p><strong>Phone Number:</strong> {userDetails.countryCode || ' '} {userDetails.phoneNumber || ' '}</p>
                     </div>
                     <button className="deleteAccountButton" onClick={handleOpenModal}>Delete Account</button>
                     <Modal
@@ -81,9 +113,10 @@ const Account = () => {
                         onConfirm={handleDeleteAccount}
                         message="Are you sure you want to delete your account? This action cannot be undone."
                     />
+                    {error && <div className="error">{error}</div>}  
                 </div>
-                <Footer />
             </div>
+            <Footer />
         </div>
     );
 };
