@@ -1,0 +1,41 @@
+// var HoteListings = require('../../frontend/src/pages/list/List');
+// const handleSearch = HoteListings.handleSearch();
+
+// describe("Backend Hotel List Display Unit Tests", () => {
+
+//     test("BACKEND_HOTEL_LIST_DISPLAY_UNIT_1: Handle new hotel search request", async() => {
+
+//     })
+
+//     // test("BACKEND_HOTEL_LIST_DISPLAY_UNIT_2: Handle add price filtering request", async() => {
+        
+//     // })
+
+//     // test("BACKEND_HOTEL_LIST_DISPLAY_UNIT_3: Handle remove price filtering request", async() => {
+        
+//     // })
+
+//     // test("BACKEND_HOTEL_LIST_DISPLAY_UNIT_4: Handle add rating filtering request", async() => {
+        
+//     // })
+
+//     // test("BACKEND_HOTEL_LIST_DISPLAY_UNIT_5: Handle remove rating filtering request", async() => {
+        
+//     // })
+
+//     // test("BACKEND_HOTEL_LIST_DISPLAY_UNIT_6: Handle add price sorting request", async() => {
+        
+//     // })
+
+//     // test("BACKEND_HOTEL_LIST_DISPLAY_UNIT_7: Handle remove price sorting request ", async() => {
+        
+//     // })
+
+//     // test("BACKEND_HOTEL_LIST_DISPLAY_UNIT_8: Handle add rating sorting request", async() => {
+        
+//     // })
+
+//     // test("BACKEND_HOTEL_LIST_DISPLAY_UNIT_9: Handle remove rating sorting request ", async() => {
+        
+//     // })
+// })
