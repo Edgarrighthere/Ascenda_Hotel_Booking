@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import './inputOTP.css';
 
-const InputOTP = () => {
+const InputOTP = ({ onLogout }) => {
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -19,6 +19,7 @@ const InputOTP = () => {
     const lastName = location.state?.lastName || "";
     const countryCode = location.state?.countryCode || "";
     const phoneNumber = location.state?.phoneNumber || "";
+    const isDeletion = location.state?.isDeletion || false; 
 
     const [otp, setOtp] = useState(Array(6).fill(''));
     const [error, setError] = useState('');
@@ -64,28 +65,38 @@ const InputOTP = () => {
             const response = await fetch('http://localhost:5000/verify_otp', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, otp: otpString })
+                body: JSON.stringify({ email, otp: otpString, isDeletion })
             });
 
             const data = await response.json();
 
             if (data.success) {
-                setSuccess(<> <FontAwesomeIcon icon={faCheck} /> Valid OTP entered. Redirecting you to home page... </>);
-                setError(""); // Clear any previous errors
-                setTimeout(() => {
-                    navigate('/', { 
-                        state: { 
-                            email, 
-                            salutation, 
-                            firstName, 
-                            lastName, 
-                            countryCode, 
-                            phoneNumber 
-                        } 
-                    });
-                }, 3000); // Redirect after 3 seconds
+                if (isDeletion) {
+                    setSuccess(<> <FontAwesomeIcon icon={faCheck} /> Account deleted successfully. Redirecting you to home page... </>);
+                    setError(""); // Clear any previous errors
+                    setTimeout(() => {
+                        onLogout();
+                        navigate('/');
+                    }, 3000); // Redirect after 3 seconds
+                } else {
+                    setSuccess(<> <FontAwesomeIcon icon={faCheck} /> Valid OTP entered. Redirecting you to home page... </>);
+                    setError(""); // Clear any previous errors
+                    setTimeout(() => {
+                        navigate('/', { 
+                            state: { 
+                                email, 
+                                salutation, 
+                                firstName, 
+                                lastName, 
+                                countryCode, 
+                                phoneNumber 
+                            } 
+                        });
+                    }, 3000); // Redirect after 3 seconds
+                }
             } else {
                 setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Invalid OTP. Please make sure you entered the correct OTP sent. </>);
+                setSuccess(""); // Clear success message if there was any
             }
         } catch (error) {
             setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Error verifying OTP. </>);
@@ -115,7 +126,7 @@ const InputOTP = () => {
 
     return (
         <div className="otpPage">
-            <Navbar />
+            <Navbar onLogout={onLogout}/>
             <div className="inputotp">
                 <div data-test="otpContainer" className="otpContainer">
                     <div data-test="otpTitle" className="otpTitle">2FA Authentication</div>

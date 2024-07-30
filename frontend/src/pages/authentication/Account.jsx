@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import Modal from "../../components/modal/Modal";
@@ -16,11 +16,12 @@ const Account = () => {
     const [error, setError] = useState('');
     const [isGuest, setIsGuest] = useState(user.isGuest || false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (isGuest) {
             setLoading(false);
-            setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> 'Please log in to view account information'</>);
+            setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Please log in to view account information</>);
             return;
         }
 
@@ -36,7 +37,7 @@ const Account = () => {
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching user details:', error);
-                setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> 'Failed to fetch user details' </>);
+                setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Failed to fetch user details </>);
                 setLoading(false);
             }
         };
@@ -45,7 +46,7 @@ const Account = () => {
             fetchUserDetails();
         } else {
             setLoading(false);
-            setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> 'Failed to fetch user details' </>);
+            setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Failed to fetch user details </>);
         }
     }, [user.firstName, user.lastName]);
 
@@ -59,7 +60,7 @@ const Account = () => {
             phoneNumber: ''
         });
         setIsGuest(true);
-        setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> 'Please log in to view account information'</>);
+        setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Please log in to view account information</>);
     };
 
     const handleOpenModal = () => {
@@ -70,9 +71,27 @@ const Account = () => {
         setIsModalOpen(false);
     };
 
-    const handleDeleteAccount = {
-
-    }
+    const handleDeleteAccount = async () => {
+        try {
+            // Send a request to generate and send an OTP to the user's email
+            await axios.post('http://localhost:5000/send_delete_otp', {
+                email: userDetails.email
+            });
+    
+            // Redirect to the InputOTP page
+            navigate('/inputOTP', { 
+                state: { 
+                    email: userDetails.email, 
+                    isDeletion: true
+                }
+            });
+    
+            handleCloseModal();
+        } catch (error) {
+            console.error('Error initiating account deletion:', error);
+            setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Failed to initiate account deletion </>);
+        }
+    };
 
     if (loading) return <div>Loading...</div>;
 

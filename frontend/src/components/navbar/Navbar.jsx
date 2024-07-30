@@ -86,10 +86,12 @@ const Navbar = ({ onLogout }) => {
 
     const handleLogout = async () => {
         try {
-            await axios.post("http://localhost:5000/logout");
+            const email = localStorage.getItem('email');
+            await axios.post("http://localhost:5000/logout", { email });
             setCurrentSalutation("Guest");
             setCurrentFirstName("");
             setCurrentLastName("");
+            localStorage.removeItem('email');
             localStorage.removeItem('salutation');
             localStorage.removeItem('firstName');
             localStorage.removeItem('lastName');
@@ -103,7 +105,6 @@ const Navbar = ({ onLogout }) => {
 
     return (
         <div className="navbar">
-
             <div className="navContainer">
                 <img
                     src="/images/logo_ascenda.png"
