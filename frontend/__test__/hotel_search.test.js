@@ -26,7 +26,7 @@ afterEach(() => {
     jest.useRealTimers();
 });
 
-describe('Frontend Hotel Search Unit Test', () => {
+describe('Frontend Hotel Search Integration Test', () => {
     beforeEach(() => {
         render(
             <Router>
@@ -111,7 +111,7 @@ describe('Frontend Hotel Search Unit Test', () => {
     });
 });
 
-describe('Frontend Hotel Search Integration Test', () => {
+describe('Frontend Hotel Search Unit Test', () => {
     beforeEach(() => {
         render(
             <Router>

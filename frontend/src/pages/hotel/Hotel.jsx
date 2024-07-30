@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "./hotel.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
@@ -17,12 +17,29 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import RoomList from "../../components/room/Room";
 import Map from "../../components/maps/Map";
+
 const Hotel = () => {
   const { id } = useParams();
   const location = useLocation();
-  const { destinationId, hotel, destination, checkin, checkout, guests } =
-    location.state || {};
-  const [price, setPrice] = useState(location.state?.price || 0);
+  const navigate = useNavigate();
+  const queryParams = new URLSearchParams(location.search);
+  const stateFromParams = queryParams.get("state")
+    ? JSON.parse(decodeURIComponent(queryParams.get("state")))
+    : {};
+
+  const {
+    destinationId,
+    hotel,
+    destination,
+    checkin,
+    checkout,
+    guests,
+    roomOnlyPrice,
+  } = location.state || stateFromParams || {};
+
+  const [price, setPrice] = useState(
+    stateFromParams.roomOnlyPrice || location.state?.price || 0
+  );
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const [rawinfo, setRawInfo] = useState(null);
@@ -30,6 +47,7 @@ const Hotel = () => {
   const [loadingRawInfo, setLoadingRawInfo] = useState(true);
   const [loadingRooms, setLoadingRooms] = useState(true);
   const [differenceinDays, setDifferenceInDays] = useState(0);
+  const roomListRef = useRef(null);
 
   useEffect(() => {
     const fetchRawInfo = async () => {
@@ -79,6 +97,7 @@ const Hotel = () => {
         : [];
       setRooms(loadedRooms);
       setLoadingRooms(false);
+      setIsRoomListReady(true);
     }
   }, [rawinfo]);
 
@@ -134,6 +153,16 @@ const Hotel = () => {
 
   const amenities = rawinfo?.amenities || [];
 
+  const [isRoomListReady, setIsRoomListReady] = useState(false);
+
+  const handleBookingClick = () => {
+    if (isRoomListReady && roomListRef.current) {
+      roomListRef.current.scrollIntoView({ behavior: "smooth" });
+    } else {
+      console.error("Room list is not ready or roomListRef.current is null");
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -156,6 +185,7 @@ const Hotel = () => {
                 <FontAwesomeIcon
                   icon={faCircleArrowLeft}
                   className="arrow"
+                  data-test="arrowLeft"
                   onClick={() => handleMove("l")}
                 />
                 <div className="sliderWrapper">
@@ -168,12 +198,15 @@ const Hotel = () => {
                 <FontAwesomeIcon
                   icon={faCircleArrowRight}
                   className="arrow"
+                  data-test="arrowRight"
                   onClick={() => handleMove("r")}
                 />
               </div>
             )}
             <div className="hotelWrapper">
-              <button className="bookNow">Book Now!</button>
+              <button className="bookNow" onClick={handleBookingClick}>
+                Book Now!
+              </button>
               <h1 className="hotelTitle">{rawinfo.name}</h1>
               <div className="hotelAddress">
                 <FontAwesomeIcon icon={faLocationDot} />
@@ -206,27 +239,32 @@ const Hotel = () => {
               </div>
               <div className="hotelDetails">
                 <div className="hotelDetailsTexts">
-                  <h1 className="hotelTitle">Stay in the Heart of the City</h1>
+                  <h1 data-test="hotelDescTitle" className="hotelTitle">Stay in the Heart of the City</h1>
                   <p
                     className="hotelDescription"
                     dangerouslySetInnerHTML={{ __html: rawinfo.description }}
                   />
                 </div>
-                <div className="hotelDetailsPrice">
+               <div className="hotelDetailsPrice">
                   <h1>Perfect for a {differenceinDays}-night stay!</h1>
                   <span>
-                    [HARDCODED] Located in the real heart of Krakow, this
-                    property has an excellent location score of 9.8!
+                    Welcome to {rawinfo.name}, the ideal destination for your{" "}
+                    {differenceinDays}-night vacation! Nestled in the heart of{" "}
+                    {destination}, our hotel offers a perfect blend of luxury,
+                    comfort, and convenience, ensuring an unforgettable stay no
+                    matter how many nights you spend with us.
                   </span>
                   <h2>
                     <b>${(price * differenceinDays).toFixed(2)}</b>
                   </h2>
-                  <button>Reserve or Book Now!</button>
+                  <button data-test="bookNow" onClick={handleBookingClick}>
+                    Reserve or Book Now!
+                  </button>
                 </div>
               </div>
             </div>
             <div className="centeredContainer">
-              <div className="centeredContent">
+              <div data-test="trustYouScore" className="centeredContent">
                 <TrustYouScore
                   overall={rawinfo.trustyou?.score?.overall || 0}
                   kaligo={rawinfo.trustyou?.score?.kaligo_overall || 0}
@@ -238,22 +276,30 @@ const Hotel = () => {
               </div>
             </div>
             <div className="centeredContainer categoriesContainer">
-              <div className="centeredContent">
+              <div data-test="categories" className="centeredContent">
                 <Categories categories={categories} />
               </div>
             </div>
             <div className="centeredContainer amenitiesContainer">
-              <div className="centeredContent">
+              <div data-test="amenities" className="centeredContent">
                 <AmenitiesList amenities={amenities} />
               </div>
             </div>
             <div className="centeredContainer roomListContainer">
-              <div className="centeredContent">
-                <RoomList rooms={rooms} />
+              <div data-test="rooms" className="centeredContent" ref={roomListRef}>
+                <RoomList
+                  rooms={rooms}
+                  hotelId={id}
+                  destinationId={destinationId}
+                  destination={destination}
+                  checkin={checkin}
+                  checkout={checkout}
+                  guests={guests}
+                />
               </div>
             </div>
             <div className="centeredContainer mapContainer">
-              <div className="centeredContent">
+              <div data-test="maps" className="centeredContent">
                 <Map lat={rawinfo.latitude} lng={rawinfo.longitude} />
               </div>
             </div>

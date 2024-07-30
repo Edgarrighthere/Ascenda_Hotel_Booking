@@ -33,7 +33,7 @@ describe('Home Page Test', () => {
     // Check if each option is clickable
     const options = [
       { text: 'Log in', path: '/login' },
-      { text: 'Account info.', path: '/account' },
+      { text: 'Account Info', path: '/account' },
       { text: 'Bookings', path: '/bookings' },
       { text: 'Log out', path: '/' }
     ];
@@ -128,7 +128,7 @@ describe('Home Page Test', () => {
   // Test that clicking on dateSearch launches date picker and selects date range
   it('Displays the date picker and selects a date range', () => {
     const startDate = new Date();
-    const endDate = addDays(new Date(), 3);
+    const endDate = addDays(new Date(), 2);
 
     cy.log(`Expected start date: ${format(startDate, "dd/MM/yyyy")}`);
     cy.log(`Expected end date: ${format(endDate, "dd/MM/yyyy")}`);
@@ -228,7 +228,7 @@ describe('Home Page Test', () => {
     });
 
     const startDate = new Date();
-    const endDate = addDays(new Date(), 3);
+    const endDate = addDays(new Date(), 2);
 
     cy.get('[data-test="dateSearch"] .headerSearchText').click();
     cy.get('.rdrDayNumber span').contains(startDate.getDate()).click({ force: true });
@@ -245,7 +245,9 @@ describe('Home Page Test', () => {
     cy.get('body').click(0, 0);
 
     cy.get('[data-test="searchTest"]').click();
-    cy.visit('/hotels/{destinationSearch}/{startDate}/{endDate}/{guestInfoSearch}/');
+
+    cy.wait(5000);
+
     cy.visit('/');
   });
 
