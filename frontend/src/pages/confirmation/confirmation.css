@@ -27,15 +27,17 @@ html, body {
   .heading {
     text-align: center;  /* center the text */
     margin-bottom: 20px;
+    font-family: 'Lato';
   }
   
   .paragraph {
     margin-bottom: 10px;
+    font-family: 'Lato';
   }
 
   .button-container {
     text-align: center; /* Center the button horizontally */
-    margin: 20px auto; /* Add some space above the button container */
+    margin: 20px auto;
   }
 
   .backToHomeButton {
@@ -49,6 +51,7 @@ html, body {
     font-size: 16px;
     cursor: pointer;
     text-align: center;
+    font-family: 'Lato';
     transition: background-color 0.3s ease;
   }
 

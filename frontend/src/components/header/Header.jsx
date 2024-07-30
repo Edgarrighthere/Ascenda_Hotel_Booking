@@ -188,6 +188,9 @@ const Header = ({ type }) => {
     };
   }, [dateRef, optionsRef]);
 
+  const dates = {date};
+  localStorage.setItem('selected_dates', dates);
+
   return (
     <div className="header">
       <div
