@@ -23,7 +23,6 @@ router.post("/", async (req, res, next) => {
             res.status(200).json({ 
                 success: true, 
                 message: "Account deleted successfully.", 
-                resetUserInfo: true
             });
         } else {
             await user.save(); // Save changes after OTP verification

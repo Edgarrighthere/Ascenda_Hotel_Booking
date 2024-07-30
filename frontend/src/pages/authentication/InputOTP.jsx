@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import './inputOTP.css';
 
-const InputOTP = ({ onLogout }) => {
+const InputOTP = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -75,7 +75,6 @@ const InputOTP = ({ onLogout }) => {
                     setSuccess(<> <FontAwesomeIcon icon={faCheck} /> Account deleted successfully. Redirecting you to home page... </>);
                     setError(""); // Clear any previous errors
                     setTimeout(() => {
-                        onLogout();
                         navigate('/');
                     }, 3000); // Redirect after 3 seconds
                 } else {
@@ -126,7 +125,7 @@ const InputOTP = ({ onLogout }) => {
 
     return (
         <div className="otpPage">
-            <Navbar onLogout={onLogout}/>
+            <Navbar/>
             <div className="inputotp">
                 <div data-test="otpContainer" className="otpContainer">
                     <div data-test="otpTitle" className="otpTitle">2FA Authentication</div>

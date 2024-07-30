@@ -98,6 +98,7 @@ const Navbar = ({ onLogout }) => {
             setDropdownOpen(false);
             alert("Logout successful");
             onLogout();
+            navigate('/', { replace: true });
         } catch (error) {
             console.error("Error during logout:", error);
         }
