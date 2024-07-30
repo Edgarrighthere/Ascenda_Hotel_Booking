@@ -1,75 +1,50 @@
-/* Ensure the entire page has some background and padding */
-body {
-    background-color: #ffffff;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+.accountPage {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-image: url('../../../public/images/background_01.png');
+    background-color: #f0f0f0; /* Set a background color similar to image background */
+    background-size: 40%; /* Adjust to fit the content */
+    background-repeat: no-repeat; /* Prevent repeating the image */
+    background-position: right center; /* Position on the right center */
+}
+
+.account {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; 
+    font-family: 'Lato';
+    padding-left: 22%; 
 }
 
 .accountContainer {
+    width: 30%; 
+    background-color: #ffffff; 
+    padding: 20px; 
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Shadow for platform effect */
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 40px 20px; /* Increase padding for better spacing */
-}
-
-.accountContent {
-    width: 100%;
-    max-width: 1000px; /* Increase max-width for a larger container */
-    background-color: #fff;
-    padding: 40px; /* Increase padding inside the container */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Slightly larger shadow for emphasis */
-    border-radius: 10px; /* Slightly larger border radius */
-    max-height: 600px
+    gap: 10px; /* Gap between elements */
 }
 
 .accountTitle {
-    font-size: 28px; /* Increase font size */
+    color: midnightblue;
+    font-size: 30px;
     font-weight: bold;
-    margin-bottom: 30px; /* Increase margin for better spacing */
-    text-align: center;
 }
 
-.accountDetails {
-    margin-top: 30px; /* Increase top margin */
-}
-
-.accountDetail {
-    margin-bottom: 15px; /* Increase bottom margin */
-    font-size: 20px; /* Increase font size */
-    line-height: 1.5;
+.accountInfo{
+    font-size: large;
 }
 
 .error {
     color: red;
-    margin-bottom: 20px;
-    font-size: 18px; /* Increase font size */
+    margin-top: 10px;
     text-align: center;
-}
-
-.footerContainer {
-    margin-top: 40px; /* Increase top margin */
-    width: 100%;
-    text-align: center;
-}
-
-.accountDetail {
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-.deleteAccountButton {
-    background-color: #e74c3c; /* Red color */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin-top: 20px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.deleteAccountButton:hover {
-    background-color: #c0392b; /* Darker red */
+    font-family: 'Lato';
+    font-size: medium;
 }
 
 .deleteAccountButton {

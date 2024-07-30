@@ -4,6 +4,8 @@ import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import axios from 'axios';
 import './account.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 const Account = () => {
     const location = useLocation();
@@ -11,8 +13,15 @@ const Account = () => {
     const [userDetails, setUserDetails] = useState(user);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [isGuest, setIsGuest] = useState(user.isGuest || false);
 
     useEffect(() => {
+        if (isGuest) {
+            setLoading(false);
+            setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> 'Please log in to view account information'</>);
+            return;
+        }
+
         const fetchUserDetails = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/account/details', {
@@ -25,7 +34,7 @@ const Account = () => {
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching user details:', error);
-                setError('Failed to fetch user details');
+                setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> 'Failed to fetch user details' </>);
                 setLoading(false);
             }
         };
@@ -34,23 +43,38 @@ const Account = () => {
             fetchUserDetails();
         } else {
             setLoading(false);
+            setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> 'Failed to fetch user details' </>);
         }
     }, [user.firstName, user.lastName]);
 
+    const handleLogout = () => {
+        setUserDetails({
+            email: '',
+            salutation: '',
+            firstName: '',
+            lastName: '',
+            countryCode: '',
+            phoneNumber: ''
+        });
+        setIsGuest(true);
+        setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> 'Please log in to view account information'</>);
+    };
+
     if (loading) return <div>Loading...</div>;
-    if (error) return <div>{error}</div>;
 
     return (
         <div className="accountPage">
-            <Navbar />
-            <div className="accountContainer">
-                <h1>Account Details</h1>
-                <p><strong>Email:</strong> {userDetails.email}</p>
-                <p><strong>Salutation:</strong> {userDetails.salutation}</p>
-                <p><strong>First Name:</strong> {userDetails.firstName}</p>
-                <p><strong>Last Name:</strong> {userDetails.lastName}</p>
-                <p><strong>Country Code:</strong> {userDetails.countryCode}</p>
-                <p><strong>Phone Number:</strong> {userDetails.phoneNumber}</p>
+            <Navbar onLogout={handleLogout}/>
+            <div className="account">
+                <div data-test="accountContainer" className="accountContainer">
+                    <div data-test="accontTitle" className="accountTitle">Account Information</div>
+                    <div className="accountInfo">
+                        <p><strong>Email:</strong> {userDetails.email || ' '}</p>
+                        <p><strong>Name:</strong> {userDetails.salutation || ' '} {userDetails.firstName || ' '} {userDetails.lastName || ' '}</p>
+                        <p><strong>Phone Number:</strong> {userDetails.countryCode || ' '} {userDetails.phoneNumber || ' '}</p>
+                    </div>
+                    {error && <div className="error">{error}</div>}  
+                </div>
             </div>
             <Footer />
         </div>

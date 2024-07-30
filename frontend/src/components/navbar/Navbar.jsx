@@ -7,7 +7,7 @@ import axios from "axios";
 import React from "react"; 
 
 
-const Navbar = () => {
+const Navbar = ({ onLogout }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -64,7 +64,13 @@ const Navbar = () => {
     };
 
     const handleOptionClick = (path) => {
-        if (path === "/account" && currentSalutation !== "Guest") {
+        if (path === "/account" && currentSalutation === "Guest") {
+            navigate(path, {
+                state: {
+                    isGuest: true
+                }
+            });
+        } else if (path === "/account" && currentSalutation !== "Guest") {
             navigate(path, {
                 state: {
                     salutation: currentSalutation,
@@ -89,6 +95,7 @@ const Navbar = () => {
             localStorage.removeItem('lastName');
             setDropdownOpen(false);
             alert("Logout successful");
+            onLogout();
         } catch (error) {
             console.error("Error during logout:", error);
         }
