@@ -7,8 +7,12 @@ import FeaturedProperties from "../../components/featuredProperties/featuredProp
 import MailList from "../../components/mailList/MailList";
 import Footer from "../../components/footer/Footer";
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
 const Home = () => {
+    const location = useLocation();
+    const user = location.state || {};
+    
     return (
         <div>
             <Navbar/>

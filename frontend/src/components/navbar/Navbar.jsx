@@ -8,12 +8,6 @@ import React from "react";
 
 
 const Navbar = () => {
-
-
-
-
-
-
     const navigate = useNavigate();
     const location = useLocation();
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -70,8 +64,18 @@ const Navbar = () => {
     };
 
     const handleOptionClick = (path) => {
-        setDropdownOpen(false);
-        navigate(path);
+        if (path === "/account" && currentSalutation !== "Guest") {
+            navigate(path, {
+                state: {
+                    salutation: currentSalutation,
+                    firstName: currentFirstName,
+                    lastName: currentLastName
+                }
+            });
+        } else {
+            setDropdownOpen(false);
+            navigate(path);
+        }
     };
 
     const handleLogout = async () => {

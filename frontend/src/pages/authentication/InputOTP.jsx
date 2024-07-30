@@ -12,10 +12,14 @@ import './inputOTP.css';
 const InputOTP = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const email = location.state?.email;
-    const salutation  = location.state?.salutation;
-    const firstName  = location.state?.firstName;
-    const lastName  = location.state?.lastName;
+
+    const email = location.state?.email || "";
+    const salutation = location.state?.salutation || "";
+    const firstName = location.state?.firstName || "";
+    const lastName = location.state?.lastName || "";
+    const countryCode = location.state?.countryCode || "";
+    const phoneNumber = location.state?.phoneNumber || "";
+
     const [otp, setOtp] = useState(Array(6).fill(''));
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(''); 
@@ -69,7 +73,16 @@ const InputOTP = () => {
                 setSuccess(<> <FontAwesomeIcon icon={faCheck} /> Valid OTP entered. Redirecting you to home page... </>);
                 setError(""); // Clear any previous errors
                 setTimeout(() => {
-                    navigate('/', { state: { salutation, firstName, lastName } });
+                    navigate('/', { 
+                        state: { 
+                            email, 
+                            salutation, 
+                            firstName, 
+                            lastName, 
+                            countryCode, 
+                            phoneNumber 
+                        } 
+                    });
                 }, 3000); // Redirect after 3 seconds
             } else {
                 setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Invalid OTP. Please make sure you entered the correct OTP sent. </>);

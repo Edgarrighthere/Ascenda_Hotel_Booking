@@ -31,6 +31,7 @@ var destinationSearchRoute = destinationSearch.router;
 var hotelSearch = require('./routes/hotel_search');
 var hotelSearchRoute = hotelSearch.router;
 var roomDetails = require('./routes/room_details')
+var accountRouter = require('./routes/account.js')
 
 
 var app = express();
@@ -76,6 +77,9 @@ app.use("/forgot-password", forgotPasswordRouter);
 
 // Reset password route
 app.use("/reset-password", resetPasswordRouter);
+
+// Account Info route
+app.use("/account", accountRouter);
 
 // Logout route
 app.post("/logout", (req, res) => {
