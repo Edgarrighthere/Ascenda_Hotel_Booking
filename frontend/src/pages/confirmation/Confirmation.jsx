@@ -27,12 +27,6 @@ const Confirmation = () => {
     navigate("/");
   };
   
-  // const [bookingData, setBookingData] = useState(null);
-  // useEffect(() => {
-  //   const data = localStorage.getItem('bookingData');
-  //   setBookingData(data);
-  //   console.log(bookingData);
-  // }, [bookingData]);
   const [bookingDetails, setBookingDetails] = useState(null);
   
   useEffect(() => {
