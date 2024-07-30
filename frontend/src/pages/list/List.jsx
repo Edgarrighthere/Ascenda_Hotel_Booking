@@ -442,7 +442,7 @@ const List = () => {
                                     </div>
                                 </div>
                                 {loading && <button className="listSearchButton">Loading...</button>}
-                                <button data-test="filterPanelSearch" className="listSearchButton" onClick={handleSearch}>Search</button>
+                                {!loading && <button data-test="filterPanelSearch" className="listSearchButton" onClick={handleSearch}>Search</button>}
                             </div>
                         </div>
                         <div className="resultContainer">
