@@ -243,11 +243,14 @@ const Hotel = () => {
                     dangerouslySetInnerHTML={{ __html: rawinfo.description }}
                   />
                 </div>
-                <div className="hotelDetailsPrice">
+               <div className="hotelDetailsPrice">
                   <h1>Perfect for a {differenceinDays}-night stay!</h1>
                   <span>
-                    [HARDCODED] Located in the real heart of Krakow, this
-                    property has an excellent location score of 9.8!
+                    Welcome to {rawinfo.name}, the ideal destination for your{" "}
+                    {differenceinDays}-night vacation! Nestled in the heart of{" "}
+                    {destination}, our hotel offers a perfect blend of luxury,
+                    comfort, and convenience, ensuring an unforgettable stay no
+                    matter how many nights you spend with us.
                   </span>
                   <h2>
                     <b>${(price * differenceinDays).toFixed(2)}</b>
