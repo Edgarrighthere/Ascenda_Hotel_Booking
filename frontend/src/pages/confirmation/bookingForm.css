@@ -4,17 +4,19 @@
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-family: 'Lato';
   }
   
   .booking-form h2 {
     text-align: center;
+    font-weight: 700;
+    text-decoration: midnightblue;
   }
   
   .booking-form form {
     display: inline-flex;
     flex-direction: column;
     margin-top: 10px
-  
   }
   
   .booking-form form div {
@@ -23,13 +25,18 @@
   
   .booking-form form label {
     margin-bottom: 5px;
+    font-family: 'Lato'
   }
   
-  .booking-form form input,
-  .booking-form form textarea {
-    padding: 8px;
-    width: 100%;
-    box-sizing: border-box;
+  .booking-form input,
+  .booking-form textarea {
+    width: 100%; /* Full width for inputs and textarea */
+    padding: 10px; /* Padding inside inputs and textarea */
+    border: 1px solid #ccc; /* Border for inputs and textarea */
+    border-radius: 4px; /* Rounded corners */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    font-size: 16px; /* Font size for text inside inputs and textarea */
+    transition: border-color 0.3s; /* Smooth transition for border color */
   }
   
   .booking-form form button {
@@ -40,6 +47,7 @@
     border-radius: 20px; /* Rounded corners */
     background-color: orange;
     color: #fff;
+    font-family: 'Lato';
     font-size: 16px;
     cursor: pointer;
     text-align: center;

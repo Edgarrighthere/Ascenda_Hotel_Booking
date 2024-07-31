@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import "./bookingForm.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
@@ -9,12 +9,22 @@ import Footer from "../../components/footer/Footer";
 const BookingForm = () => {
   const location = useLocation();
   const [error, setError] = useState("");
-  const { roomType, roomOnlyPrice, breakfastPrice, cancelPolicy } =
-    location.state || {};
+  const {
+    hotelId,
+    roomType,
+    roomOnlyPrice,
+    breakfastPrice,
+    cancelPolicy,
+    destinationId,
+    destination,
+    checkin,
+    checkout,
+    guests,
+  } = location.state || {};
 
   const [leadGuest, setLeadGuest] = useState({
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     email: "",
     phone: "",
   });
@@ -30,15 +40,26 @@ const BookingForm = () => {
     setBreakfastPackage((prevState) => !prevState);
   };
 
-  const navigate = useNavigate();
+  // save input to local storage
+  const bookingdata = {
+    leadGuest,
+    specialRequests,
+    roomType,
+    roomOnlyPrice,
+    breakfastPrice,
+    cancelPolicy,
+  };
+  localStorage.setItem("bookingDetails", JSON.stringify(bookingdata));
+  console.log("first", typeof bookingdata, JSON.stringify(bookingdata));
 
   const handleProceedClick = async (e) => {
+    localStorage.setItem("specialRequests", specialRequests);
     e.preventDefault();
 
     // Check if all required fields are filled
     if (
-      !leadGuest.firstName ||
-      !leadGuest.lastName ||
+      !leadGuest.first_name ||
+      !leadGuest.last_name ||
       !leadGuest.email ||
       !leadGuest.phone
     ) {
@@ -51,6 +72,12 @@ const BookingForm = () => {
 
     try {
       const response = await axios.post("http://localhost:5000/checkout", {
+        hotelId,
+        destinationId,
+        destination,
+        checkin,
+        checkout,
+        guests,
         roomType,
         roomOnlyPrice: roomOnlyPriceInCents,
         breakfastPrice: breakfastPriceInCents,
@@ -61,19 +88,8 @@ const BookingForm = () => {
       const stripe = window.Stripe(
         "pk_test_51PhBxoIrFKgjx0G0vtgffzyhVUjaLsGvvY4JPQXNSypxTUhg2jiluBiMDV6ws23piwulM7jgiI7bgz8NWP1UcSCS00vzlK2lj1"
       ); // Stripe publishable key
-      await stripe.redirectToCheckout({ sessionId: id });
 
-      navigate("/complete/:session_id", {
-        state: {
-          leadGuest,
-          specialRequests,
-          breakfastPackage,
-          roomType,
-          roomOnlyPrice,
-          breakfastPrice,
-          cancelPolicy,
-        },
-      });
+      await stripe.redirectToCheckout({ sessionId: id });
     } catch (error) {
       console.error("Error redirecting to checkout:", error);
     }
@@ -83,7 +99,7 @@ const BookingForm = () => {
     <>
       <Navbar />
       <div className="booking-form">
-        <h2>Booking Form</h2>
+        <h2>Enter Your Booking Details</h2>
 
         {/* <p>Room Type: {roomType}</p>
         <p>Room Only Price: {roomOnlyPrice}</p>
@@ -95,8 +111,8 @@ const BookingForm = () => {
             <label>First Name:</label>
             <input
               type="text"
-              name="firstName"
-              value={leadGuest.firstName}
+              name="first_name"
+              value={leadGuest.first_name}
               onChange={handleChange}
               required
             />
@@ -105,8 +121,8 @@ const BookingForm = () => {
             <label>Last Name:</label>
             <input
               type="text"
-              name="lastName"
-              value={leadGuest.lastName}
+              name="last_name"
+              value={leadGuest.last_name}
               onChange={handleChange}
               required
             />

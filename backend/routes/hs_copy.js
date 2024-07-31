@@ -85,10 +85,14 @@ router.get("/:id/:checkin/:checkout/:guests", async function (req, res, next) {
     } else if (guests == 0 || guests == null) {
         return res.status(400).json({message: "Invalid Input: There must be at least 1 guest."})
     } else {
+
+        console.time("fetchingHotels_multiThread")
         const [priceJson, hotelJson] = await Promise.all([
             getPricing(destinationId, checkin, checkout, guests),
             getListing(destinationId)
         ])
+        console.timeEnd("fetchingHotels_multiThread")
+
 
         if (priceJson["hotels"].length > 0) {
             const priceList = await mapPriceList(priceJson)
