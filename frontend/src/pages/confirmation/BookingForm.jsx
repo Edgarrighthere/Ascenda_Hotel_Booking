@@ -9,8 +9,18 @@ import Footer from "../../components/footer/Footer";
 const BookingForm = () => {
   const location = useLocation();
   const [error, setError] = useState("");
-  const { roomType, roomOnlyPrice, breakfastPrice, cancelPolicy } =
-    location.state || {};
+  const {
+    hotelId,
+    roomType,
+    roomOnlyPrice,
+    breakfastPrice,
+    cancelPolicy,
+    destinationId,
+    destination,
+    checkin,
+    checkout,
+    guests,
+  } = location.state || {};
 
   const [leadGuest, setLeadGuest] = useState({
     first_name: "",
@@ -62,6 +72,12 @@ const BookingForm = () => {
 
     try {
       const response = await axios.post("http://localhost:5000/checkout", {
+        hotelId,
+        destinationId,
+        destination,
+        checkin,
+        checkout,
+        guests,
         roomType,
         roomOnlyPrice: roomOnlyPriceInCents,
         breakfastPrice: breakfastPriceInCents,

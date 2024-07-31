@@ -11,6 +11,12 @@ const Room = ({
   breakfastPrice,
   cancelPolicy,
   all_room_info,
+  hotelId,
+  destinationId,
+  destination,
+  checkin,
+  checkout,
+  guests,
 }) => {
   const [seeMore, setSeeMore] = useState(false);
   const [selectButton, setSelectButton] = useState("Select");
@@ -61,23 +67,18 @@ const Room = ({
   const handleSelectClick = async () => {
     setSelectButton("Please Wait....");
     try {
-      // const response = await axios.post('http://localhost:5000/checkout', {
-      //   roomType,
-      //   roomOnlyPrice,
-      //   breakfastPrice,
-      //   cancelPolicy,
-      // });
-
-      // const { id } = response.data;
-      // const stripe = window.Stripe('pk_test_51PhBxoIrFKgjx0G0vtgffzyhVUjaLsGvvY4JPQXNSypxTUhg2jiluBiMDV6ws23piwulM7jgiI7bgz8NWP1UcSCS00vzlK2lj1'); // Stripe publishable key
-      // await stripe.redirectToCheckout({ sessionId: id });
-
       navigate("/booking", {
         state: {
+          hotelId,
           roomType,
           roomOnlyPrice,
           breakfastPrice,
           cancelPolicy,
+          destinationId,
+          destination,
+          checkin,
+          checkout,
+          guests,
         },
       });
     } catch (error) {
@@ -207,15 +208,31 @@ const Room = ({
   );
 };
 
-const RoomList = ({ rooms }) => {
+const RoomList = ({
+  rooms,
+  hotelId,
+  destinationId,
+  destination,
+  checkin,
+  checkout,
+  guests,
+}) => {
   if (!rooms) {
     return null;
   }
-
   return (
     <div className="room-list">
       {rooms.map((room, index) => (
-        <Room key={index} {...room} />
+        <Room
+          key={index}
+          hotelId={hotelId}
+          destinationId={destinationId}
+          destination={destination}
+          checkin={checkin}
+          checkout={checkout}
+          guests={guests}
+          {...room}
+        />
       ))}
     </div>
   );
