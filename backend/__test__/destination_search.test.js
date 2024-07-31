@@ -1,7 +1,44 @@
+const didYouMean = require('didyoumean2').default
+
+
 const destinationSearch = require("../routes/destination_search")
 const getDestinationId = destinationSearch.getDestinationId
-const destinationText = "Istana, Singapore";
-const expectedId = "RsBU";
+const inputText = "sigapore"
+const destinationText = "Istana, Singapore"
+const expectedId = "RsBU"
+
+// Mock destinations.json
+const destinations = [
+    {"term": "Rome, Italy"},
+    {"term": "Istana, Singapore"},
+    {"term": "Berlin, Germany"},
+    {"term": "Sentosa, Singapore"}
+]
+
+// Mock autocorrect function
+const getSuggestions = (value) => {
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+
+    if (inputLength === 0) {
+        return [];
+      }
+  
+    // Get the terms from the destinations and apply didYouMean2
+    const terms = destinations.map((dest) => dest.term);
+    const suggestions = didYouMean(inputValue, terms, {
+    returnType: "all-sorted-matches",
+    });
+
+    return suggestions
+    .map((suggestion) =>
+        destinations.find(
+        (dest) =>
+            dest.term && dest.term.toLowerCase() === suggestion.toLowerCase()
+        )
+    )
+    .filter(Boolean); // Filter out any undefined results
+}
 
 describe("Backend Destination Search Unit Test", () => {
     test("BACKEND_DEST_SEARCH_UNIT_1: Test retrieving destination id with valid destination text", async() => {
@@ -14,6 +51,12 @@ describe("Backend Destination Search Unit Test", () => {
         const id = await getDestinationId(invalid_destinationText)
         expect(id).toBe(null)
     }, 10000)
+
+    test("BACKEND_DEST_SEARCH_UNIT_3: Test autocorrect function of destination input text", async() => {
+        const output = getSuggestions(inputText)
+        const expectedOutput = [{'term': 'Istana, Singapore'}, {'term': 'Sentosa, Singapore'}]
+        expect(output).toEqual(expectedOutput)
+    })
 })
 
 describe("Backend Destination Search Integration Test", () => {
