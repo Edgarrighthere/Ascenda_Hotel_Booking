@@ -1,4 +1,4 @@
-import HotelSorting from '../src/controllers/HotelSorting';
+const { HotelSorting } = require('../src/controllers/HotelSorting');
 
 // Sample data
 const hotelListings = [
@@ -24,5 +24,10 @@ describe('Frontend List Sorting Unit and Integration Test', () => {
             { id: 1, price: 100, rating: 4 },
             { id: 3, price: 150, rating: 3 },
         ]);
+    });
+
+    test('FRONTEND_LIST_SORT_3: Should return the original list if no sorting is applied', async () => {
+        const sortedListings = await HotelSorting(hotelListings, false, false);
+        expect(sortedListings).toEqual(hotelListings);
     });
 });
