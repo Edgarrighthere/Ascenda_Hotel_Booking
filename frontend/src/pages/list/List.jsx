@@ -450,12 +450,13 @@ const List = () => {
                         <div className="resultContainer">
                             <span>{hotelListings.length} hotels found</span>
                             <div className="sortContainer">
-                                <FormControl className="sortButton">
+                                <FormControl className="sortButton" data-testid="sort-control">
                                     <InputLabel>Sort by:</InputLabel>
                                     <Select
                                         label="Sort by:"
                                         value={sortBy}
                                         onChange={handleSortingRequest}
+                                        data-testid="sort-select"
                                     >
                                         <MenuItem value={0}>---</MenuItem>
                                         <MenuItem value={1}>Price (lowest first)</MenuItem>
