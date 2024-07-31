@@ -5,9 +5,17 @@ import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import "./confirmation.css";
 import { useNavigate, useLocation } from "react-router-dom";
+
 //import { format, addDays } from "date-fns";
 
 const Confirmation = () => {
+  const [searchDetails, setSearchDetails] = useState(null);
+  const storedSearchDetails = localStorage.getItem("search_details");
+  if (storedSearchDetails && searchDetails === null) {
+    setSearchDetails(JSON.parse(storedSearchDetails));
+    // You can now use searchDetails object
+  }
+
   // session id
   let { session_id } = useParams();
 
@@ -28,18 +36,20 @@ const Confirmation = () => {
   };
   
   const [bookingDetails, setBookingDetails] = useState(null);
-  
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    const details = localStorage.getItem('bookingDetails');
+    const details = localStorage.getItem("bookingDetails");
     if (details) {
       setBookingDetails(JSON.parse(details));
-      console.log(details)
-    }else{
-      console.log(details)
+      console.log(details);
+      setLoading(true);
+    } else {
+      console.log(details);
     }
     //console.log(details);
-  }, [])
- 
+  }, []);
+
   // const parseDate = (dateString) => {
   //   const parsedDate = new Date(dateString);
   //   return isNaN(parsedDate) ? null : parsedDate;
@@ -50,21 +60,27 @@ const Confirmation = () => {
   // let checkin = state.date.startDate;
   // let checkout = state.date.endDate;
 
-    return (
+  return (
     <div id="root">
       <Navbar />
-      <div className="container">
-        <h2 className="heading">Your booking has been confirmed!</h2>
-        <p className="paragraph">Lead Guest's First Name: {bookingDetails.leadGuest.first_name}</p>
-        <p className="paragraph">Lead Guest's Last Name: {bookingDetails.leadGuest.last_name}</p>
-        <p className="paragraph">Check-in Date:{" "}</p>
-        <p className="paragraph">Check-out Date: {" "}</p>
-        <p className="paragraph">Adults: {/*options.adult*/}</p>
-        <p className="paragraph">Children: {/*options.children*/}</p>
-        <p className="paragraph">Rooms Booked: {/*options.rooms*/}</p>
-        <p className="paragraph">Special Requests: {} </p>
-        <p className="paragraph">Booking reference: {session_id}</p>
-      </div>
+      {loading && (
+        <div className="container">
+          <h2 className="heading">Your booking has been confirmed!</h2>
+          <p className="paragraph">
+            Lead Guest's First Name: {bookingDetails.leadGuest.first_name}
+          </p>
+          <p className="paragraph">
+            Lead Guest's Last Name: {bookingDetails.leadGuest.last_name}
+          </p>
+          <p className="paragraph">Check-in Date:{searchDetails.checkin} </p>
+          <p className="paragraph">Check-out Date:{searchDetails.checkout} </p>
+          <p className="paragraph">Adults: {searchDetails.adults}</p>
+          <p className="paragraph">Children: {searchDetails.children}</p>
+          <p className="paragraph">Rooms Booked: {searchDetails.rooms}</p>
+          <p className="paragraph">Special Requests: {} </p>
+          <p className="paragraph">Booking reference: {session_id}</p>
+        </div>
+      )}
       <div className="button-container">
         <button onClick={handleBackToHome} className="backToHomeButton">
           Back to Home
