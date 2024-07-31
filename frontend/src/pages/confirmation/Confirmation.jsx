@@ -43,6 +43,7 @@ const Confirmation = () => {
   // }, [bookingData]);
   const [bookingDetails, setBookingDetails] = useState(null);
   const [loading, setLoading] = useState(false);
+  const specialRequests = localStorage.getItem("specialRequests");
 
   useEffect(() => {
     const details = localStorage.getItem("bookingDetails");
@@ -78,12 +79,12 @@ const Confirmation = () => {
           <p className="paragraph">
             Lead Guest's Last Name: {bookingDetails.leadGuest.last_name}
           </p>
-          <p className="paragraph">Check-in Date:{searchDetails.checkin} </p>
-          <p className="paragraph">Check-out Date:{searchDetails.checkout} </p>
+          <p className="paragraph">Check-in Date: {searchDetails.checkin} </p>
+          <p className="paragraph">Check-out Date: {searchDetails.checkout} </p>
           <p className="paragraph">Adults: {searchDetails.adults}</p>
           <p className="paragraph">Children: {searchDetails.children}</p>
           <p className="paragraph">Rooms Booked: {searchDetails.rooms}</p>
-          <p className="paragraph">Special Requests: {} </p>
+          <p className="paragraph">Special Requests: {specialRequests} </p>
           <p className="paragraph">Booking reference: {session_id}</p>
         </div>
       )}

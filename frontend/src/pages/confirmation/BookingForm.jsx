@@ -7,12 +7,6 @@ import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 
 const BookingForm = () => {
-  const [searchDetails, setSearchDetails] = useState(null);
-  const storedSearchDetails = localStorage.getItem("search_details");
-  if (storedSearchDetails && searchDetails === null) {
-    setSearchDetails(JSON.parse(storedSearchDetails));
-    // You can now use searchDetails object
-  }
   const location = useLocation();
   const [error, setError] = useState("");
   const { roomType, roomOnlyPrice, breakfastPrice, cancelPolicy } =
@@ -49,6 +43,7 @@ const BookingForm = () => {
   console.log("first", typeof bookingdata, JSON.stringify(bookingdata));
 
   const handleProceedClick = async (e) => {
+    localStorage.setItem("specialRequests", specialRequests);
     e.preventDefault();
 
     // Check if all required fields are filled
@@ -62,9 +57,7 @@ const BookingForm = () => {
       return;
     }
 
-    const roomOnlyPriceInCents = Math.round(
-      roomOnlyPrice * searchDetails.days * searchDetails.rooms * 100
-    );
+    const roomOnlyPriceInCents = Math.round(roomOnlyPrice * 100);
     const breakfastPriceInCents = Math.round(breakfastPrice * 100);
 
     try {

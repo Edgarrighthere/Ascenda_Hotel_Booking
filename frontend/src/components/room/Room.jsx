@@ -162,23 +162,13 @@ const Room = ({
           <div className="price-option">
             <span className="room-plan">{breakfast}</span>
           </div>
-          <div className="price-option">
-            <span className="room-plan">Room Only</span>
-            <span className="room-price">${roomOnlyPrice.toFixed(2)}</span>
-          </div>
           {loading && (
             <div className="price-option">
               <span className="room-plan">
-                For {searchDetails.days} nights in {searchDetails.rooms} rooms :
+                For {searchDetails.days} nights in {searchDetails.rooms}{" "}
+                room(s):
               </span>
-              <span className="room-price">
-                $
-                {(
-                  searchDetails.days *
-                  searchDetails.rooms *
-                  roomOnlyPrice
-                ).toFixed(2)}
-              </span>
+              <span className="room-price">${roomOnlyPrice.toFixed(2)}</span>
             </div>
           )}
         </div>
