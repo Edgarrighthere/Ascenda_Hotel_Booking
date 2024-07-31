@@ -32,10 +32,10 @@ import ScrollToTop from '../../components/ScrollToTop';
 
 const List = () => {
     const location = useLocation();
-    const [destination, setDestination] = useState(location.state.destination);
-    const [date, setDate] = useState(location.state.date);
+    const [destination, setDestination] = useState(location.state?.destination || '');
+    const [date, setDate] = useState(location.state?.date || new Date());
     const [openDate, setOpenDate] = useState(false);
-    const [options, setOptions] = useState(location.state.options);
+    const [options, setOptions] = useState(location.state?.options || {});
     const [lat, setLat] = useState(null);
     const [lng, setLng] = useState(null);
     const [suggestions, setSuggestions] = useState([]);
@@ -482,12 +482,13 @@ const List = () => {
                         </div>
                     </div>
                 </div>
-                <div className="paginationBar">
+                <div className="paginationBar" data-testid="pagination-bar">
                     <Pagination 
                         count = {totalPages}
                         shape="rounded"
                         page = {currentPage}
                         onChange = {handlePageChange}
+                        data-testid="pagination"
                     />
                 </div>
                 <MailList />
