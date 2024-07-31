@@ -16,7 +16,6 @@ function filterByRating(starRatings, hotelListings) {
     var filtered_list = []
     var rating = 0
 
-    console.log(starRatings)
     for (let i=0; i<starRatings.length; i++) {
         if (starRatings[i] === true) {
             rating = i+1
@@ -32,50 +31,65 @@ function filterByRating(starRatings, hotelListings) {
 }
 
 async function HotelFilter(hotelListings, priceRange, filterPrice, starRatings, filterRating) {
-    var filtered_hotels = []
-    var filteredPriceRange = []
+    var filteredHotels
+    var filteredPages
+    var filteredPriceRange
 
-    if (filterPrice === true && filterRating === true) {
-        var filtered_price = filterByPrice(priceRange, hotelListings)
-        filtered_hotels = filterByRating(starRatings, filtered_price)
-    }
-    if (filterPrice === true && filterRating === false) {
-        filtered_hotels = filterByPrice(priceRange, hotelListings)
-    }
-    if (filterPrice === false && filterRating === true) {
-        filtered_hotels = filterByRating(starRatings, hotelListings)
-    }
-    
-    const filtered_count = filtered_hotels.length
-    const filtered_pages = Math.ceil(filtered_count/10)
+    if (hotelListings.length === 0) {
 
-    console.log(filtered_hotels.length)
-
-    if (filtered_count == 0) {
+        filteredHotels = []
+        filteredPages = 1
         filteredPriceRange = [0.00, 0.00]
-
+    
     } else {
-        var listings = filtered_hotels
-        var priceArray = []
-        listings.filter(obj => {
-            priceArray.push(obj.price)
-        })
+        
+        if (filterPrice === true && filterRating === true && priceRange.length > 0 && starRatings.length > 0) {
+            var filtered_price = filterByPrice(priceRange, hotelListings)
+            filteredHotels = filterByRating(starRatings, filtered_price)
+        } else if (filterPrice === true && filterRating === false && priceRange.length > 0) {
+            filteredHotels = filterByPrice(priceRange, hotelListings)
+        } else if (filterPrice === false && filterRating === true && starRatings.length > 0) {
+            filteredHotels = filterByRating(starRatings, hotelListings)
+        } else {
+            filteredHotels = []
+            filteredPages = 1
+            filteredPriceRange = [0.00, 0.00]
+        }
+        
+        const filteredCount = filteredHotels.length
+    
+        if (filteredCount === 0) { // no output
+            filteredPages = 1
+            filteredPriceRange = [0.00, 0.00]
+    
+        } else {
+            filteredPages = Math.ceil(filteredCount/10)
 
-        var minPrice = Math.min(...priceArray)
-        var maxPrice = Math.max(...priceArray)
-        var roundedMinPrice = Math.round(minPrice/10)*10
-        var roundedMaxPrice = Math.round(maxPrice/10)*10
+            var listings = filteredHotels
+            var priceArray = []
+            listings.filter(obj => {
+                priceArray.push(obj.price)
+            })
+    
+            var minPrice = Math.min(...priceArray)
+            var maxPrice = Math.max(...priceArray)
+            var roundedMinPrice = Math.floor(minPrice/10)*10
+            var roundedMaxPrice = Math.ceil(maxPrice/10)*10
+    
+            filteredPriceRange = [roundedMinPrice, roundedMaxPrice]
+        }
 
-        console.log(minPrice, maxPrice, roundedMinPrice, roundedMaxPrice)
-
-        filteredPriceRange = [roundedMinPrice, roundedMaxPrice]
     }
     
     return {
-        hotels: filtered_hotels,
-        pages: filtered_pages,
+        hotels: filteredHotels,
+        pages: filteredPages,
         range: filteredPriceRange
     }
 }
 
-export default HotelFilter;
+module.exports = {
+    HotelFilter: HotelFilter,
+    filterByPrice: filterByPrice,
+    filterByRating: filterByRating
+};
