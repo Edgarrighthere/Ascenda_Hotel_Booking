@@ -428,7 +428,7 @@ const List = () => {
                                 </div>
                                 <div data-test="listItem5" className="listItem">
                                     <label>Hotel Rating</label>
-                                    <div className="listStarRatings">
+                                    <div data-testid="starRating" className="listStarRatings">
                                         {Object.keys(starRatings).map(star => (
                                             <div key={star} className="listStarRatingItem">
                                                 <input
