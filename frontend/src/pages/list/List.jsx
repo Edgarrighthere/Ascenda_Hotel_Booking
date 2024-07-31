@@ -350,7 +350,7 @@ const List = () => {
                                 </div>
                                 <div data-test="listItem2" className="listItem">
                                     <label>Check-in Date</label>
-                                    <span className="listDatepicker" onClick={() => setOpenDate(!openDate)}>
+                                    <span data-testid="open-date-picker" className="listDatepicker" onClick={() => setOpenDate(!openDate)}>
                                         {`${format(date[0].startDate, "dd/MM/yyyy")} to 
                                         ${format(date[0].endDate, "dd/MM/yyyy")}`}
                                     </span>
@@ -363,6 +363,7 @@ const List = () => {
                                                 }}
                                                 minDate={new Date()}
                                                 ranges={date}
+                                                data-testid="date-range-picker"
                                             />
                                         </div>
                                     )}
@@ -375,9 +376,9 @@ const List = () => {
                                                 Adults 
                                             </span>
                                             <div className="optionCounter">
-                                                <button data-test="adultsDecrease" disabled={options.adult <= 1} onClick={() => decrementOption('adult')} className="optionCounterButton">-</button>
-                                                <span data-test="adultsNum" className="optionCounterNumber">{options.adult}</span>
-                                                <button data-test="adultsIncrease" onClick={() => incrementOption('adult')} className="optionCounterButton">+</button>
+                                                <button data-testid="adultsDecrease" data-test="adultsDecrease" disabled={options.adult <= 1} onClick={() => decrementOption('adult')} className="optionCounterButton">-</button>
+                                                <span data-testid="adultsNum" data-test="adultsNum" className="optionCounterNumber">{options.adult}</span>
+                                                <button data-testid="adultsIncrease" data-test="adultsIncrease" onClick={() => incrementOption('adult')} className="optionCounterButton">+</button>
                                             </div>
                                         </div>
                                         <div className="listOptionItem">
@@ -385,9 +386,9 @@ const List = () => {
                                                 Children 
                                             </span>
                                             <div className="optionCounter">
-                                                <button data-test="childrenDecrease" disabled={options.children <= 0} onClick={() => decrementOption('children')} className="optionCounterButton">-</button>
-                                                <span data-test="childrenNum" className="optionCounterNumber">{options.children}</span>
-                                                <button data-test="childrenIncrease" onClick={() => incrementOption('children')} className="optionCounterButton">+</button>
+                                                <button data-testid="childrenDecrease" data-test="childrenDecrease" disabled={options.children <= 0} onClick={() => decrementOption('children')} className="optionCounterButton">-</button>
+                                                <span data-testid="childrenNum" data-test="childrenNum" className="optionCounterNumber">{options.children}</span>
+                                                <button data-testid="childrenIncrease" data-test="childrenIncrease" onClick={() => incrementOption('children')} className="optionCounterButton">+</button>
                                             </div>
                                         </div>
                                         <div className="listOptionItem">
@@ -395,14 +396,14 @@ const List = () => {
                                                 Rooms 
                                             </span>
                                             <div className="optionCounter">
-                                                <button data-test="roomsDecrease" disabled={options.rooms <= 1} onClick={() => decrementOption('rooms')} className="optionCounterButton">-</button>
-                                                <span data-test="roomsNum" className="optionCounterNumber">{options.rooms}</span>
-                                                <button data-test="roomsIncrease" onClick={() => incrementOption('rooms')} className="optionCounterButton">+</button>
+                                                <button data-testid="roomsDecrease" data-test="roomsDecrease" disabled={options.rooms <= 1} onClick={() => decrementOption('rooms')} className="optionCounterButton">-</button>
+                                                <span data-testid="roomsNum" data-test="roomsNum" className="optionCounterNumber">{options.rooms}</span>
+                                                <button data-testid="roomsIncrease" data-test="roomsIncrease" onClick={() => incrementOption('rooms')} className="optionCounterButton">+</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div data-test="listItem4" className="listItem">
+                                <div data-testid="priceRangeSlider" data-test="listItem4" className="listItem">
                                     <label>Price per night</label>
                                     <RangeSlider
                                         min={priceRange[0]}
@@ -412,15 +413,16 @@ const List = () => {
                                         onInput={handlePriceRangeChange}
                                         className="rangeSlider"
                                         data-test="priceRangeSlider"
+                                        
                                     />
                                     <div className="priceRangeValues">
                                         <div className="priceRangeMin">
                                             <label>MIN</label>
-                                            <span>S${newPriceRange[0]}</span>
+                                            <span data-testid="priceRangeMin">S${newPriceRange[0]}</span>
                                         </div>
                                         <div className="priceRangeMax">
                                             <label>MAX</label>
-                                            <span>S${newPriceRange[1]}</span>
+                                            <span data-testid="priceRangeMax">S${newPriceRange[1]}</span>
                                         </div>
                                     </div>
                                 </div>
