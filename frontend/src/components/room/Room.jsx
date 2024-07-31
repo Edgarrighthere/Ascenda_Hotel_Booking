@@ -17,6 +17,14 @@ const Room = ({
   const [breakfast, setBreakfast] = useState("No Breakfast Combo");
   console.log(JSON.stringify(all_room_info));
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [searchDetails, setSearchDetails] = useState(null);
+  const storedSearchDetails = localStorage.getItem("search_details");
+  if (storedSearchDetails && searchDetails === null) {
+    setSearchDetails(JSON.parse(storedSearchDetails));
+    setLoading(true);
+    // You can now use searchDetails object
+  }
 
   useEffect(() => {
     if (
@@ -152,12 +160,27 @@ const Room = ({
         <div className="room-type">{roomType}</div>
         <div className="room-pricing">
           <div className="price-option">
+            <span className="room-plan">{breakfast}</span>
+          </div>
+          <div className="price-option">
             <span className="room-plan">Room Only</span>
             <span className="room-price">${roomOnlyPrice.toFixed(2)}</span>
           </div>
-          <div className="price-option">
-            <span className="room-plan">{breakfast}</span>
-          </div>
+          {loading && (
+            <div className="price-option">
+              <span className="room-plan">
+                For {searchDetails.days} nights in {searchDetails.rooms} rooms :
+              </span>
+              <span className="room-price">
+                $
+                {(
+                  searchDetails.days *
+                  searchDetails.rooms *
+                  roomOnlyPrice
+                ).toFixed(2)}
+              </span>
+            </div>
+          )}
         </div>
         <div
           data-test="cancelPolicy"

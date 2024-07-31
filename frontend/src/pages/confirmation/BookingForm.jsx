@@ -7,6 +7,12 @@ import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 
 const BookingForm = () => {
+  const [searchDetails, setSearchDetails] = useState(null);
+  const storedSearchDetails = localStorage.getItem("search_details");
+  if (storedSearchDetails && searchDetails === null) {
+    setSearchDetails(JSON.parse(storedSearchDetails));
+    // You can now use searchDetails object
+  }
   const location = useLocation();
   const [error, setError] = useState("");
   const { roomType, roomOnlyPrice, breakfastPrice, cancelPolicy } =
@@ -38,10 +44,9 @@ const BookingForm = () => {
     roomOnlyPrice,
     breakfastPrice,
     cancelPolicy,
-  }
+  };
   localStorage.setItem("bookingDetails", JSON.stringify(bookingdata));
-  console.log("first", typeof(bookingdata), JSON.stringify(bookingdata));
-  
+  console.log("first", typeof bookingdata, JSON.stringify(bookingdata));
 
   const handleProceedClick = async (e) => {
     e.preventDefault();
@@ -57,7 +62,9 @@ const BookingForm = () => {
       return;
     }
 
-    const roomOnlyPriceInCents = Math.round(roomOnlyPrice * 100);
+    const roomOnlyPriceInCents = Math.round(
+      roomOnlyPrice * searchDetails.days * searchDetails.rooms * 100
+    );
     const breakfastPriceInCents = Math.round(breakfastPrice * 100);
 
     try {
@@ -72,11 +79,8 @@ const BookingForm = () => {
       const stripe = window.Stripe(
         "pk_test_51PhBxoIrFKgjx0G0vtgffzyhVUjaLsGvvY4JPQXNSypxTUhg2jiluBiMDV6ws23piwulM7jgiI7bgz8NWP1UcSCS00vzlK2lj1"
       ); // Stripe publishable key
-      
-      
 
       await stripe.redirectToCheckout({ sessionId: id });
-
     } catch (error) {
       console.error("Error redirecting to checkout:", error);
     }
