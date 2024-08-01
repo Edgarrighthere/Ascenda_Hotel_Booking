@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 // creates a Stripe checkout session, and returns the expected response with session ID and state, 
 // while properly managing the MongoDB connection.
 
-// Mock the Stripe library
+// Mocking of the Stripe library
 jest.mock('stripe', () => {
     return jest.fn(() => ({
         checkout: {
@@ -44,8 +44,8 @@ describe('POST /checkout', () => {
         const requestBody = {
             hotelId: '123',
             roomType: 'Deluxe',
-            roomOnlyPrice: 10000, // Amount in cents
-            breakfastPrice: 2000, // Amount in cents
+            roomOnlyPrice: 10000, 
+            breakfastPrice: 2000, 
             cancelPolicy: 'Free cancellation until 24 hours before check-in',
             destinationId: 'dest_456',
             destination: 'Singapore',

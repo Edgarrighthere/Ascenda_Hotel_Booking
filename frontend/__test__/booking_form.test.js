@@ -60,7 +60,5 @@ describe("BookingForm", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /Proceed to Payment/i }));
 
-    // Add any necessary assertions based on the expected behavior
-    // For example, check if a specific API call was made or if the form was successfully submitted
   });
 });
