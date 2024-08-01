@@ -37,26 +37,13 @@ const BookingForm = () => {
   };
 
   const handleBreakfastChange = (e) => {
-    setBreakfastPackage((prevState) => !prevState);
+    setBreakfastPackage(e.target.checked);
   };
-
-  // save input to local storage
-  const bookingdata = {
-    leadGuest,
-    specialRequests,
-    roomType,
-    roomOnlyPrice,
-    breakfastPrice,
-    cancelPolicy,
-  };
-  localStorage.setItem("bookingDetails", JSON.stringify(bookingdata));
-  console.log("first", typeof bookingdata, JSON.stringify(bookingdata));
 
   const handleProceedClick = async (e) => {
-    localStorage.setItem("specialRequests", specialRequests);
     e.preventDefault();
+    localStorage.setItem("specialRequests", specialRequests);
 
-    // Check if all required fields are filled
     if (
       !leadGuest.first_name ||
       !leadGuest.last_name ||
@@ -85,10 +72,7 @@ const BookingForm = () => {
       });
 
       const { id } = response.data;
-      const stripe = window.Stripe(
-        "pk_test_51PhBxoIrFKgjx0G0vtgffzyhVUjaLsGvvY4JPQXNSypxTUhg2jiluBiMDV6ws23piwulM7jgiI7bgz8NWP1UcSCS00vzlK2lj1"
-      ); // Stripe publishable key
-
+      const stripe = window.Stripe("pk_test_51PhBxoIrFKgjx0G0vtgffzyhVUjaLsGvvY4JPQXNSypxTUhg2jiluBiMDV6ws23piwulM7jgiI7bgz8NWP1UcSCS00vzlK2lj1");
       await stripe.redirectToCheckout({ sessionId: id });
     } catch (error) {
       console.error("Error redirecting to checkout:", error);
@@ -100,16 +84,12 @@ const BookingForm = () => {
       <Navbar />
       <div className="booking-form">
         <h2>Enter Your Booking Details</h2>
-
-        {/* <p>Room Type: {roomType}</p>
-        <p>Room Only Price: {roomOnlyPrice}</p>
-        <p>Breakfast Price: {breakfastPrice}</p>
-        <p>Cancel Policy: {cancelPolicy}</p> */}
-
+        {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleProceedClick}>
           <div>
-            <label>First Name:</label>
+            <label htmlFor="first_name">First Name:</label>
             <input
+              id="first_name"
               type="text"
               name="first_name"
               value={leadGuest.first_name}
@@ -118,8 +98,9 @@ const BookingForm = () => {
             />
           </div>
           <div>
-            <label>Last Name:</label>
+            <label htmlFor="last_name">Last Name:</label>
             <input
+              id="last_name"
               type="text"
               name="last_name"
               value={leadGuest.last_name}
@@ -128,8 +109,9 @@ const BookingForm = () => {
             />
           </div>
           <div>
-            <label>Email:</label>
+            <label htmlFor="email">Email:</label>
             <input
+              id="email"
               type="email"
               name="email"
               value={leadGuest.email}
@@ -138,8 +120,9 @@ const BookingForm = () => {
             />
           </div>
           <div>
-            <label>Phone Number:</label>
+            <label htmlFor="phone">Phone Number:</label>
             <input
+              id="phone"
               type="tel"
               name="phone"
               value={leadGuest.phone}
@@ -148,26 +131,22 @@ const BookingForm = () => {
             />
           </div>
           <div>
-            <label>Upgrade to Breakfast Package?</label>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginTop: "5px",
-              }}
-            >
-              <label> Yes</label>
+            <label htmlFor="breakfastPackage">Upgrade to Breakfast Package?</label>
+            <div className="checkbox-options">
               <input
+                id="breakfastPackage"
                 type="checkbox"
                 name="breakfastPackage"
                 checked={breakfastPackage}
                 onChange={handleBreakfastChange}
               />
+              <label htmlFor="breakfastPackage"> Yes</label>
             </div>
           </div>
           <div>
-            <label>Special Requests:</label>
+            <label htmlFor="specialRequests">Special Requests:</label>
             <textarea
+              id="specialRequests"
               name="specialRequests"
               value={specialRequests}
               onChange={(e) => setSpecialRequests(e.target.value)}

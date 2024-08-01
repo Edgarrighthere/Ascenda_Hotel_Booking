@@ -67,3 +67,14 @@
   .checkbox-options label {
     margin-right: 10px;
   }
+
+  .checkbox-options {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    margin-left: -280px; /* Adjust as needed to align it properly under the label */
+  }
+  
+  .checkbox-options label {
+    margin-left: -358px; /* Adjust as needed to ensure proper spacing */
+  }
