@@ -5,31 +5,31 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     font-family: 'Lato';
-  }
+}
   
-  .booking-form h2 {
+.booking-form h2 {
     text-align: center;
     font-weight: 700;
     text-decoration: midnightblue;
-  }
+}
   
-  .booking-form form {
+.booking-form form {
     display: inline-flex;
     flex-direction: column;
     margin-top: 10px
-  }
+}
   
-  .booking-form form div {
+.booking-form form div {
     margin-bottom: 7px;
-  }
+}
   
-  .booking-form form label {
+.booking-form form label {
     margin-bottom: 5px;
     font-family: 'Lato'
-  }
+}
   
-  .booking-form input,
-  .booking-form textarea {
+.booking-form input,
+.booking-form textarea {
     width: 100%; /* Full width for inputs and textarea */
     padding: 10px; /* Padding inside inputs and textarea */
     border: 1px solid #ccc; /* Border for inputs and textarea */
@@ -37,9 +37,16 @@
     box-sizing: border-box; /* Include padding and border in element's total width and height */
     font-size: 16px; /* Font size for text inside inputs and textarea */
     transition: border-color 0.3s; /* Smooth transition for border color */
-  }
+    resize: none;
+}
   
-  .booking-form form button {
+.error-message {
+    color: red; /* Make error messages red */
+    font-size: 14px; /* Adjust font size as needed */
+    margin-top: 5px; /* Add some spacing above the error message */
+}
+  
+.booking-form form button {
     display: inline-block; /* Wrap button around text */
     padding: 10px 20px; /* Adjust padding to your preference */
     margin-bottom: 20px auto;
@@ -52,29 +59,29 @@
     cursor: pointer;
     text-align: center;
     transition: background-color 0.3s ease-in;
-  }
+}
   
-  .booking-form form button:hover {
+.booking-form form button:hover {
     background-color: darkorange;
-  }
-
-  .checkbox-options {
+}
+  
+.checkbox-options {
     display: flex;
     align-items: center;
     margin-top: 10px;
-  }
+}
   
-  .checkbox-options label {
+.checkbox-options label {
     margin-right: 10px;
-  }
+}
 
-  .checkbox-options {
+.checkbox-options {
     display: flex;
     align-items: center;
     margin-top: 5px;
     margin-left: -280px; /* Adjust as needed to align it properly under the label */
-  }
+}
   
-  .checkbox-options label {
+.checkbox-options label {
     margin-left: -358px; /* Adjust as needed to ensure proper spacing */
-  }
+}

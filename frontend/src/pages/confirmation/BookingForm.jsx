@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import "./bookingForm.css";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
@@ -40,6 +39,24 @@ const BookingForm = () => {
     setBreakfastPackage(e.target.checked);
   };
 
+  const validateEmail = (email) => { 
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+// The validateEmail function ensures the email:
+// - Starts with one or more non-whitespace, non-@ characters
+// - Contains exactly one @ symbol
+// - Follows with one or more non-whitespace, non-@ characters
+// - Contains a . symbol after the domain part
+// - Ends with one or more non-whitespace, non-@ characters after the .
+
+  const validatePhoneNumber = (phone) => {
+    const re = /^\+?\d[\d\s]{6,14}$/; // Optional '+' at the start, number must start with a digit, number must be between 7 - 15 digits 
+    const cleanedPhone = phone.replace(/\s+/g, ''); // Remove spaces for length check
+    return re.test(String(phone)) && cleanedPhone.length >= 7 && cleanedPhone.length <= 15;
+  };
+
   const handleProceedClick = async (e) => {
     e.preventDefault();
     localStorage.setItem("specialRequests", specialRequests);
@@ -51,6 +68,16 @@ const BookingForm = () => {
       !leadGuest.phone
     ) {
       setError("Please fill in all required fields.");
+      return;
+    }
+
+    if (!validateEmail(leadGuest.email)) {
+      setError("Please provide a valid email address.");
+      return;
+    }
+
+    if (!validatePhoneNumber(leadGuest.phone)) {
+      setError("Please provide a valid phone number.");
       return;
     }
 

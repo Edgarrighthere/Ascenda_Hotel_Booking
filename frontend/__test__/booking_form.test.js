@@ -34,6 +34,56 @@ describe("BookingForm", () => {
     expect(await screen.findByText(/Please fill in all required fields./i)).toBeInTheDocument();
   });
 
+  test("shows error message if email is invalid", async () => {
+    render(
+      <MemoryRouter initialEntries={[{ state: {} }]}>
+        <BookingForm />
+      </MemoryRouter>
+    );
+
+    fireEvent.change(screen.getByLabelText(/First Name:/i), {
+      target: { value: "John" },
+    });
+    fireEvent.change(screen.getByLabelText(/Last Name:/i), {
+      target: { value: "Doe" },
+    });
+    fireEvent.change(screen.getByLabelText(/Email:/i), {
+      target: { value: "invalid-email" },
+    });
+    fireEvent.change(screen.getByLabelText(/Phone Number:/i), {
+      target: { value: "1234567890" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /Proceed to Payment/i }));
+
+    expect(await screen.findByText(/Please provide a valid email address./i)).toBeInTheDocument();
+  });
+
+  test("shows error message if phone number is invalid", async () => {
+    render(
+      <MemoryRouter initialEntries={[{ state: {} }]}>
+        <BookingForm />
+      </MemoryRouter>
+    );
+
+    fireEvent.change(screen.getByLabelText(/First Name:/i), {
+      target: { value: "John" },
+    });
+    fireEvent.change(screen.getByLabelText(/Last Name:/i), {
+      target: { value: "Doe" },
+    });
+    fireEvent.change(screen.getByLabelText(/Email:/i), {
+      target: { value: "john.doe@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText(/Phone Number:/i), {
+      target: { value: "invalid-phone" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /Proceed to Payment/i }));
+
+    expect(await screen.findByText(/Please provide a valid phone number./i)).toBeInTheDocument();
+  });
+
   test("fills and submits the form", async () => {
     render(
       <MemoryRouter initialEntries={[{ state: {} }]}>
@@ -59,6 +109,5 @@ describe("BookingForm", () => {
     });
 
     fireEvent.click(screen.getByRole("button", { name: /Proceed to Payment/i }));
-
   });
 });
