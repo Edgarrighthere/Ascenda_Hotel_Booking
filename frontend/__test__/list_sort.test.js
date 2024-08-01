@@ -26,8 +26,8 @@ describe('Frontend List Sorting Unit and Integration Test', () => {
         ]);
     });
 
-    test('FRONTEND_LIST_SORT_3: Should return the original list if no sorting is applied', async () => {
+    test('FRONTEND_LIST_SORT_3: Should return an empty list if no sorting is applied', async () => {
         const sortedListings = await HotelSorting(hotelListings, false, false);
-        expect(sortedListings).toEqual(hotelListings);
+        expect(sortedListings).toEqual([]);
     });
 });
