@@ -36,6 +36,9 @@ const BookingForm = () => {
     setBreakfastPackage((prevState) => !prevState);
   };
 
+  // account email
+  const account_email = localStorage.getItem("email");
+
   // save input to local storage
   const bookingdata = {
     leadGuest,
@@ -44,6 +47,7 @@ const BookingForm = () => {
     roomOnlyPrice,
     breakfastPrice,
     cancelPolicy,
+    account_email
   };
   localStorage.setItem("bookingDetails", JSON.stringify(bookingdata));
   console.log("first", typeof bookingdata, JSON.stringify(bookingdata));

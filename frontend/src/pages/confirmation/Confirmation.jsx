@@ -4,29 +4,43 @@ import { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import "./confirmation.css";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 //import { format, addDays } from "date-fns";
 
 const Confirmation = () => {
-  const [searchDetails, setSearchDetails] = useState(null);
+
+  const { session_id } = useParams();
+
+  const [searchDetails, setSearchDetails] = useState(localStorage.getItem("search_details"));
   const storedSearchDetails = localStorage.getItem("search_details");
-  if (storedSearchDetails && searchDetails === null) {
-    setSearchDetails(JSON.parse(storedSearchDetails));
-    // You can now use searchDetails object
-  }
 
-  // session id
-  let { session_id } = useParams();
+  const [bookingDetails, setBookingDetails] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  // start and end dates
-  // const location = useLocation();
-  // const state = location.state || {};
-  // const {
-  //   destination = "",
-  //   date = [{ startDate: "", endDate: "" }],
-  //   options = { adult: 1, children: 0, rooms: 0 },
-  // } = state;
+  // function to send bookingDetails to backend
+  const sendBookingDetails = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/complete/:session_id', {
+        bookingData: bookingDetails
+      });
+      console.log('Booking confirmed:', response.data);
+    } catch (error) {
+      console.error('Error confirming booking:', error);
+    }
+  };
+
+  useEffect(() => {
+    const details = localStorage.getItem("bookingDetails");
+    if (details) {
+      setBookingDetails(JSON.parse(details));
+      setLoading(true);
+      sendBookingDetails();
+    } else {
+      console.log("bookingDetails not fetched");
+    }
+  }, []);
 
   // home button
   const navigate = useNavigate();
@@ -34,31 +48,25 @@ const Confirmation = () => {
   const handleBackToHome = () => {
     navigate("/");
   };
-  
-  const [bookingDetails, setBookingDetails] = useState(null);
-  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const details = localStorage.getItem("bookingDetails");
-    if (details) {
-      setBookingDetails(JSON.parse(details));
-      console.log(details);
-      setLoading(true);
-    } else {
-      console.log(details);
+  // function to send searchDetails to backend
+  const sendSearchDetails = async () => {
+    try {
+      console.log("TEST")
+      const response = await axios.post('http://localhost:5000/complete/:session_id', {
+        searchData: searchDetails
+      });
+      console.log('Booking confirmed:', response.data);
+    } catch (error) {
+      console.error('Error confirming booking:', error);
     }
-    //console.log(details);
-  }, []);
+  };
 
-  // const parseDate = (dateString) => {
-  //   const parsedDate = new Date(dateString);
-  //   return isNaN(parsedDate) ? null : parsedDate;
-  // };
-
-  // const startDate = parseDate(date[0]?.startDate);
-  // const endDate = parseDate(date[0]?.endDate);
-  // let checkin = state.date.startDate;
-  // let checkout = state.date.endDate;
+  if (storedSearchDetails && searchDetails === null) {
+    setSearchDetails(JSON.parse(storedSearchDetails));
+  //   // You can now use searchDetails object
+    sendSearchDetails();
+   }
 
   return (
     <div id="root">
@@ -72,12 +80,12 @@ const Confirmation = () => {
           <p className="paragraph">
             Lead Guest's Last Name: {bookingDetails.leadGuest.last_name}
           </p>
-          <p className="paragraph">Check-in Date:{searchDetails.checkin} </p>
-          <p className="paragraph">Check-out Date:{searchDetails.checkout} </p>
+          <p className="paragraph">Check-in Date: {searchDetails.checkin} </p>
+          <p className="paragraph">Check-out Date: {searchDetails.checkout} </p>
           <p className="paragraph">Adults: {searchDetails.adults}</p>
           <p className="paragraph">Children: {searchDetails.children}</p>
           <p className="paragraph">Rooms Booked: {searchDetails.rooms}</p>
-          <p className="paragraph">Special Requests: {} </p>
+          <p className="paragraph">Special Requests: {bookingDetails.specialRequests} </p>
           <p className="paragraph">Booking reference: {session_id}</p>
         </div>
       )}
@@ -92,5 +100,4 @@ const Confirmation = () => {
     </div>
   );
 };
-
 export default Confirmation;
