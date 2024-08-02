@@ -33,6 +33,7 @@ html, body {
   .paragraph {
     margin-bottom: 10px;
     font-family: 'Lato';
+    overflow-wrap: break-word;
   }
 
   .button-container {

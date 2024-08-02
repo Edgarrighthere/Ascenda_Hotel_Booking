@@ -120,13 +120,15 @@ const Navbar = ({ onLogout }) => {
           data-test="Ascenda"
         />
         <div className="navItems">
-          <button
-            data-test="registerText"
-            className="navButton"
-            onClick={handleRegister}
-          >
-            Register
-          </button>
+          {currentSalutation === "Guest" && (
+            <button
+              data-test="registerText"
+              className="navButton"
+              onClick={handleRegister}
+            >
+              Register
+            </button>
+          )}
           <div data-test="welcomeMsg" className="dropdown" ref={dropdownRef}>
             <button className="dropdownButton" onClick={toggleDropdown}>
               <FontAwesomeIcon icon={faUser} /> Welcome, {currentSalutation}{" "}

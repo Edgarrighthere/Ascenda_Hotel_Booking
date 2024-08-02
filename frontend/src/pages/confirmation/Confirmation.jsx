@@ -82,6 +82,8 @@ const Confirmation = () => {
           </p>
           <p className="paragraph">Check-in Date: {searchDetails.checkin} </p>
           <p className="paragraph">Check-out Date: {searchDetails.checkout} </p>
+          <p className="paragraph">Check-in Date: {searchDetails.checkin} </p>
+          <p className="paragraph">Check-out Date: {searchDetails.checkout} </p>
           <p className="paragraph">Adults: {searchDetails.adults}</p>
           <p className="paragraph">Children: {searchDetails.children}</p>
           <p className="paragraph">Rooms Booked: {searchDetails.rooms}</p>
