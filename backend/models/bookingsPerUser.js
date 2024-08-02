@@ -1,26 +1,37 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const db = require('./db.js'); // Adjust the path as necessary
 
-const bookingSchema = new Schema({
-    user: { type: Schema.Types.ObjectId, ref: 'Users', required: true },
+const bookingEntrySchema = new mongoose.Schema({
+    email: { type: String, required: true },
+    session_id : {type: String, unique : true}, 
     bookingDetails: {
         leadGuest: {
-            firstName: String,
-            lastName: String
+            firstName: { type: String,  },
+            lastName: { type: String,  },
+            email: { type: String,  },
+            phone: { type: String,  }
         },
-        specialRequests: String,
-        roomType: String,
-        roomPriceOnly: Number
+        specialRequests: { type: String,  },
+        roomType: { type: String,  },
+        roomOnlyPrice: { type: Number,  },
+        breakfastPrice: { type: Number,  },
+        cancelPolicy: { type: String,  }
     },
     searchDetails: {
-        checkin: Date,
-        checkout: Date,
-        adults: Number,
-        children: Number,
-        rooms: Number
+        checkin: { type: Date,  },
+        checkout: { type: Date,  },
+        adults: { type: Number,  },
+        children: { type: Number,  },
+        rooms: { type: Number,  },
+        days: { type: Number,  }
+    },
+    hotelDetails: {
+        destination: { type: String,  },
+        address: { type: String,  },
+        description: { type: String,  }
     }
 }, { timestamps: true });
 
-const Booking = mongoose.model('Booking', bookingSchema);
+const BookingEntry = db.mongoose.model('BookingEntry', bookingEntrySchema);
 
-module.exports = Booking;
+module.exports = BookingEntry;

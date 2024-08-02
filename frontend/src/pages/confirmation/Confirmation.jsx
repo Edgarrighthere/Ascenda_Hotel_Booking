@@ -1,35 +1,39 @@
 import { useParams } from "react-router-dom";
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import "./confirmation.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-//import { format, addDays } from "date-fns";
-
 const Confirmation = () => {
+  const hotel_info = JSON.parse(localStorage.getItem("hotel_info"));
   const { session_id } = useParams();
   const [searchDetails, setSearchDetails] = useState(
     JSON.parse(localStorage.getItem("search_details"))
   );
-  const storedSearchDetails = localStorage.getItem("search_details");
-
   const [bookingDetails, setBookingDetails] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [detailsSent, setDetailsSent] = useState(false); // State to track if details have been sent
 
-  // function to send bookingDetails to backend
   const sendBookingDetails = async (session_id, bookingDetails) => {
     try {
-      console.log("INTHE FUKC:", bookingDetails);
+      const important_hotel_info = {
+        destination: hotel_info.destination,
+        address: hotel_info.hotel.address,
+        description: hotel_info.hotel.description,
+      };
+
       const response = await axios.post(
-        `http://localhost:5000/complete/:${session_id}`,
+        `http://localhost:5000/complete/${session_id}`,
         {
           bookingData: JSON.stringify(bookingDetails),
+          searchDetails: JSON.stringify(searchDetails),
+          hotelDetails: JSON.stringify(important_hotel_info),
         }
       );
       console.log("Booking confirmed:", response.data);
+      setDetailsSent(true); // Set the detailsSent state to true after successful send
     } catch (error) {
       console.error("Error confirming booking:", error);
     }
@@ -37,18 +41,16 @@ const Confirmation = () => {
 
   useEffect(() => {
     const details = localStorage.getItem("bookingDetails");
-    if (details) {
+    if (details && !detailsSent) {
+      // Check if details have already been sent
       setBookingDetails(JSON.parse(details));
       setLoading(true);
-      // console.log("SESSIONID: ", session_id);
-      // console.log("BOOKINGS123: ", bookingDetails);
       sendBookingDetails(session_id, JSON.parse(details));
     } else {
-      console.log("bookingDetails not fetched");
+      console.log("bookingDetails not fetched or already sent");
     }
-  }, []);
+  }, [session_id, detailsSent]); // Add detailsSent as a dependency
 
-  // home button
   const navigate = useNavigate();
 
   const handleBackToHome = () => {

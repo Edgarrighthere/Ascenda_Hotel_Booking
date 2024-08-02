@@ -37,6 +37,17 @@ const Hotel = () => {
     roomOnlyPrice,
   } = location.state || stateFromParams || {};
 
+  const hotel_object = {
+    destinationId,
+    hotel,
+    destination,
+    checkin,
+    checkout,
+    guests,
+    roomOnlyPrice,
+  };
+  localStorage.setItem("hotel_info", JSON.stringify(hotel_object));
+
   const [price, setPrice] = useState(
     stateFromParams.roomOnlyPrice || location.state?.price || 0
   );
@@ -239,13 +250,15 @@ const Hotel = () => {
               </div>
               <div className="hotelDetails">
                 <div className="hotelDetailsTexts">
-                  <h1 data-test="hotelDescTitle" className="hotelTitle">Stay in the Heart of the City</h1>
+                  <h1 data-test="hotelDescTitle" className="hotelTitle">
+                    Stay in the Heart of the City
+                  </h1>
                   <p
                     className="hotelDescription"
                     dangerouslySetInnerHTML={{ __html: rawinfo.description }}
                   />
                 </div>
-               <div className="hotelDetailsPrice">
+                <div className="hotelDetailsPrice">
                   <h1>Perfect for a {differenceinDays}-night stay!</h1>
                   <span>
                     Welcome to {rawinfo.name}, the ideal destination for your{" "}
@@ -286,7 +299,11 @@ const Hotel = () => {
               </div>
             </div>
             <div className="centeredContainer roomListContainer">
-              <div data-test="rooms" className="centeredContent" ref={roomListRef}>
+              <div
+                data-test="rooms"
+                className="centeredContent"
+                ref={roomListRef}
+              >
                 <RoomList
                   rooms={rooms}
                   hotelId={id}
