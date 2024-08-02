@@ -4,6 +4,7 @@ const stripe = require('stripe')('sk_test_51PhBxoIrFKgjx0G021bl4qoBOmQAICRLFxBTO
 const model = require('../models/user.js');
 const Booking = require('../models/bookingsPerUser');
 
+
 var router = express.Router();
 
 router.get('/', async (req, res, next) => {
@@ -18,13 +19,14 @@ router.get('/', async (req, res, next) => {
 })
 
 router.post('/:session_id', async (req, res, next) => {
-    router.post('http://localhost:5000/complete/:session_id', async (req, res) => {
         try {
-            const { session_id } = req.params;
-            const { bookingData, searchData } = req.body;
-            
+            const session_id = req.params.session_id
+            const {bookingData}  = req.body;
+            const bookingJSON = JSON.parse(bookingData)
+            const user_email = bookingJSON.leadGuest.email
+
             // Find the user by email
-            const user = await User.findOne({  });
+            const user = await User.findOne({ user_email });
     
             if (user) {
                 // Create a new booking
@@ -48,8 +50,7 @@ router.post('/:session_id', async (req, res, next) => {
         }
     });
 
-    res.send('Your booking was successful')
-})
+
 
 
 module.exports = router;
