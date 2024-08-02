@@ -5,7 +5,7 @@ import BookingForm from "../src/pages/confirmation/BookingForm";
 import '@testing-library/jest-dom';
 
 describe("BookingForm", () => {
-  test("renders the booking form", () => {
+  test("FRONTEND_BOOKING_FORM_1: Renders the booking form", () => {
     render(
       <MemoryRouter initialEntries={[{ state: {} }]}>
         <BookingForm />
@@ -22,7 +22,7 @@ describe("BookingForm", () => {
     expect(screen.getByRole("button", { name: /Proceed to Payment/i })).toBeInTheDocument();
   });
 
-  test("shows error message if required fields are missing", async () => {
+  test("FRONTEND_BOOKING_FORM_2: Shows error message if required fields are missing", async () => {
     render(
       <MemoryRouter initialEntries={[{ state: {} }]}>
         <BookingForm />
@@ -34,7 +34,7 @@ describe("BookingForm", () => {
     expect(await screen.findByText(/Please fill in all required fields./i)).toBeInTheDocument();
   });
 
-  test("shows error message if email is invalid", async () => {
+  test("FRONTEND_BOOKING_FORM_3: Error message if email is invalid", async () => {
     render(
       <MemoryRouter initialEntries={[{ state: {} }]}>
         <BookingForm />
@@ -59,7 +59,7 @@ describe("BookingForm", () => {
     expect(await screen.findByText(/Please provide a valid email address./i)).toBeInTheDocument();
   });
 
-  test("shows error message if phone number is invalid", async () => {
+  test("FRONTEND_BOOKING_FORM_4: Shows error message if phone number is invalid", async () => {
     render(
       <MemoryRouter initialEntries={[{ state: {} }]}>
         <BookingForm />
@@ -84,7 +84,7 @@ describe("BookingForm", () => {
     expect(await screen.findByText(/Please provide a valid phone number./i)).toBeInTheDocument();
   });
 
-  test("fills and submits the form", async () => {
+  test("FRONTEND_BOOKING_FORM_5: Fills and submits the form", async () => {
     render(
       <MemoryRouter initialEntries={[{ state: {} }]}>
         <BookingForm />

@@ -35,7 +35,7 @@ afterEach(() => {
   localStorage.clear();
 });
 
-test('renders confirmation page and displays booking details', () => {
+test('FRONTEND_CONFIRMATION_1: Renders confirmation page and displays booking details', () => {
   render(
     <BrowserRouter>
       <Confirmation />
@@ -54,7 +54,7 @@ test('renders confirmation page and displays booking details', () => {
   expect(screen.getByText(/Booking reference: cs_test_a1cbylFPPpqzWQxNf9GSLZ2bEzUa4tSaKmhOMjcCSoKW8iRF2V6qjVLFXu/i)).toBeInTheDocument();
 });
 
-test('back to home button navigates to home page', () => {
+test('FRONTEND_CONFIRMATION_2: Back to home button navigates to home page', () => {
   render(
     <BrowserRouter>
       <Confirmation />
