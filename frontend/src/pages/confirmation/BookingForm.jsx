@@ -19,6 +19,7 @@ const BookingForm = () => {
     checkin,
     checkout,
     guests,
+    hotelName
   } = location.state || {};
 
   const [leadGuest, setLeadGuest] = useState({
@@ -86,6 +87,7 @@ const BookingForm = () => {
 
     try {
       const response = await axios.post("http://localhost:5000/checkout", {
+        hotelName,
         hotelId,
         destinationId,
         destination,
@@ -96,7 +98,8 @@ const BookingForm = () => {
         roomOnlyPrice: roomOnlyPriceInCents,
         breakfastPrice: breakfastPriceInCents,
         cancelPolicy,
-        leadGuestEmail: leadGuest.email
+        leadGuestEmail: leadGuest.email,
+        leadGuestFirstName: leadGuest.first_name
       });
 
       const { id } = response.data;

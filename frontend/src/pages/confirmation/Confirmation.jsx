@@ -18,7 +18,9 @@ const Confirmation = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const state = JSON.parse(decodeURIComponent(searchParams.get('state')));
+  const hotelName = searchParams.get('hotelName');
   const email = searchParams.get('email');
+  const firstName = searchParams.get('firstName');
   const specialRequests = localStorage.getItem("specialRequests");
 
   const navigate = useNavigate();
@@ -37,6 +39,8 @@ const Confirmation = () => {
       try {
         await axios.post('http://localhost:5000/confirmation_email', {
           email: email,
+          firstName: firstName,
+          hotelName: hotelName,
           bookingDetails: state,
         });
         setEmailSent(true);
@@ -48,7 +52,7 @@ const Confirmation = () => {
     if (!emailSent && loading) {
       sendConfirmationEmail();
     }
-  }, [email, state, emailSent, loading]);
+  }, [email, firstName, state, emailSent, loading]);
 
   useEffect(() => {
     const details = localStorage.getItem("bookingDetails");

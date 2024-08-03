@@ -34,6 +34,7 @@ const Hotel = () => {
     checkout,
     guests,
     roomOnlyPrice,
+    hotelName
   } = location.state || stateFromParams || {};
 
   const [price, setPrice] = useState(
@@ -289,6 +290,7 @@ const Hotel = () => {
             <div className="centeredContainer roomListContainer">
               <div className="centeredContent">
                 <RoomList
+                  hotelName={hotelName}
                   rooms={rooms}
                   hotelId={id}
                   destinationId={destinationId}
