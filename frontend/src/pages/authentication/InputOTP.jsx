@@ -167,7 +167,7 @@ const InputOTP = () => {
   };
 
   return (
-    <div className="otpPage">
+    <div data-testid="inputOTPPage" className="otpPage">
       <Navbar />
       <div className="inputotp">
         <div data-test="otpContainer" className="otpContainer">

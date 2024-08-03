@@ -3,19 +3,52 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import "./confirmation.css";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
+
+
+
+  
+
+
+  
+
+  
+
+
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from 'axios';
 
 const Confirmation = () => {
-  const hotel_info = JSON.parse(localStorage.getItem("hotel_info"));
-  const { session_id } = useParams();
+    const hotel_info = JSON.parse(localStorage.getItem("hotel_info"));
   const [searchDetails, setSearchDetails] = useState(
     JSON.parse(localStorage.getItem("search_details"))
   );
   const [bookingDetails, setBookingDetails] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
   const [detailsSent, setDetailsSent] = useState(false); // State to track if details have been sent
 
+  // session id
+  let { session_id } = useParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const state = JSON.parse(decodeURIComponent(searchParams.get('state')));
+  const hotelName = searchParams.get('hotelName');
+  const email = searchParams.get('email');
+  const firstName = searchParams.get('firstName');
+  const specialRequests = localStorage.getItem("specialRequests");
+
+  const navigate = useNavigate();
+
+  const storedSearchDetails = localStorage.getItem("search_details");
+  if (storedSearchDetails && searchDetails === null) {
+    setSearchDetails(JSON.parse(storedSearchDetails));
+  }
+
+  const handleBackToHome = () => {
+    navigate("/");
+  };
+  
   const sendBookingDetails = async (session_id, bookingDetails) => {
     try {
       const important_hotel_info = {
@@ -40,6 +73,26 @@ const Confirmation = () => {
   };
 
   useEffect(() => {
+    const sendConfirmationEmail = async () => {
+      try {
+        await axios.post('http://localhost:5000/confirmation_email', {
+          email: email,
+          firstName: firstName,
+          hotelName: hotelName,
+          bookingDetails: state,
+        });
+        setEmailSent(true);
+      } catch (error) {
+        console.error('Error sending confirmation email:', error);
+      }
+    };
+
+    if (!emailSent && loading) {
+      sendConfirmationEmail();
+    }
+  }, [email, firstName, state, emailSent, loading]);
+
+  useEffect(() => {
     const details = localStorage.getItem("bookingDetails");
     if (details && !detailsSent) {
       // Check if details have already been sent
@@ -49,13 +102,15 @@ const Confirmation = () => {
     } else {
       console.log("bookingDetails not fetched or already sent");
     }
-  }, [session_id, detailsSent]); // Add detailsSent as a dependency
+
+  }, []); // Add detailsSent as a dependency
 
   const navigate = useNavigate();
 
   const handleBackToHome = () => {
     navigate("/");
   };
+
 
   return (
     <div id="root">

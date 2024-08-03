@@ -22,7 +22,7 @@ var forgotPasswordRouter = require("./routes/forgot_password.js");
 var resetPasswordRouter = require("./routes/reset_password.js");
 var checkoutRouter = require("./routes/checkout.js");
 var completePaymentRouter = require("./routes/complete_payment.js");
-
+var confirmationEmailRouter = require("./routes/confirmation_email.js")
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -94,6 +94,9 @@ app.use("/checkout", checkoutRouter);
 
 // complete payment 
 app.use("/complete", completePaymentRouter);
+
+// send confirmation email
+app.use("/confirmation_email", confirmationEmailRouter)
 
 // cancel payment -> return to hotels/:id page
 app.get('/cancel', (req, res) => {

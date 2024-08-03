@@ -39,6 +39,7 @@ const Register = () => {
     setSuccess(""); // Clear previous success messages
 
     const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    const phoneNumberRegex = /^\d+$/;
 
     if (!email || !password || !confirmPassword || !salutation || !firstName || !lastName || !countryCode || !phoneNumber) {
         setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Check that all fields are filled. </>);
@@ -46,6 +47,8 @@ const Register = () => {
         setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Passwords do not match. </>);
     } else if (!passwordRegex.test(password)) {
         setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Password must be at least 8 characters long, contain at least one uppercase letter, and one special character (!@#$%^&*). </>);
+    } else if (!phoneNumberRegex.test(phoneNumber)) {
+        setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Phone number must contain only digits. </>);
     } else {
         try {
             const response = await axios.post("http://localhost:5000/register", {
