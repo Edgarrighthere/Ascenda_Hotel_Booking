@@ -2,12 +2,12 @@ const express = require('express');
 const stripe = require('stripe')('sk_test_51PhBxoIrFKgjx0G021bl4qoBOmQAICRLFxBTOP6ucio9gaubuBSuqzyzVpmczIMggEB1GjI9P6U1hXhgHIm3PaKz00EDdxVm1a'); // stripe secret key 
 
 const model = require('../models/user.js');
+const emailer = require("../controllers/emailer.js");
 
 var router = express.Router();
 
 router.post('/', async (req, res, next) => {
-    const { hotelId, roomType, roomOnlyPrice, breakfastPrice, cancelPolicy, destinationId, destination, checkin, checkout, guests } = req.body;
-   
+    const { hotelId, roomType, roomOnlyPrice, breakfastPrice, cancelPolicy, destinationId, destination, checkin, checkout, guests, leadGuestEmail } = req.body;
 
     const state = {
         hotelId,
@@ -19,9 +19,8 @@ router.post('/', async (req, res, next) => {
         destination,
         checkin,
         checkout,
-        guests
+        guests,
     };
-
 
     const serializedState = encodeURIComponent(JSON.stringify(state));
 
@@ -43,13 +42,13 @@ router.post('/', async (req, res, next) => {
             ],
             mode: 'payment',
             billing_address_collection: 'required',
-            success_url: `http://localhost:3000/complete/{CHECKOUT_SESSION_ID}?state=${serializedState}`,
+            success_url: `http://localhost:3000/complete/{CHECKOUT_SESSION_ID}?state=${serializedState}&email=${encodeURIComponent(leadGuestEmail)}`,
             cancel_url: `http://localhost:3000/hotels/${hotelId}?destinationId=${encodeURIComponent(destinationId)}&destination=${encodeURIComponent(destination)}&checkin=${encodeURIComponent(checkin)}&checkout=${encodeURIComponent(checkout)}&guests=${encodeURIComponent(guests)}&state=${serializedState}`,  
         });
 
         res.json({ 
             id: session.id,
-            state
+            state,
         });
     } catch (error) {
         console.error('Error creating Stripe Checkout Session:', error);

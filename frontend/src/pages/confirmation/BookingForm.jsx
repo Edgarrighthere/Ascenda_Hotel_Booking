@@ -96,6 +96,7 @@ const BookingForm = () => {
         roomOnlyPrice: roomOnlyPriceInCents,
         breakfastPrice: breakfastPriceInCents,
         cancelPolicy,
+        leadGuestEmail: leadGuest.email
       });
 
       const { id } = response.data;

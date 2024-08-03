@@ -5,45 +5,50 @@ import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import "./confirmation.css";
 import { useNavigate, useLocation } from "react-router-dom";
-
-//import { format, addDays } from "date-fns";
+import axios from 'axios';
 
 const Confirmation = () => {
   const [searchDetails, setSearchDetails] = useState(null);
-  const storedSearchDetails = localStorage.getItem("search_details");
-  if (storedSearchDetails && searchDetails === null) {
-    setSearchDetails(JSON.parse(storedSearchDetails));
-    // You can now use searchDetails object
-  }
+  const [bookingDetails, setBookingDetails] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
 
   // session id
   let { session_id } = useParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const state = JSON.parse(decodeURIComponent(searchParams.get('state')));
+  const email = searchParams.get('email');
+  const specialRequests = localStorage.getItem("specialRequests");
 
-  // start and end dates
-  // const location = useLocation();
-  // const state = location.state || {};
-  // const {
-  //   destination = "",
-  //   date = [{ startDate: "", endDate: "" }],
-  //   options = { adult: 1, children: 0, rooms: 0 },
-  // } = state;
-
-  // home button
   const navigate = useNavigate();
+
+  const storedSearchDetails = localStorage.getItem("search_details");
+  if (storedSearchDetails && searchDetails === null) {
+    setSearchDetails(JSON.parse(storedSearchDetails));
+  }
 
   const handleBackToHome = () => {
     navigate("/");
   };
 
-  // const [bookingData, setBookingData] = useState(null);
-  // useEffect(() => {
-  //   const data = localStorage.getItem('bookingData');
-  //   setBookingData(data);
-  //   console.log(bookingData);
-  // }, [bookingData]);
-  const [bookingDetails, setBookingDetails] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const specialRequests = localStorage.getItem("specialRequests");
+  useEffect(() => {
+    const sendConfirmationEmail = async () => {
+      try {
+        await axios.post('http://localhost:5000/confirmation_email', {
+          email: email,
+          bookingDetails: state,
+        });
+        setEmailSent(true);
+      } catch (error) {
+        console.error('Error sending confirmation email:', error);
+      }
+    };
+
+    if (!emailSent && loading) {
+      sendConfirmationEmail();
+    }
+  }, [email, state, emailSent, loading]);
 
   useEffect(() => {
     const details = localStorage.getItem("bookingDetails");
@@ -54,18 +59,7 @@ const Confirmation = () => {
     } else {
       console.log(details);
     }
-    //console.log(details);
   }, []);
-
-  // const parseDate = (dateString) => {
-  //   const parsedDate = new Date(dateString);
-  //   return isNaN(parsedDate) ? null : parsedDate;
-  // };
-
-  // const startDate = parseDate(date[0]?.startDate);
-  // const endDate = parseDate(date[0]?.endDate);
-  // let checkin = state.date.startDate;
-  // let checkout = state.date.endDate;
 
   return (
     <div id="root">
