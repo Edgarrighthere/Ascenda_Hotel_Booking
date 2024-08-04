@@ -95,6 +95,10 @@ const InputOTP = () => {
             });
           }, 3000); // Redirect after 3 seconds
         } else {
+          localStorage.setItem("email", email);
+          localStorage.setItem("salutation", salutation);
+          localStorage.setItem("firstName", firstName);
+          localStorage.setItem("lastName", lastName);
           setSuccess(
             <>
               {" "}

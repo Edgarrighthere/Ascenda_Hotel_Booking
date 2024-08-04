@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import "./confirmation.css";
@@ -8,10 +7,14 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from 'axios';
 
 const Confirmation = () => {
-  const [searchDetails, setSearchDetails] = useState(null);
+  const hotel_info = JSON.parse(localStorage.getItem("hotel_info"));
+  const [searchDetails, setSearchDetails] = useState(
+    JSON.parse(localStorage.getItem("search_details"))
+  );
   const [bookingDetails, setBookingDetails] = useState(null);
   const [loading, setLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+  const [detailsSent, setDetailsSent] = useState(false);
 
   // session id
   let { session_id } = useParams();
@@ -32,6 +35,31 @@ const Confirmation = () => {
 
   const handleBackToHome = () => {
     navigate("/");
+  };
+
+  const sendBookingDetails = async (session_id, bookingDetails) => {
+    if (!detailsSent) {
+      try {
+        const important_hotel_info = {
+          destination: hotel_info.destination,
+          address: hotel_info.hotel.address,
+          description: hotel_info.hotel.description,
+        };
+
+        const response = await axios.post(
+          `http://localhost:5000/complete/${session_id}`,
+          {
+            bookingData: JSON.stringify(bookingDetails),
+            searchDetails: JSON.stringify(searchDetails),
+            hotelDetails: JSON.stringify(important_hotel_info),
+          }
+        );
+        console.log("Booking confirmed:", response.data);
+        setDetailsSent(true); // Set the detailsSent state to true after successful send
+      } catch (error) {
+        console.error("Error confirming booking:", error);
+      }
+    }
   };
 
   useEffect(() => {
@@ -56,14 +84,15 @@ const Confirmation = () => {
 
   useEffect(() => {
     const details = localStorage.getItem("bookingDetails");
-    if (details) {
+    if (details && !detailsSent) {
       setBookingDetails(JSON.parse(details));
       console.log(details);
       setLoading(true);
+      sendBookingDetails(session_id, JSON.parse(details));
     } else {
       console.log(details);
     }
-  }, []);
+  }, [session_id, detailsSent]); // Add detailsSent as a dependency
 
   return (
     <div id="root">
