@@ -103,10 +103,10 @@ const Bookings = () => {
                     <strong>Special Requests:</strong>{" "}
                     {booking.bookingDetails.specialRequests}
                   </div>
-                  <div className="bookingDetail">
+                  {/* <div className="bookingDetail">
                     <strong>Description:</strong>{" "}
                     {booking.hotelDetails.description}
-                  </div>
+                  </div> */}
                 </div>
               ))
             ) : (
