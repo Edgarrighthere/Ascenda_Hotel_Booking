@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendarDays,
@@ -80,15 +80,16 @@ const Header = ({ type }) => {
 
   async function handleSearch() {
     if (destination === "") {
-      setAlertText("Destination not found: Please fill up the options below 😊");
+      setAlertText(
+        "Destination not found: Please fill up the options below 😊"
+      );
       setShow(true);
       setDestinationPrompt("Please fill this up");
     } else {
       setLoading(true);
       const searchResults = await HotelSearch(destination, date, options);
       const success = searchResults.success;
-
-      console.log(success)
+      console.log(success);
 
       if (success == true) { // there are listings found, move on to view list of hotels
         const params = searchResults.searchParameters;
@@ -97,14 +98,38 @@ const Header = ({ type }) => {
         const priceRange = searchResults.range;
         const currentPage = 1;
         const totalPages = searchResults.pageCount;
-
         const originalListings = hotelListings;
         const originalPriceRange = priceRange;
         const originalTotalPages = totalPages;
         const filteredListings = hotelListings;
         const sortedListings = hotelListings;
 
-        const navigateURL = "/hotels/" + params.id + "/" + params.checkin + "/" + params.checkout + "/" + params.guests + "/1";
+        const navigateURL =
+          "/hotels/" +
+          params.id +
+          "/" +
+          params.checkin +
+          "/" +
+          params.checkout +
+          "/" +
+          params.guests +
+          "/1";
+
+        let checkinDate = new Date(params.checkin);
+        let checkoutDate = new Date(params.checkout);
+        const time_diff = checkoutDate.getTime() - checkinDate.getTime();
+        const differenceInDays = Math.round(time_diff / (1000 * 3600 * 24));
+
+        const searchDetails = {
+          checkin: params.checkin,
+          checkout: params.checkout,
+          adults: options.adult,
+          children: options.children,
+          rooms: options.rooms,
+          days: differenceInDays,
+        };
+
+        localStorage.setItem("search_details", JSON.stringify(searchDetails));
 
         navigate(navigateURL, {
           state: {
@@ -231,8 +256,12 @@ const Header = ({ type }) => {
               </div>
             )}
             {!loading && (
-              <div className="headerSearch" data-testid='headerSearchBar'>
-                <div data-testid="destinationSearchInput" data-test="destinationSearch" className="headerSearchItem">
+              <div className="headerSearch" data-testid="headerSearchBar">
+                <div
+                  data-testid="destinationSearchInput"
+                  data-test="destinationSearch"
+                  className="headerSearchItem"
+                >
                   <FontAwesomeIcon icon={faBed} className="headerIcon" />
                   <Autosuggest
                     suggestions={suggestions}
@@ -257,7 +286,11 @@ const Header = ({ type }) => {
                     }}
                   />
                 </div>
-                <div data-testid="dateSearchInput" data-test="dateSearch" className="headerSearchItem">
+                <div
+                  data-testid="dateSearchInput"
+                  data-test="dateSearch"
+                  className="headerSearchItem"
+                >
                   <FontAwesomeIcon
                     icon={faCalendarDays}
                     className="headerIcon"
@@ -285,7 +318,11 @@ const Header = ({ type }) => {
                     </div>
                   )}
                 </div>
-                <div data-testid="guestInfoSearch" data-test="guestInfoSearch" className="headerSearchItem">
+                <div
+                  data-testid="guestInfoSearch"
+                  data-test="guestInfoSearch"
+                  className="headerSearchItem"
+                >
                   <FontAwesomeIcon icon={faPerson} className="headerIcon" />
                   <span
                     onClick={() => setOpenOptions(!openOptions)}
@@ -395,12 +432,13 @@ const Header = ({ type }) => {
               </div>
             )}
             {show && (
-                <Alert show={show}>
-                  <p className="alertHeading">{alertText}</p>
-                  <div className="alertButton">
-                    <Button onClick={() => setShow(false)}>Close</Button>
-                  </div>
-                </Alert>)}
+              <Alert show={show}>
+                <p className="alertHeading">{alertText}</p>
+                <div className="alertButton">
+                  <Button onClick={() => setShow(false)}>Close</Button>
+                </div>
+              </Alert>
+            )}
           </>
         )}
       </div>

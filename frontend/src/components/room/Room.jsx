@@ -11,12 +11,29 @@ const Room = ({
   breakfastPrice,
   cancelPolicy,
   all_room_info,
+  hotelId,
+  destinationId,
+  destination,
+  checkin,
+  checkout,
+  guests,
+  hotelName,
+  address,
 }) => {
+  console.log("ADDRESSTEST", address);
   const [seeMore, setSeeMore] = useState(false);
   const [selectButton, setSelectButton] = useState("Select");
   const [breakfast, setBreakfast] = useState("No Breakfast Combo");
   console.log(JSON.stringify(all_room_info));
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [searchDetails, setSearchDetails] = useState(null);
+  const storedSearchDetails = localStorage.getItem("search_details");
+  if (storedSearchDetails && searchDetails === null) {
+    setSearchDetails(JSON.parse(storedSearchDetails));
+    setLoading(true);
+    // You can now use searchDetails object
+  }
 
   useEffect(() => {
     if (
@@ -53,23 +70,20 @@ const Room = ({
   const handleSelectClick = async () => {
     setSelectButton("Please Wait....");
     try {
-      // const response = await axios.post('http://localhost:5000/checkout', {
-      //   roomType,
-      //   roomOnlyPrice,
-      //   breakfastPrice,
-      //   cancelPolicy,
-      // });
-
-      // const { id } = response.data;
-      // const stripe = window.Stripe('pk_test_51PhBxoIrFKgjx0G0vtgffzyhVUjaLsGvvY4JPQXNSypxTUhg2jiluBiMDV6ws23piwulM7jgiI7bgz8NWP1UcSCS00vzlK2lj1'); // Stripe publishable key
-      // await stripe.redirectToCheckout({ sessionId: id });
-
       navigate("/booking", {
         state: {
+          hotelId,
           roomType,
           roomOnlyPrice,
           breakfastPrice,
           cancelPolicy,
+          destinationId,
+          destination,
+          checkin,
+          checkout,
+          guests,
+          hotelName,
+          address,
         },
       });
     } catch (error) {
@@ -152,12 +166,17 @@ const Room = ({
         <div className="room-type">{roomType}</div>
         <div className="room-pricing">
           <div className="price-option">
-            <span className="room-plan">Room Only</span>
-            <span className="room-price">${roomOnlyPrice.toFixed(2)}</span>
-          </div>
-          <div className="price-option">
             <span className="room-plan">{breakfast}</span>
           </div>
+          {loading && (
+            <div className="price-option">
+              <span className="room-plan">
+                For {searchDetails.days} nights in {searchDetails.rooms}{" "}
+                room(s):
+              </span>
+              <span className="room-price">${roomOnlyPrice.toFixed(2)}</span>
+            </div>
+          )}
         </div>
         <div
           data-test="cancelPolicy"
@@ -194,15 +213,35 @@ const Room = ({
   );
 };
 
-const RoomList = ({ rooms }) => {
+const RoomList = ({
+  rooms,
+  hotelId,
+  destinationId,
+  destination,
+  checkin,
+  checkout,
+  guests,
+  hotelName,
+  address,
+}) => {
   if (!rooms) {
     return null;
   }
-
   return (
     <div className="room-list">
       {rooms.map((room, index) => (
-        <Room key={index} {...room} />
+        <Room
+          key={index}
+          hotelId={hotelId}
+          destinationId={destinationId}
+          destination={destination}
+          checkin={checkin}
+          checkout={checkout}
+          guests={guests}
+          {...room}
+          hotelName={hotelName}
+          address={address}
+        />
       ))}
     </div>
   );

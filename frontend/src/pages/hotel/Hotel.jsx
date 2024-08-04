@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import "./hotel.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
@@ -21,7 +21,6 @@ import Map from "../../components/maps/Map";
 const Hotel = () => {
   const { id } = useParams();
   const location = useLocation();
-  const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const stateFromParams = queryParams.get("state")
     ? JSON.parse(decodeURIComponent(queryParams.get("state")))
@@ -35,6 +34,7 @@ const Hotel = () => {
     checkout,
     guests,
     roomOnlyPrice,
+    hotelName,
   } = location.state || stateFromParams || {};
 
   const [price, setPrice] = useState(
@@ -47,7 +47,6 @@ const Hotel = () => {
   const [loadingRawInfo, setLoadingRawInfo] = useState(true);
   const [loadingRooms, setLoadingRooms] = useState(true);
   const [differenceinDays, setDifferenceInDays] = useState(0);
-  const roomListRef = useRef(null);
 
   useEffect(() => {
     const fetchRawInfo = async () => {
@@ -82,6 +81,29 @@ const Hotel = () => {
   }, [id, destinationId, checkin, checkout, guests]);
 
   useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const hotelId = queryParams.get("hotelId");
+    const destinationId = queryParams.get("destinationId");
+    const checkin = queryParams.get("checkin");
+    const checkout = queryParams.get("checkout");
+    const guests = queryParams.get("guests");
+
+    if (hotelId && destinationId && checkin && checkout && guests) {
+      fetch(
+        `http://localhost:5000/room_details/${id}/${destinationId}/${checkin}/${checkout}/${guests}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          // Handle the data from the room details endpoint
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching room details:", error);
+        });
+    }
+  }, []);
+
+  useEffect(() => {
     if (rawinfo) {
       const loadedRooms = rawinfo.rooms_available
         ? rawinfo.rooms_available.slice(0, 10).map((room_variation) => ({
@@ -97,7 +119,6 @@ const Hotel = () => {
         : [];
       setRooms(loadedRooms);
       setLoadingRooms(false);
-      setIsRoomListReady(true);
     }
   }, [rawinfo]);
 
@@ -153,16 +174,6 @@ const Hotel = () => {
 
   const amenities = rawinfo?.amenities || [];
 
-  const [isRoomListReady, setIsRoomListReady] = useState(false);
-
-  const handleBookingClick = () => {
-    if (isRoomListReady && roomListRef.current) {
-      roomListRef.current.scrollIntoView({ behavior: "smooth" });
-    } else {
-      console.error("Room list is not ready or roomListRef.current is null");
-    }
-  };
-
   return (
     <div>
       <Navbar />
@@ -185,7 +196,6 @@ const Hotel = () => {
                 <FontAwesomeIcon
                   icon={faCircleArrowLeft}
                   className="arrow"
-                  data-test="arrowLeft"
                   onClick={() => handleMove("l")}
                 />
                 <div className="sliderWrapper">
@@ -198,15 +208,12 @@ const Hotel = () => {
                 <FontAwesomeIcon
                   icon={faCircleArrowRight}
                   className="arrow"
-                  data-test="arrowRight"
                   onClick={() => handleMove("r")}
                 />
               </div>
             )}
             <div className="hotelWrapper">
-              <button className="bookNow" onClick={handleBookingClick}>
-                Book Now!
-              </button>
+              <button className="bookNow">Book Now!</button>
               <h1 className="hotelTitle">{rawinfo.name}</h1>
               <div className="hotelAddress">
                 <FontAwesomeIcon icon={faLocationDot} />
@@ -239,32 +246,27 @@ const Hotel = () => {
               </div>
               <div className="hotelDetails">
                 <div className="hotelDetailsTexts">
-                  <h1 data-test="hotelDescTitle" className="hotelTitle">Stay in the Heart of the City</h1>
+                  <h1 className="hotelTitle">Stay in the Heart of the City</h1>
                   <p
                     className="hotelDescription"
                     dangerouslySetInnerHTML={{ __html: rawinfo.description }}
                   />
                 </div>
-               <div className="hotelDetailsPrice">
+                <div className="hotelDetailsPrice">
                   <h1>Perfect for a {differenceinDays}-night stay!</h1>
                   <span>
-                    Welcome to {rawinfo.name}, the ideal destination for your{" "}
-                    {differenceinDays}-night vacation! Nestled in the heart of{" "}
-                    {destination}, our hotel offers a perfect blend of luxury,
-                    comfort, and convenience, ensuring an unforgettable stay no
-                    matter how many nights you spend with us.
+                    [HARDCODED] Located in the real heart of Krakow, this
+                    property has an excellent location score of 9.8!
                   </span>
                   <h2>
                     <b>${(price * differenceinDays).toFixed(2)}</b>
                   </h2>
-                  <button data-test="bookNow" onClick={handleBookingClick}>
-                    Reserve or Book Now!
-                  </button>
+                  <button>Reserve or Book Now!</button>
                 </div>
               </div>
             </div>
             <div className="centeredContainer">
-              <div data-test="trustYouScore" className="centeredContent">
+              <div className="centeredContent">
                 <TrustYouScore
                   overall={rawinfo.trustyou?.score?.overall || 0}
                   kaligo={rawinfo.trustyou?.score?.kaligo_overall || 0}
@@ -276,18 +278,19 @@ const Hotel = () => {
               </div>
             </div>
             <div className="centeredContainer categoriesContainer">
-              <div data-test="categories" className="centeredContent">
+              <div className="centeredContent">
                 <Categories categories={categories} />
               </div>
             </div>
             <div className="centeredContainer amenitiesContainer">
-              <div data-test="amenities" className="centeredContent">
+              <div className="centeredContent">
                 <AmenitiesList amenities={amenities} />
               </div>
             </div>
             <div className="centeredContainer roomListContainer">
-              <div data-test="rooms" className="centeredContent" ref={roomListRef}>
+              <div className="centeredContent">
                 <RoomList
+                  hotelName={hotelName}
                   rooms={rooms}
                   hotelId={id}
                   destinationId={destinationId}
@@ -295,11 +298,12 @@ const Hotel = () => {
                   checkin={checkin}
                   checkout={checkout}
                   guests={guests}
+                  address={rawinfo.address}
                 />
               </div>
             </div>
             <div className="centeredContainer mapContainer">
-              <div data-test="maps" className="centeredContent">
+              <div className="centeredContent">
                 <Map lat={rawinfo.latitude} lng={rawinfo.longitude} />
               </div>
             </div>

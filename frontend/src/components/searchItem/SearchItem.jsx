@@ -31,7 +31,7 @@ const SearchItem = ({destinationId,hotel,destination, checkin, checkout, guests}
 
     const handleSeeAvailability = () => {
         const navigate_url = "/hotels/" + hotel.id
-        navigate(navigate_url, {state: {destinationId, hotel, destination, checkin, checkout, guests, price: hotel.price}})
+        navigate(navigate_url, {state: {destinationId, hotel, destination, checkin, checkout, guests, price: hotel.price, hotelName: hotel.name}})
     }
  
     return (

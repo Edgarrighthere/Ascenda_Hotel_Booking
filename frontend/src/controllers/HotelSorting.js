@@ -27,7 +27,7 @@ async function HotelSorting(hotelListings, sortPrice, sortRating) {
         } else if (sortRating === true && sortPrice === false) {
             sortedListings = sortByRating(hotelListings)
         } else {
-            sortedListings = []
+            sortedListings = [];
         }
     }
     return sortedListings

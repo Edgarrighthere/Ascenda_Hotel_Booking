@@ -17,7 +17,7 @@ jest.mock('react-router-dom', () => ({
   useNavigate: jest.fn(),
 }));
 
-describe('Room component', () => {
+describe('Frontend Room Component Unit and Integration Test', () => {
   beforeEach(() => {
     jest.clearAllMocks(); // Clear any previous mock data
   });

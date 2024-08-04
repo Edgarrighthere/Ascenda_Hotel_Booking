@@ -93,27 +93,31 @@ const Account = () => {
         }
     };
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <div data-testid="loading">Loading...</div>;
 
     return (
         <div className="accountPage">
             <Navbar onLogout={handleLogout}/>
             <div className="account">
-                <div data-test="accountContainer" className="accountContainer">
-                    <div data-test="accontTitle" className="accountTitle">Account Information</div>
+                <div data-test="accountContainer" data-testid="accountContainer" className="accountContainer" >
+                    <div data-test="accontTitle" data-testid="accountTitle" className="accountTitle">Account Information</div>
                     <div className="accountInfo">
-                        <p><strong>Email:</strong> {userDetails.email || ' '}</p>
-                        <p><strong>Name:</strong> {userDetails.salutation || ' '} {userDetails.firstName || ' '} {userDetails.lastName || ' '}</p>
-                        <p><strong>Phone Number:</strong> {userDetails.countryCode || ' '} {userDetails.phoneNumber || ' '}</p>
+                        <p><strong>Email:</strong> <span data-testid="userEmail">{userDetails.email || ' '}</span></p>
+                        <p><strong>Name:</strong> <span data-testid="userName">{userDetails.salutation || ' '} {userDetails.firstName || ' '} {userDetails.lastName || ' '}</span></p>
+                        <p><strong>Phone Number:</strong> <span data-testid="userPhoneNumber">{userDetails.countryCode || ' '} {userDetails.phoneNumber || ' '}</span></p>
                     </div>
-                    <button className="deleteAccountButton" onClick={handleOpenModal}>Delete Account</button>
+                    <button 
+                        data-testid="deleteAccountButton" 
+                        className="deleteAccountButton" 
+                        onClick={handleOpenModal} >Delete Account
+                    </button>
                     <Modal
                         isOpen={isModalOpen}
                         onClose={handleCloseModal}
                         onConfirm={handleDeleteAccount}
                         message="Are you sure you want to delete your account? This action cannot be undone."
                     />
-                    {error && <div className="error">{error}</div>}  
+                    {error && <div data-testid="error" className="error">{error}</div>}  
                 </div>
             </div>
             <Footer />

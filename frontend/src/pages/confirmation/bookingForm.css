@@ -1,38 +1,74 @@
+.bookingFormPage {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-image: url('../../../public/images/background_01.png');
+    background-color: #f0f0f0; /* Set a background color similar to image background */
+    background-size: 40%; /* Adjust to fit the content */
+    background-repeat: no-repeat; /* Prevent repeating the image */
+    background-position: right center; /* Position on the right center */
+}
+
 .booking-form {
-    max-width: 500px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; 
+    font-family: 'Lato';
+    padding-left: 22%; 
+}
+
+.bookingFormContainer {
+    width: 30%; 
+    background-color: #ffffff; 
+    padding: 20px; 
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Shadow for platform effect */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Gap between elements */
+}
+
+.bookingFormTitle {
+    color: midnightblue;
+    font-size: 30px;
+    font-weight: bold;
+}
   
-  .booking-form h2 {
-    text-align: center;
-  }
-  
-  .booking-form form {
+.bookingFormContainer form {
     display: inline-flex;
     flex-direction: column;
     margin-top: 10px
+}
   
-  }
-  
-  .booking-form form div {
+.bookingFormContainer form div {
     margin-bottom: 7px;
-  }
+}
   
-  .booking-form form label {
+.bookingFormContainer form div label {
     margin-bottom: 5px;
-  }
+    font-family: 'Lato'
+}
   
-  .booking-form form input,
-  .booking-form form textarea {
-    padding: 8px;
-    width: 100%;
-    box-sizing: border-box;
-  }
+.bookingFormContainer input,
+.bookingFormContainer textarea {
+    width: 100%; /* Full width for inputs and textarea */
+    padding: 10px; /* Padding inside inputs and textarea */
+    border: 1px solid #ccc; /* Border for inputs and textarea */
+    border-radius: 4px; /* Rounded corners */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    font-size: 16px; /* Font size for text inside inputs and textarea */
+    transition: border-color 0.3s; /* Smooth transition for border color */
+    resize: none;
+}
   
-  .booking-form form button {
+.error-message {
+    color: red; /* Make error messages red */
+    font-size: 14px; /* Adjust font size as needed */
+    margin-top: 5px; /* Add some spacing above the error message */
+}
+  
+.bookingFormContainer form button {
     display: inline-block; /* Wrap button around text */
     padding: 10px 20px; /* Adjust padding to your preference */
     margin-bottom: 20px auto;
@@ -40,22 +76,28 @@
     border-radius: 20px; /* Rounded corners */
     background-color: orange;
     color: #fff;
+    font-family: 'Lato';
     font-size: 16px;
     cursor: pointer;
     text-align: center;
     transition: background-color 0.3s ease-in;
-  }
+}
   
-  .booking-form form button:hover {
+.bookingFormContainer form button:hover {
     background-color: darkorange;
-  }
-
-  .checkbox-options {
+}
+  
+.checkbox-options {
     display: flex;
     align-items: center;
     margin-top: 10px;
-  }
-  
-  .checkbox-options label {
-    margin-right: 10px;
-  }
+}
+
+.checkbox-options label {
+    margin-right: 88%; /* Adjust to ensure proper spacing */
+    font-family: 'Lato';
+}
+
+.checkbox-options input {
+    margin-right: 3%; /* Adjust to ensure proper spacing */
+}
