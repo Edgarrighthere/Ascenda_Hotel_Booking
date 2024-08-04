@@ -18,42 +18,47 @@ router.post('/', async (req, res) => {
         checkout,
         guests
     } = bookingDetails;
-   
-    
 
-    const formattedPrice = `S$${(roomOnlyPrice / 100).toFixed(2)}`;
+    if ((hotelId==null) || (roomType==null) || (roomOnlyPrice==null) || (cancelPolicy==null) || (destination==null) || (destinationId==null) || (checkin==null) || (checkout==null) || (guests==null)) {
+        res.status(400).json({ success: false , message: "Missing fields in booking details"});
+    }
 
-    const mailOptions = {
-        from: 'escc2g4@gmail.com',
-        to: email,
-        subject: 'Ascenda Hotel Booking Confirmation',
-        text: `
-            Dear ${firstName},
+    else {
 
-            Your booking has been confirmed! Here are the details:
+        const formattedPrice = `S$${(roomOnlyPrice / 100).toFixed(2)}`;
 
-            Destination (ID): ${destination} (${destinationId})
-            Hotel Name (ID): ${hotelName} (${hotelId})
-            Room Type: ${roomType}
-            Check-in Date: ${checkin}
-            Check-out Date: ${checkout}
-            Number of Guests: ${guests}
-            Room Only Price: ${formattedPrice}
-            Cancellation Policy: ${cancelPolicy}
+        const mailOptions = {
+            from: 'escc2g4@gmail.com',
+            to: email,
+            subject: 'Ascenda Hotel Booking Confirmation',
+            text: `
+                Dear ${firstName},
 
-            We look forward to hosting you.
+                Your booking has been confirmed! Here are the details:
 
-            Best regards,
-            Ascenda Hotel Team
-        `
-    };
+                Destination (ID): ${destination} (${destinationId})
+                Hotel Name (ID): ${hotelName} (${hotelId})
+                Room Type: ${roomType}
+                Check-in Date: ${checkin}
+                Check-out Date: ${checkout}
+                Number of Guests: ${guests}
+                Room Only Price: ${formattedPrice}
+                Cancellation Policy: ${cancelPolicy}
 
-    try {
-        await emailer.transporter.sendMail(mailOptions);
-        res.status(200).json({ success: true });
-    } catch (error) {
-        console.error('Error sending confirmation email:', error);
-        res.status(500).json({ error: 'Failed to send confirmation email' });
+                We look forward to hosting you.
+
+                Best regards,
+                Ascenda Hotel Team
+            `
+        };
+
+        try {
+            await emailer.transporter.sendMail(mailOptions);
+            res.status(200).json({ success: true });
+        } catch (error) {
+            console.error('Error sending confirmation email:', error);
+            res.status(500).json({ error: 'Failed to send confirmation email' });
+        }
     }
 });
 
