@@ -46,12 +46,8 @@ const Bookings = () => {
               bookings.map((booking, index) => (
                 <div key={index} className="bookingItem">
                   <div className="bookingDetail">
-                    <strong>First Name:</strong>{" "}
-                    {booking.bookingDetails.leadGuest.firstName}
-                  </div>
-                  <div className="bookingDetail">
-                    <strong>Last Name:</strong>{" "}
-                    {booking.bookingDetails.leadGuest.lastName}
+                    <strong>Name:</strong>{" "}
+                    {booking.bookingDetails.leadGuest.firstName} {booking.bookingDetails.leadGuest.lastName}
                   </div>
                   <div className="bookingDetail">
                     <strong>Email:</strong>{" "}
@@ -62,24 +58,24 @@ const Bookings = () => {
                     {booking.bookingDetails.leadGuest.phone}
                   </div>
                   <div className="bookingDetail">
-                    <strong>Special Requests:</strong>{" "}
-                    {booking.bookingDetails.specialRequests}
+                    <strong>Destination:</strong>{" "}
+                    {booking.hotelDetails.destination}
                   </div>
+                  <div className="bookingDetail">
+                    <strong>Address:</strong> {booking.hotelDetails.address}
+                  </div>
+                  
                   <div className="bookingDetail">
                     <strong>Room Type:</strong>{" "}
                     {booking.bookingDetails.roomType}
                   </div>
                   <div className="bookingDetail">
                     <strong>Room Only Price:</strong>{" "}
-                    {booking.bookingDetails.roomOnlyPrice}
+                    S${booking.bookingDetails.roomOnlyPrice}
                   </div>
                   <div className="bookingDetail">
                     <strong>Breakfast Price:</strong>{" "}
-                    {booking.bookingDetails.breakfastPrice}
-                  </div>
-                  <div className="bookingDetail">
-                    <strong>Cancel Policy:</strong>{" "}
-                    {booking.bookingDetails.cancelPolicy}
+                    S${booking.bookingDetails.breakfastPrice}
                   </div>
                   <div className="bookingDetail">
                     <strong>Check-in:</strong>{" "}
@@ -94,23 +90,18 @@ const Bookings = () => {
                     ).toLocaleDateString()}
                   </div>
                   <div className="bookingDetail">
-                    <strong>Adults:</strong> {booking.searchDetails.adults}
+                    <strong>Duration of stay:</strong> {booking.searchDetails.days} day(s)
                   </div>
                   <div className="bookingDetail">
-                    <strong>Children:</strong> {booking.searchDetails.children}
+                    <strong>Guest Information:</strong> {booking.searchDetails.adults} adult(s), {booking.searchDetails.children} children, {booking.searchDetails.rooms} room(s)
                   </div>
                   <div className="bookingDetail">
-                    <strong>Rooms:</strong> {booking.searchDetails.rooms}
+                    <strong>Cancel Policy:</strong>{" "}
+                    {booking.bookingDetails.cancelPolicy}
                   </div>
                   <div className="bookingDetail">
-                    <strong>Days:</strong> {booking.searchDetails.days}
-                  </div>
-                  <div className="bookingDetail">
-                    <strong>Destination:</strong>{" "}
-                    {booking.hotelDetails.destination}
-                  </div>
-                  <div className="bookingDetail">
-                    <strong>Address:</strong> {booking.hotelDetails.address}
+                    <strong>Special Requests:</strong>{" "}
+                    {booking.bookingDetails.specialRequests}
                   </div>
                   <div className="bookingDetail">
                     <strong>Description:</strong>{" "}
