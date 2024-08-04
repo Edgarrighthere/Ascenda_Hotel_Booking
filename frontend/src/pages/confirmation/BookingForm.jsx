@@ -111,83 +111,85 @@ const BookingForm = () => {
   };
 
   return (
-    <>
+    <div className="bookingFormPage">
       <Navbar />
       <div className="booking-form">
-        <h2>Enter Your Booking Details</h2>
-        {error && <div className="error-message">{error}</div>}
-        <form onSubmit={handleProceedClick}>
-          <div>
-            <label htmlFor="first_name">First Name:</label>
-            <input
-              id="first_name"
-              type="text"
-              name="first_name"
-              value={leadGuest.first_name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="last_name">Last Name:</label>
-            <input
-              id="last_name"
-              type="text"
-              name="last_name"
-              value={leadGuest.last_name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="email">Email:</label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              value={leadGuest.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="phone">Phone Number:</label>
-            <input
-              id="phone"
-              type="tel"
-              name="phone"
-              value={leadGuest.phone}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="breakfastPackage">Upgrade to Breakfast Package?</label>
-            <div className="checkbox-options">
+        <div className="bookingFormContainer">
+          <div className="bookingFormTitle">Enter Your Booking Details</div>
+          <form onSubmit={handleProceedClick}>
+            <div>
+              <label htmlFor="first_name">First Name:</label>
               <input
-                id="breakfastPackage"
-                type="checkbox"
-                name="breakfastPackage"
-                checked={breakfastPackage}
-                onChange={handleBreakfastChange}
+                id="first_name"
+                type="text"
+                name="first_name"
+                value={leadGuest.first_name}
+                onChange={handleChange}
+                required
               />
-              <label htmlFor="breakfastPackage"> Yes</label>
             </div>
+            <div>
+              <label htmlFor="last_name">Last Name:</label>
+              <input
+                id="last_name"
+                type="text"
+                name="last_name"
+                value={leadGuest.last_name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="email">Email:</label>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                value={leadGuest.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="phone">Phone Number:</label>
+              <input
+                id="phone"
+                type="tel"
+                name="phone"
+                value={leadGuest.phone}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="breakfastPackage">Upgrade to Breakfast Package?</label>
+              <div className="checkbox-options">
+                <input
+                  id="breakfastPackage"
+                  type="checkbox"
+                  name="breakfastPackage"
+                  checked={breakfastPackage}
+                  onChange={handleBreakfastChange}
+                />
+                <label htmlFor="breakfastPackage"> Yes</label>
+              </div>
+            </div>
+            <div>
+              <label htmlFor="specialRequests">Special Requests:</label>
+              <textarea
+                id="specialRequests"
+                name="specialRequests"
+                value={specialRequests}
+                onChange={(e) => setSpecialRequests(e.target.value)}
+              />
+            </div>
+            <button type="submit">Proceed to Payment</button>
+            {error && <div className="error-message">{error}</div>}
+          </form>
           </div>
-          <div>
-            <label htmlFor="specialRequests">Special Requests:</label>
-            <textarea
-              id="specialRequests"
-              name="specialRequests"
-              value={specialRequests}
-              onChange={(e) => setSpecialRequests(e.target.value)}
-            />
-          </div>
-          <button type="submit">Proceed to Payment</button>
-        </form>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 
