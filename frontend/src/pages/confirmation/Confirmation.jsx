@@ -4,96 +4,83 @@ import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import "./confirmation.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 
 const Confirmation = () => {
-  const hotel_info = JSON.parse(localStorage.getItem("hotel_info"));
+  const location = useLocation();
+  const bookingFormDetails = JSON.parse(
+    localStorage.getItem("bookingFormDetails")
+  ); // firstName, lastName, email, phone, specialRequests
   const [searchDetails, setSearchDetails] = useState(
     JSON.parse(localStorage.getItem("search_details"))
-  );
-  const [bookingDetails, setBookingDetails] = useState(null);
+  ); // adult, children, checkin, checkout, days, rooms (FROM FIRST PAGE)
+  // session id
+  let { session_id } = useParams(); //SESSION ID
+  const searchParams = new URLSearchParams(location.search);
+  const state = JSON.parse(decodeURIComponent(searchParams.get("state")));
+  console.log("STATE:", state); //hotelId, roomType,roomOnlyPrice, breakfastPrice, cancelPolicy, destinationId, destination, checkin, checkout, guests, leadGuestEmail, leadGuestFirstName, hotelName
+
   const [loading, setLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [detailsSent, setDetailsSent] = useState(false);
 
-  // session id
-  let { session_id } = useParams();
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const state = JSON.parse(decodeURIComponent(searchParams.get('state')));
-  const hotelName = searchParams.get('hotelName');
-  const email = searchParams.get('email');
-  const firstName = searchParams.get('firstName');
-  const specialRequests = localStorage.getItem("specialRequests");
-
   const navigate = useNavigate();
-
-  const storedSearchDetails = localStorage.getItem("search_details");
-  if (storedSearchDetails && searchDetails === null) {
-    setSearchDetails(JSON.parse(storedSearchDetails));
-  }
 
   const handleBackToHome = () => {
     navigate("/");
   };
+  useEffect(() => {
+    sendBookingDetails();
+  }, []);
 
-  const sendBookingDetails = async (session_id, bookingDetails) => {
+  const sendBookingDetails = async () => {
     if (!detailsSent) {
-      try {
-        const important_hotel_info = {
-          destination: hotel_info.destination,
-          address: hotel_info.hotel.address,
-          description: hotel_info.hotel.description,
-        };
-
-        const response = await axios.post(
-          `http://localhost:5000/complete/${session_id}`,
-          {
-            bookingData: JSON.stringify(bookingDetails),
-            searchDetails: JSON.stringify(searchDetails),
-            hotelDetails: JSON.stringify(important_hotel_info),
-          }
-        );
-        console.log("Booking confirmed:", response.data);
-        setDetailsSent(true); // Set the detailsSent state to true after successful send
-      } catch (error) {
-        console.error("Error confirming booking:", error);
-      }
+      const response = await axios.post(
+        `http://localhost:5000/complete/${session_id}`,
+        {
+          email: bookingFormDetails.email,
+          firstName: bookingFormDetails.firstName,
+          lastName: bookingFormDetails.lastName,
+          phone: bookingFormDetails.phone,
+          specialRequests: bookingFormDetails.specialRequests,
+          roomType: state.roomType,
+          roomOnlyPrice: (state.roomOnlyPrice / 100).toFixed(2),
+          breakfastPrice: (state.breakfastPrice / 100).toFixed(2),
+          cancelPolicy: state.cancelPolicy,
+          checkin: searchDetails.checkin,
+          checkout: searchDetails.checkout,
+          adults: searchDetails.adults,
+          children: searchDetails.children,
+          rooms: searchDetails.rooms,
+          days: searchDetails.days,
+          destination: state.destination,
+          address: state.address,
+          description: state.description,
+          hotelName: state.hotelName,
+        }
+      );
+      console.log("Booking confirmed:", response.data);
+      setLoading(true);
+      sendConfirmationEmail();
+      setDetailsSent(true);
     }
   };
 
-  useEffect(() => {
-    const sendConfirmationEmail = async () => {
+  const sendConfirmationEmail = async () => {
+    if (!emailSent) {
       try {
-        await axios.post('http://localhost:5000/confirmation_email', {
-          email: email,
-          firstName: firstName,
-          hotelName: hotelName,
+        await axios.post("http://localhost:5000/confirmation_email", {
+          email: bookingFormDetails.email,
+          firstName: bookingFormDetails.firstName,
+          hotelName: state.hotelName,
           bookingDetails: state,
         });
         setEmailSent(true);
       } catch (error) {
-        console.error('Error sending confirmation email:', error);
+        console.error("Error sending confirmation email:", error);
       }
-    };
-
-    if (!emailSent && loading) {
-      sendConfirmationEmail();
     }
-  }, [email, firstName, state, emailSent, loading]);
-
-  useEffect(() => {
-    const details = localStorage.getItem("bookingDetails");
-    if (details && !detailsSent) {
-      setBookingDetails(JSON.parse(details));
-      console.log(details);
-      setLoading(true);
-      sendBookingDetails(session_id, JSON.parse(details));
-    } else {
-      console.log(details);
-    }
-  }, [session_id, detailsSent]); // Add detailsSent as a dependency
-
+  };
   return (
     <div id="root">
       <Navbar />
@@ -101,17 +88,19 @@ const Confirmation = () => {
         <div className="container">
           <h2 className="heading">Your booking has been confirmed!</h2>
           <p className="paragraph">
-            Lead Guest's First Name: {bookingDetails.leadGuest.first_name}
+            Lead Guest's First Name: {bookingFormDetails.firstName}
           </p>
           <p className="paragraph">
-            Lead Guest's Last Name: {bookingDetails.leadGuest.last_name}
+            Lead Guest's Last Name: {bookingFormDetails.lastName}
           </p>
           <p className="paragraph">Check-in Date: {searchDetails.checkin} </p>
           <p className="paragraph">Check-out Date: {searchDetails.checkout} </p>
           <p className="paragraph">Adults: {searchDetails.adults}</p>
           <p className="paragraph">Children: {searchDetails.children}</p>
           <p className="paragraph">Rooms Booked: {searchDetails.rooms}</p>
-          <p className="paragraph">Special Requests: {specialRequests} </p>
+          <p className="paragraph">
+            Special Requests: {bookingFormDetails.specialRequests}{" "}
+          </p>
           <p className="paragraph">Booking reference: {session_id}</p>
         </div>
       )}

@@ -34,7 +34,7 @@ const Hotel = () => {
     checkout,
     guests,
     roomOnlyPrice,
-    hotelName
+    hotelName,
   } = location.state || stateFromParams || {};
 
   const [price, setPrice] = useState(
@@ -298,6 +298,7 @@ const Hotel = () => {
                   checkin={checkin}
                   checkout={checkout}
                   guests={guests}
+                  address={rawinfo.address}
                 />
               </div>
             </div>

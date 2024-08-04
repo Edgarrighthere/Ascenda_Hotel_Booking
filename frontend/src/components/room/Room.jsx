@@ -17,8 +17,10 @@ const Room = ({
   checkin,
   checkout,
   guests,
-  hotelName
+  hotelName,
+  address,
 }) => {
+  console.log("ADDRESSTEST", address);
   const [seeMore, setSeeMore] = useState(false);
   const [selectButton, setSelectButton] = useState("Select");
   const [breakfast, setBreakfast] = useState("No Breakfast Combo");
@@ -80,7 +82,8 @@ const Room = ({
           checkin,
           checkout,
           guests,
-          hotelName
+          hotelName,
+          address,
         },
       });
     } catch (error) {
@@ -218,7 +221,8 @@ const RoomList = ({
   checkin,
   checkout,
   guests,
-  hotelName
+  hotelName,
+  address,
 }) => {
   if (!rooms) {
     return null;
@@ -236,6 +240,7 @@ const RoomList = ({
           guests={guests}
           {...room}
           hotelName={hotelName}
+          address={address}
         />
       ))}
     </div>

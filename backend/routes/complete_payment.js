@@ -27,40 +27,37 @@ router.post('/:session_id', async (req, res, next) => {
             return res.status(400).json({ message: 'Booking with this session_id already exists' });
         }
 
-        const { bookingData, searchDetails, hotelDetails } = req.body;
-        const bookingJSON = JSON.parse(bookingData);
-        const searchJSON = JSON.parse(searchDetails);
-        const hotelJSON = JSON.parse(hotelDetails);
-        const user_email = bookingJSON.leadGuest.email;
-
+        const { email, firstName, lastName, phone, specialRequests, roomType, roomOnlyPrice, breakfastPrice, cancelPolicy, checkin, checkout, adults, children, rooms, days, destination, address, description, hotelName } = req.body;
+        
         const newBookingEntry = new BookingEntry({
-            email: user_email,
+            email: email,
             session_id: session_id,
             bookingDetails: {
                 leadGuest: {
-                    firstName: bookingJSON.leadGuest.first_name,
-                    lastName: bookingJSON.leadGuest.last_name,
-                    email: bookingJSON.leadGuest.email,
-                    phone: bookingJSON.leadGuest.phone
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    phone: phone
                 },
-                specialRequests: bookingJSON.specialRequests,
-                roomType: bookingJSON.roomType,
-                roomOnlyPrice: bookingJSON.roomOnlyPrice,
-                breakfastPrice: bookingJSON.breakfastPrice,
-                cancelPolicy: bookingJSON.cancelPolicy
+                specialRequests: specialRequests,
+                roomType: roomType,
+                roomOnlyPrice: roomOnlyPrice,
+                breakfastPrice: breakfastPrice,
+                cancelPolicy: cancelPolicy
             },
             searchDetails: {
-                checkin: new Date(searchJSON.checkin),
-                checkout: new Date(searchJSON.checkout),
-                adults: searchJSON.adults,
-                children: searchJSON.children,
-                rooms: searchJSON.rooms,
-                days: searchJSON.days
+                checkin: new Date(checkin),
+                checkout: new Date(checkout),
+                adults: adults,
+                children: children,
+                rooms: rooms,
+                days: days
             },
             hotelDetails: {
-                destination: hotelJSON.destination,
-                address: hotelJSON.address,
-                description: hotelJSON.description
+                destination: destination,
+                address: address,
+                description: description,
+                hotelName : hotelName
             }
         });
 

@@ -18,6 +18,8 @@ router.post('/', async (req, res) => {
         checkout,
         guests
     } = bookingDetails;
+   
+    
 
     const formattedPrice = `S$${(roomOnlyPrice / 100).toFixed(2)}`;
 

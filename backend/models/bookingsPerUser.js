@@ -28,7 +28,8 @@ const bookingEntrySchema = new mongoose.Schema({
     hotelDetails: {
         destination: { type: String,  },
         address: { type: String,  },
-        description: { type: String,  }
+        description: { type: String,  },
+        hotelName : {type: String, }
     }
 }, { timestamps: true });
 

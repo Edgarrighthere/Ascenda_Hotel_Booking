@@ -19,8 +19,11 @@ const BookingForm = () => {
     checkin,
     checkout,
     guests,
-    hotelName
+    hotelName,
+    address,
   } = location.state || {};
+  console.log("STATE:", location.state);
+  console.log("ADDRESS:", address);
 
   const [leadGuest, setLeadGuest] = useState({
     first_name: "",
@@ -40,27 +43,42 @@ const BookingForm = () => {
     setBreakfastPackage(e.target.checked);
   };
 
-  const validateEmail = (email) => { 
+  const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
   };
 
-// The validateEmail function ensures the email:
-// - Starts with one or more non-whitespace, non-@ characters
-// - Contains exactly one @ symbol
-// - Follows with one or more non-whitespace, non-@ characters
-// - Contains a . symbol after the domain part
-// - Ends with one or more non-whitespace, non-@ characters after the .
+  // The validateEmail function ensures the email:
+  // - Starts with one or more non-whitespace, non-@ characters
+  // - Contains exactly one @ symbol
+  // - Follows with one or more non-whitespace, non-@ characters
+  // - Contains a . symbol after the domain part
+  // - Ends with one or more non-whitespace, non-@ characters after the .
 
   const validatePhoneNumber = (phone) => {
-    const re = /^\+?\d[\d\s]{6,14}$/; // Optional '+' at the start, number must start with a digit, number must be between 7 - 15 digits 
-    const cleanedPhone = phone.replace(/\s+/g, ''); // Remove spaces for length check
-    return re.test(String(phone)) && cleanedPhone.length >= 7 && cleanedPhone.length <= 15;
+    const re = /^\+?\d[\d\s]{6,14}$/; // Optional '+' at the start, number must start with a digit, number must be between 7 - 15 digits
+    const cleanedPhone = phone.replace(/\s+/g, ""); // Remove spaces for length check
+    return (
+      re.test(String(phone)) &&
+      cleanedPhone.length >= 7 &&
+      cleanedPhone.length <= 15
+    );
   };
 
   const handleProceedClick = async (e) => {
     e.preventDefault();
     localStorage.setItem("specialRequests", specialRequests);
+    const bookingFormDetails = {
+      firstName: leadGuest.first_name,
+      lastName: leadGuest.last_name,
+      email: leadGuest.email,
+      phone: leadGuest.phone,
+      specialRequests: specialRequests,
+    };
+    localStorage.setItem(
+      "bookingFormDetails",
+      JSON.stringify(bookingFormDetails)
+    );
 
     if (
       !leadGuest.first_name ||
@@ -87,23 +105,26 @@ const BookingForm = () => {
 
     try {
       const response = await axios.post("http://localhost:5000/checkout", {
-        hotelName,
         hotelId,
+        roomType,
+        roomOnlyPrice: roomOnlyPriceInCents,
+        breakfastPrice: breakfastPriceInCents,
+        cancelPolicy,
         destinationId,
         destination,
         checkin,
         checkout,
         guests,
-        roomType,
-        roomOnlyPrice: roomOnlyPriceInCents,
-        breakfastPrice: breakfastPriceInCents,
-        cancelPolicy,
         leadGuestEmail: leadGuest.email,
-        leadGuestFirstName: leadGuest.first_name
+        leadGuestFirstName: leadGuest.first_name,
+        hotelName,
+        address,
       });
 
       const { id } = response.data;
-      const stripe = window.Stripe("pk_test_51PhBxoIrFKgjx0G0vtgffzyhVUjaLsGvvY4JPQXNSypxTUhg2jiluBiMDV6ws23piwulM7jgiI7bgz8NWP1UcSCS00vzlK2lj1");
+      const stripe = window.Stripe(
+        "pk_test_51PhBxoIrFKgjx0G0vtgffzyhVUjaLsGvvY4JPQXNSypxTUhg2jiluBiMDV6ws23piwulM7jgiI7bgz8NWP1UcSCS00vzlK2lj1"
+      );
       await stripe.redirectToCheckout({ sessionId: id });
     } catch (error) {
       console.error("Error redirecting to checkout:", error);
@@ -162,7 +183,9 @@ const BookingForm = () => {
               />
             </div>
             <div>
-              <label htmlFor="breakfastPackage">Upgrade to Breakfast Package?</label>
+              <label htmlFor="breakfastPackage">
+                Upgrade to Breakfast Package?
+              </label>
               <div className="checkbox-options">
                 <input
                   id="breakfastPackage"
@@ -186,7 +209,7 @@ const BookingForm = () => {
             <button type="submit">Proceed to Payment</button>
             {error && <div className="error-message">{error}</div>}
           </form>
-          </div>
+        </div>
       </div>
       <Footer />
     </div>

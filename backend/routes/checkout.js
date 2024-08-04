@@ -6,19 +6,38 @@ const model = require('../models/user.js');
 var router = express.Router();
 
 router.post('/', async (req, res, next) => {
-    const {hotelId, roomType, roomOnlyPrice, breakfastPrice, cancelPolicy, destinationId, destination, checkin, checkout, guests, leadGuestEmail, leadGuestFirstName, hotelName } = req.body;
+    const {
+        hotelId, 
+        roomType,
+        roomOnlyPrice, 
+        breakfastPrice, 
+        cancelPolicy, 
+        destinationId, 
+        destination, 
+        checkin, 
+        checkout, 
+        guests, 
+        leadGuestEmail, 
+        leadGuestFirstName, 
+        hotelName,
+        address
+    } = req.body;
 
     const state = {
-        hotelId,
+        hotelId, 
         roomType,
-        roomOnlyPrice,
-        breakfastPrice,
-        cancelPolicy,
-        destinationId,
-        destination,
-        checkin,
-        checkout,
-        guests,
+        roomOnlyPrice, 
+        breakfastPrice, 
+        cancelPolicy, 
+        destinationId, 
+        destination, 
+        checkin, 
+        checkout, 
+        guests, 
+        leadGuestEmail, 
+        leadGuestFirstName, 
+        hotelName,
+        address
     };
 
     const serializedState = encodeURIComponent(JSON.stringify(state));
