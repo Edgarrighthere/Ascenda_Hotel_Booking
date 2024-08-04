@@ -1,68 +1,126 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import Confirmation from '../src/pages/confirmation/Confirmation.jsx'; 
-import '@testing-library/jest-dom/extend-expect';
+import React from "react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import Confirmation from "../src/pages/confirmation/Confirmation";
+import { BrowserRouter as Router } from "react-router-dom";
+import axios from "axios";
+import "@testing-library/jest-dom/extend-expect";
 
+// Mock the necessary modules
+jest.mock("axios");
 const mockNavigate = jest.fn();
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
   useNavigate: () => mockNavigate,
-  useParams: () => ({ session_id: 'cs_test_a1cbylFPPpqzWQxNf9GSLZ2bEzUa4tSaKmhOMjcCSoKW8iRF2V6qjVLFXu' }),
+  useParams: () => ({
+    session_id: "12345",
+  }),
+  useLocation: () => ({
+    search: '?state=%7B"hotelId":1,"roomType":"Deluxe","roomOnlyPrice":20000,"breakfastPrice":5000,"cancelPolicy":"Non-refundable","destinationId":2,"destination":"Paris","checkin":"2024-08-01","checkout":"2024-08-05","guests":2,"leadGuestEmail":"test@example.com","leadGuestFirstName":"John","hotelName":"Test Hotel"%7D',
+  }),
 }));
 
-beforeEach(() => {
-  localStorage.setItem('search_details', JSON.stringify({
-    checkin: '2024-08-01',
-    checkout: '2024-08-02',
-    adults: 1,
+describe("Frontend Confirmation Page Unit and Integration Test", () => {
+  const mockBookingFormDetails = {
+    firstName: "John",
+    lastName: "Doe",
+    email: "john.doe@example.com",
+    phone: "1234567890",
+    specialRequests: "High floor",
+  };
+
+  const mockSearchDetails = {
+    adults: 2,
     children: 0,
+    checkin: "2024-08-01",
+    checkout: "2024-08-05",
+    days: 4,
     rooms: 1,
-  }));
+  };
 
-  localStorage.setItem('bookingDetails', JSON.stringify({
-    leadGuest: {
-      first_name: 'John',
-      last_name: 'Doe',
-    },
-  }));
+  beforeEach(() => {
+    localStorage.setItem("bookingFormDetails", JSON.stringify(mockBookingFormDetails));
+    localStorage.setItem("search_details", JSON.stringify(mockSearchDetails));
+  });
 
-  localStorage.setItem('specialRequests', 'NIL');
-});
+  afterEach(() => {
+    localStorage.clear();
+    jest.clearAllMocks();
+  });
 
-afterEach(() => {
-  localStorage.clear();
-});
+  it("FRONTEND_CONFIRMATION_1: Should render the confirmation details correctly", async () => {
+    axios.post.mockResolvedValueOnce({ data: "Booking confirmed" });
+    axios.post.mockResolvedValueOnce({ data: "Email sent" });
 
-test('FRONTEND_CONFIRMATION_1: Renders confirmation page and displays booking details', () => {
-  render(
-    <BrowserRouter>
-      <Confirmation />
-    </BrowserRouter>
-  );
+    render(
+      <Router>
+        <Confirmation />
+      </Router>
+    );
 
-  expect(screen.getByText(/Your booking has been confirmed!/i)).toBeInTheDocument();
-  expect(screen.getByText(/Lead Guest's First Name: John/i)).toBeInTheDocument();
-  expect(screen.getByText(/Lead Guest's Last Name: Doe/i)).toBeInTheDocument();
-  expect(screen.getByText(/Check-in Date: 2024-08-01/i)).toBeInTheDocument();
-  expect(screen.getByText(/Check-out Date: 2024-08-02/i)).toBeInTheDocument();
-  expect(screen.getByText(/Adults: 1/i)).toBeInTheDocument();
-  expect(screen.getByText(/Children: 0/i)).toBeInTheDocument();
-  expect(screen.getByText(/Rooms Booked: 1/i)).toBeInTheDocument();
-  expect(screen.getByText(/Special Requests: NIL/i)).toBeInTheDocument();
-  expect(screen.getByText(/Booking reference: cs_test_a1cbylFPPpqzWQxNf9GSLZ2bEzUa4tSaKmhOMjcCSoKW8iRF2V6qjVLFXu/i)).toBeInTheDocument();
-});
+    // Check if loading message is shown
+    expect(screen.queryByText(/Your booking has been confirmed!/)).not.toBeInTheDocument();
 
-test('FRONTEND_CONFIRMATION_2: Back to home button navigates to home page', () => {
-  render(
-    <BrowserRouter>
-      <Confirmation />
-    </BrowserRouter>
-  );
+    await waitFor(() => expect(axios.post).toHaveBeenCalledTimes(2));
 
-  const backButton = screen.getByText(/Back to Home/i);
-  fireEvent.click(backButton);
+    // Check if confirmation details are displayed
+    expect(screen.getByText(/Your booking has been confirmed!/)).toBeInTheDocument();
+    expect(screen.getByText(/Guest's Name: John Doe/)).toBeInTheDocument();
+    expect(screen.getByText(/Check-in Date: 2024-08-01/)).toBeInTheDocument();
+    expect(screen.getByText(/Check-out Date: 2024-08-05/)).toBeInTheDocument();
+    expect(screen.getByText(/Adults: 2/)).toBeInTheDocument();
+    expect(screen.getByText(/Children: 0/)).toBeInTheDocument();
+    expect(screen.getByText(/Rooms Booked: 1/)).toBeInTheDocument();
+    expect(screen.getByText(/Special Requests: High floor/)).toBeInTheDocument();
+    expect(screen.getByText(/Booking reference: 12345/)).toBeInTheDocument();
+  });
 
-  expect(mockNavigate).toHaveBeenCalledWith('/');
+  it("FRONTEND_CONFIRMATION_2: Should handle 'Back to Home' button click", async () => {
+    axios.post.mockResolvedValueOnce({ data: "Booking confirmed" });
+    axios.post.mockResolvedValueOnce({ data: "Email sent" });
+
+    render(
+      <Router>
+        <Confirmation />
+      </Router>
+    );
+
+    await waitFor(() => expect(axios.post).toHaveBeenCalledTimes(2));
+
+    const backToHomeButton = screen.getByText(/Back to Home/);
+    fireEvent.click(backToHomeButton);
+
+    expect(mockNavigate).toHaveBeenCalledWith("/");
+  });
+
+  it("FRONTEND_CONFIRMATION_3: should handle errors when sending booking details", async () => {
+    axios.post.mockRejectedValueOnce(new Error("Failed to confirm booking"));
+
+    render(
+      <Router>
+        <Confirmation />
+      </Router>
+    );
+
+    await waitFor(() => expect(axios.post).toHaveBeenCalledTimes(1));
+
+    // Ensure the booking confirmation message is not shown
+    expect(screen.queryByText(/Your booking has been confirmed!/)).not.toBeInTheDocument();
+  });
+
+  it("FRONTEND_CONFIRMATION_4: Should handle errors when sending confirmation email", async () => {
+    axios.post.mockResolvedValueOnce({ data: "Booking confirmed" });
+    axios.post.mockRejectedValueOnce(new Error("Failed to send email"));
+
+    render(
+      <Router>
+        <Confirmation />
+      </Router>
+    );
+
+    await waitFor(() => expect(axios.post).toHaveBeenCalledTimes(2));
+
+    // Check if confirmation details are displayed
+    expect(screen.getByText(/Your booking has been confirmed!/)).toBeInTheDocument();
+  });
 });

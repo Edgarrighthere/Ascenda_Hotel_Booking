@@ -4,7 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import BookingForm from "../src/pages/confirmation/BookingForm";
 import '@testing-library/jest-dom';
 
-describe("BookingForm", () => {
+describe("Frontend BookingForm Unit and Integration Test", () => {
   test("FRONTEND_BOOKING_FORM_1: Renders the booking form", () => {
     render(
       <MemoryRouter initialEntries={[{ state: {} }]}>
