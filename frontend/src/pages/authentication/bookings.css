@@ -8,17 +8,17 @@
     background-repeat: no-repeat; /* Prevent repeating the image */
     background-position: right center; /* Position on the right center */
 }
-
+  
 .bookingsContainer {
     flex: 1;
     display: flex;
     align-items: center;
-    justify-content: flex-start; 
+    justify-content: flex-start;
     font-family: 'Lato';
-    padding-left: 22%; 
     position: relative;
+    padding-left: 22%; 
 }
-
+  
 .bookingsContent {
     width: 30%; /* Adjust width to match accountContainer */
     background-color: #ffffff; 
@@ -30,7 +30,7 @@
     gap: 10px; /* Gap between elements */
     max-height: 600px;
 }
-
+  
 .bookingsTitle {
     color: midnightblue;
     font-size: 30px; /* Increase font size */
@@ -38,18 +38,18 @@
     text-align: center;
     align-self: flex-start;
 }
-
+  
 .bookingItem {
     margin-bottom: 20px; /* Increase bottom margin */
     padding-top: 15px;
 }
-
+  
 .bookingDetail {
     margin-bottom: 8px; /* Increase bottom margin */
     font-size: 18px; /* Increase font size */
     line-height: 1.5;
 }
-
+  
 .error {
     color: red;
     margin-top: 10px;
@@ -57,7 +57,7 @@
     font-family: 'Lato';
     font-size: medium;
 }
-
+  
 .footerContainer {
     background-color: #fff; /* Ensure the footer has the same background color */
     margin-top: 40px; /* Increase top margin */
@@ -65,33 +65,47 @@
     text-align: center;
     padding: 20px 0;
 }
-
+  
 .noBookings {
     text-align: center;
     font-size: 18px;
     color: #666;
 }
-
-.navigationButtons {
-    position: absolute; /* Absolute positioning within the container */
-    top: 20px; /* Space from the top */
-    right: 20px; /* Space from the right edge */
-    display: flex;
-    gap: 10px; /* Space between buttons */
-}
-
+  
 .navButton {
-    background-color: #007bff; /* Blue background */
-    color: white;
+    background: none;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
     cursor: pointer;
     font-family: 'Lato';
-    font-size: 16px;
+    font-size: large;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: gray;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 }
-
-.navButton:disabled {
-    background-color: #cccccc; /* Gray background for disabled */
+  
+.navButton .navIcon {
+    font-size: 40px;
+    transition: color 0.3s;
+}
+  
+.navButton:hover .navIcon {
+    color: black;
+}
+  
+.navButton:disabled .navIcon {
+    color: lightgray;
     cursor: not-allowed;
 }
+  
+.leftNavButton {
+    left: 14%; /* Adjust as needed */
+}
+  
+.rightNavButton {
+    right: 45.5%; /* Adjust as needed */
+}
+  

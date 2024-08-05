@@ -61,29 +61,14 @@ const Bookings = () => {
     <div className="bookingsPage">
       <Navbar />
       <div className="bookingsContainer">
-        <div className="navigationButtons">
-          <button 
-            className="navButton" 
-            onClick={handlePrevious} 
-            disabled={currentIndex === bookings.length - 1}
-          >
-            &lt; Prev
-          </button>
-          <button 
-            className="navButton" 
-            onClick={handleNext} 
-            disabled={currentIndex === 0}
-          >
-            Next &gt;
-          </button>
-        </div>
         <div className="bookingsContent">
           <div className="bookingsTitle">Current Bookings</div>
           {bookings.length > 0 ? (
             <div className="bookingItem">
               <div className="bookingDetail">
                 <strong>Name:</strong>{" "}
-                {bookings[currentIndex].bookingDetails.leadGuest.firstName} {bookings[currentIndex].bookingDetails.leadGuest.lastName}
+                {bookings[currentIndex].bookingDetails.leadGuest.firstName}{" "}
+                {bookings[currentIndex].bookingDetails.leadGuest.lastName}
               </div>
               <div className="bookingDetail">
                 <strong>Email:</strong>{" "}
@@ -132,7 +117,10 @@ const Bookings = () => {
                 <strong>Duration of stay:</strong> {bookings[currentIndex].searchDetails.days} day(s)
               </div>
               <div className="bookingDetail">
-                <strong>Guest Information:</strong> {bookings[currentIndex].searchDetails.adults} adult(s), {bookings[currentIndex].searchDetails.children} children, {bookings[currentIndex].searchDetails.rooms} room(s)
+                <strong>Guest Information:</strong>{" "}
+                {bookings[currentIndex].searchDetails.adults} adult(s),{" "}
+                {bookings[currentIndex].searchDetails.children} children,{" "}
+                {bookings[currentIndex].searchDetails.rooms} room(s)
               </div>
               <div className="bookingDetail">
                 <strong>Cancel Policy:</strong>{" "}
@@ -148,6 +136,22 @@ const Bookings = () => {
           )}
           {error && <div className="error">{error}</div>}
         </div>
+        <button
+          className="navButton leftNavButton"
+          onClick={handlePrevious}
+          disabled={currentIndex === bookings.length - 1}
+        >
+          <FontAwesomeIcon icon={faCircleArrowLeft} className="navIcon" />
+          <div>Prev</div>
+        </button>
+        <button
+          className="navButton rightNavButton"
+          onClick={handleNext}
+          disabled={currentIndex === 0}
+        >
+          <FontAwesomeIcon icon={faCircleArrowRight} className="navIcon" />
+          <div>Next</div>
+        </button>
       </div>
       <Footer />
     </div>
