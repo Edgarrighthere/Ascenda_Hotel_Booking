@@ -11,8 +11,6 @@ const checkin = "2024-10-22"
 const checkout = "2024-10-23"
 const guests = "1"
 
-jest.setTimeout(10000); 
-
 const mockAmenities = {"airConditioning":true,"businessCenter":true,"clothingIron":true,"dataPorts":true,"dryCleaning":true,"hairDryer":true,"meetingRooms":true,"outdoorPool":true,"parkingGarage":true,"roomService":true,"safe":true,"tVInRoom":true,"voiceMail":true}
 const mockHotelJSON = {"id":"BN5n","imageCount":31,"latitude":1.32059,"longitude":103.84514,"name":"Oasia Hotel Novena, Singapore","address":"8 Sinaran Drive","address1":"8 Sinaran Drive","rating":4.0,"trustyou":{"id":"5bb1a25e-897d-4124-8f47-2e8b7a311e69","score":{"overall":85.0,"kaligo_overall":4.3,"solo":85.0,"couple":87.0,"family":83.0,"business":83.0}},"categories":{},"amenities_ratings":[],"description":"<p><b>Property Location</b></p>","amenities":{},"original_metadata":{"name":null,"city":"Singapore","state":null,"country":"SG"},"image_details":{"suffix":".jpg","count":31,"prefix":"https://d2ey9sqrvkqdfs.cloudfront.net/BN5n/"},"number_of_images":20,"default_image_index":1,"imgix_url":"https://kaligo-web-expedia.imgix.net","cloudflare_image_url":"https://www.kaligo-staging.xyz/images/new"}
 const mockRoomsAvailableFromJSON = new RoomsAvailable("BN5n", 31, 1.32059, 103.84514, "Oasia Hotel Novena, Singapore", "8 Sinaran Drive", 4.0, {"id":"5bb1a25e-897d-4124-8f47-2e8b7a311e69","score":{"overall":85.0,"kaligo_overall":4.3,"solo":85.0,"couple":87.0,"family":83.0,"business":83.0}}, {}, [], "<p><b>Property Location</b></p>", {}, {"suffix":".jpg","count":31,"prefix":"https://d2ey9sqrvkqdfs.cloudfront.net/BN5n/"}, 20, 1) 
