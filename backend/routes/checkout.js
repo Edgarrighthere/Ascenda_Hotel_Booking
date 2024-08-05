@@ -42,6 +42,25 @@ router.post('/', async (req, res, next) => {
 
     const serializedState = encodeURIComponent(JSON.stringify(state));
 
+    const return_state = {
+        hotelId, 
+        roomType,
+        roomOnlyPrice : ((roomOnlyPrice / 100).toFixed(2)), 
+        breakfastPrice : ((breakfastPrice / 100).toFixed(2)), 
+        cancelPolicy, 
+        destinationId, 
+        destination, 
+        checkin, 
+        checkout, 
+        guests, 
+        leadGuestEmail, 
+        leadGuestFirstName, 
+        hotelName,
+        address
+    };
+
+    const return_serializedState = encodeURIComponent(JSON.stringify(return_state));
+
     try {
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -61,7 +80,7 @@ router.post('/', async (req, res, next) => {
             mode: 'payment',
             billing_address_collection: 'required',
             success_url: `http://localhost:3000/complete/{CHECKOUT_SESSION_ID}?state=${serializedState}&hotelName=${encodeURIComponent(hotelName)}&firstName=${encodeURIComponent(leadGuestFirstName)}&email=${encodeURIComponent(leadGuestEmail)}`,
-            cancel_url: `http://localhost:3000/hotels/${hotelId}?destinationId=${encodeURIComponent(destinationId)}&destination=${encodeURIComponent(destination)}&checkin=${encodeURIComponent(checkin)}&checkout=${encodeURIComponent(checkout)}&guests=${encodeURIComponent(guests)}&state=${serializedState}`,  
+            cancel_url: `http://localhost:3000/hotels/${hotelId}?destinationId=${encodeURIComponent(destinationId)}&destination=${encodeURIComponent(destination)}&checkin=${encodeURIComponent(checkin)}&checkout=${encodeURIComponent(checkout)}&guests=${encodeURIComponent(guests)}&state=${return_serializedState}`,  
         });
 
         res.json({ 
