@@ -137,7 +137,7 @@ const Bookings = () => {
           {error && <div className="error">{error}</div>}
         </div>
         <button
-          className="navButton leftNavButton"
+          className="navButtonToggle leftNavButton"
           onClick={handlePrevious}
           disabled={currentIndex === bookings.length - 1}
         >
@@ -145,7 +145,7 @@ const Bookings = () => {
           <div>Prev</div>
         </button>
         <button
-          className="navButton rightNavButton"
+          className="navButtonToggle rightNavButton"
           onClick={handleNext}
           disabled={currentIndex === 0}
         >

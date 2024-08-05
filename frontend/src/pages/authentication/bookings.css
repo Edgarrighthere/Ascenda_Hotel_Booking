@@ -72,7 +72,7 @@
     color: #666;
 }
   
-.navButton {
+.navButtonToggle {
     background: none;
     border: none;
     cursor: pointer;
@@ -87,16 +87,16 @@
     transform: translateY(-50%);
 }
   
-.navButton .navIcon {
+.navButtonToggle .navIcon {
     font-size: 40px;
     transition: color 0.3s;
 }
   
-.navButton:hover .navIcon {
+.navButtonToggle:hover .navIcon {
     color: black;
 }
   
-.navButton:disabled .navIcon {
+.navButtonToggle:disabled .navIcon {
     color: lightgray;
     cursor: not-allowed;
 }
