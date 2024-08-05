@@ -7,11 +7,11 @@ const app = require('../app.js');
 async function setup() {
     try {
         //Backup existing data to a temp collection
-        //await model.UsersCollection.copyTo("TempUsers")
-        await model.UsersCollection.aggregate([{ $out : "TempUsers" }]);
+        //await model.UsersCollection.copyTo("tempusers")
+        await model.UsersCollection.aggregate([{ $out : "tempusers" }]);
 
         //Clear the collection
-        await model.UsersCollection.deleteMany({});
+        // await model.UsersCollection.deleteMany({});
 
         //Create the test login user
         const salt = await bcrypt.genSalt(10);
@@ -41,12 +41,12 @@ async function setup() {
 async function teardown() {
     try {
         //Clear the user collection (i.e remove the test user)
-        await model.UsersCollection.deleteMany({});
+        // await model.UsersCollection.deleteMany({});
 
         //Restore the collection from the backup
-        const TempUsersCollection = db.mongoose.model("TempUsers", model.userSchema);
+        const TempUsersCollection = db.mongoose.model("tempusers", model.userSchema);
 
-        await TempUsersCollection.aggregate([{ $out : "Users" }]);
+        await TempUsersCollection.aggregate([{ $out : "users" }]);
         
         //Close the database connection
         await db.mongoose.disconnect();

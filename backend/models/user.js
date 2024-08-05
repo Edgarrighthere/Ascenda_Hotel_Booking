@@ -1,7 +1,7 @@
 const bookingSchema = require("./bookingsPerUser.js");
 const mongoose = require('mongoose');
 const db=require("./db.js"); 
-const collectionName="Users";
+const collectionName="users";
 
 const userSchema = new db.mongoose.Schema({
     email: { type: String, unique: true, required: true },

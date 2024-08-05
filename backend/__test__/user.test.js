@@ -6,8 +6,8 @@ const bcrypt = require("bcryptjs");
 async function setup() {
     try {
         //Backup existing data to a temp collection
-        //await model.UsersCollection.copyTo("TempUsers")
-        await model.UsersCollection.aggregate([{ $out : "TempUsers" }]);
+        //await model.UsersCollection.copyTo("tempusers")
+        await model.UsersCollection.aggregate([{ $out : "tempusers" }]);
 
         //Clear the collection
         await model.UsersCollection.deleteMany({});
@@ -43,9 +43,9 @@ async function teardown() {
         await model.UsersCollection.deleteMany({});
 
         //Restore the collection from the backup
-        const TempUsersCollection = db.mongoose.model("TempUsers", model.userSchema);
+        const TempUsersCollection = db.mongoose.model("tempusers", model.userSchema);
 
-        await TempUsersCollection.aggregate([{ $out : "Users" }]);
+        await TempUsersCollection.aggregate([{ $out : "users" }]);
         
         //Close the database connection
         await db.mongoose.disconnect();
