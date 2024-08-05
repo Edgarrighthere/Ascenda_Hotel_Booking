@@ -3,9 +3,15 @@ import axios from "axios";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 import "./bookings.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCircleArrowLeft,
+  faCircleArrowRight
+} from "@fortawesome/free-solid-svg-icons";
 
 const Bookings = () => {
   const [bookings, setBookings] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(null); // Start with null to handle default state
   const [error, setError] = useState("");
   const userEmail = localStorage.getItem("email"); // Replace with the actual user email
   console.log("EMAIL", userEmail);
@@ -21,6 +27,9 @@ const Bookings = () => {
         );
         if (response && response.data) {
           setBookings(response.data);
+          if (response.data.length > 0) {
+            setCurrentIndex(response.data.length - 1); // Set default to the latest booking
+          }
         } else {
           setError("Failed to fetch bookings.");
         }
@@ -34,88 +43,113 @@ const Bookings = () => {
     fetchBookings();
   }, [userEmail]);
 
+  const handleNext = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentIndex < bookings.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    }
+  };
+
+  if (currentIndex === null) return <div>Loading...</div>;
+
   return (
-    <div>
+    <div className="bookingsPage">
       <Navbar />
       <div className="bookingsContainer">
+        <div className="navigationButtons">
+          <button 
+            className="navButton" 
+            onClick={handlePrevious} 
+            disabled={currentIndex === bookings.length - 1}
+          >
+            &lt; Prev
+          </button>
+          <button 
+            className="navButton" 
+            onClick={handleNext} 
+            disabled={currentIndex === 0}
+          >
+            Next &gt;
+          </button>
+        </div>
         <div className="bookingsContent">
           <div className="bookingsTitle">Current Bookings</div>
+          {bookings.length > 0 ? (
+            <div className="bookingItem">
+              <div className="bookingDetail">
+                <strong>Name:</strong>{" "}
+                {bookings[currentIndex].bookingDetails.leadGuest.firstName} {bookings[currentIndex].bookingDetails.leadGuest.lastName}
+              </div>
+              <div className="bookingDetail">
+                <strong>Email:</strong>{" "}
+                {bookings[currentIndex].bookingDetails.leadGuest.email}
+              </div>
+              <div className="bookingDetail">
+                <strong>Phone:</strong>{" "}
+                {bookings[currentIndex].bookingDetails.leadGuest.phone}
+              </div>
+              <div className="bookingDetail">
+                <strong>Destination:</strong>{" "}
+                {bookings[currentIndex].hotelDetails.destination}
+              </div>
+              <div className="bookingDetail">
+                <strong>Hotel:</strong>{" "}
+                {bookings[currentIndex].hotelDetails.hotelName}
+              </div>
+              <div className="bookingDetail">
+                <strong>Address:</strong> {bookings[currentIndex].hotelDetails.address}
+              </div>
+              <div className="bookingDetail">
+                <strong>Room Type:</strong>{" "}
+                {bookings[currentIndex].bookingDetails.roomType}
+              </div>
+              <div className="bookingDetail">
+                <strong>Room Only Price:</strong>{" "}
+                S${bookings[currentIndex].bookingDetails.roomOnlyPrice}
+              </div>
+              <div className="bookingDetail">
+                <strong>Breakfast Price:</strong>{" "}
+                S${bookings[currentIndex].bookingDetails.breakfastPrice}
+              </div>
+              <div className="bookingDetail">
+                <strong>Check-in:</strong>{" "}
+                {new Date(
+                  bookings[currentIndex].searchDetails.checkin
+                ).toLocaleDateString()}
+              </div>
+              <div className="bookingDetail">
+                <strong>Check-out:</strong>{" "}
+                {new Date(
+                  bookings[currentIndex].searchDetails.checkout
+                ).toLocaleDateString()}
+              </div>
+              <div className="bookingDetail">
+                <strong>Duration of stay:</strong> {bookings[currentIndex].searchDetails.days} day(s)
+              </div>
+              <div className="bookingDetail">
+                <strong>Guest Information:</strong> {bookings[currentIndex].searchDetails.adults} adult(s), {bookings[currentIndex].searchDetails.children} children, {bookings[currentIndex].searchDetails.rooms} room(s)
+              </div>
+              <div className="bookingDetail">
+                <strong>Cancel Policy:</strong>{" "}
+                {bookings[currentIndex].bookingDetails.cancelPolicy}
+              </div>
+              <div className="bookingDetail">
+                <strong>Special Requests:</strong>{" "}
+                {bookings[currentIndex].bookingDetails.specialRequests}
+              </div>
+            </div>
+          ) : (
+            <div className="noBookings">No bookings found.</div>
+          )}
           {error && <div className="error">{error}</div>}
-          <div className="bookingsList">
-            {bookings.length > 0 ? (
-              bookings.map((booking, index) => (
-                <div key={index} className="bookingItem">
-                  <div className="bookingDetail">
-                    <strong>Name:</strong>{" "}
-                    {booking.bookingDetails.leadGuest.firstName} {booking.bookingDetails.leadGuest.lastName}
-                  </div>
-                  <div className="bookingDetail">
-                    <strong>Email:</strong>{" "}
-                    {booking.bookingDetails.leadGuest.email}
-                  </div>
-                  <div className="bookingDetail">
-                    <strong>Phone:</strong>{" "}
-                    {booking.bookingDetails.leadGuest.phone}
-                  </div>
-                  <div className="bookingDetail">
-                    <strong>Destination:</strong>{" "}
-                    {booking.hotelDetails.destination}
-                  </div>
-                  <div className="bookingDetail">
-                    <strong>Address:</strong> {booking.hotelDetails.address}
-                  </div>
-                  
-                  <div className="bookingDetail">
-                    <strong>Room Type:</strong>{" "}
-                    {booking.bookingDetails.roomType}
-                  </div>
-                  <div className="bookingDetail">
-                    <strong>Room Only Price:</strong>{" "}
-                    S${booking.bookingDetails.roomOnlyPrice}
-                  </div>
-                  <div className="bookingDetail">
-                    <strong>Breakfast Price:</strong>{" "}
-                    S${booking.bookingDetails.breakfastPrice}
-                  </div>
-                  <div className="bookingDetail">
-                    <strong>Check-in:</strong>{" "}
-                    {new Date(
-                      booking.searchDetails.checkin
-                    ).toLocaleDateString()}
-                  </div>
-                  <div className="bookingDetail">
-                    <strong>Check-out:</strong>{" "}
-                    {new Date(
-                      booking.searchDetails.checkout
-                    ).toLocaleDateString()}
-                  </div>
-                  <div className="bookingDetail">
-                    <strong>Duration of stay:</strong> {booking.searchDetails.days} day(s)
-                  </div>
-                  <div className="bookingDetail">
-                    <strong>Guest Information:</strong> {booking.searchDetails.adults} adult(s), {booking.searchDetails.children} children, {booking.searchDetails.rooms} room(s)
-                  </div>
-                  <div className="bookingDetail">
-                    <strong>Cancel Policy:</strong>{" "}
-                    {booking.bookingDetails.cancelPolicy}
-                  </div>
-                  <div className="bookingDetail">
-                    <strong>Special Requests:</strong>{" "}
-                    {booking.bookingDetails.specialRequests}
-                  </div>
-                  {/* <div className="bookingDetail">
-                    <strong>Description:</strong>{" "}
-                    {booking.hotelDetails.description}
-                  </div> */}
-                </div>
-              ))
-            ) : (
-              <div className="noBookings">No bookings found.</div>
-            )}
-          </div>
         </div>
-        <Footer />
       </div>
+      <Footer />
     </div>
   );
 };
