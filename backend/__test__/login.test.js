@@ -27,7 +27,8 @@ async function setup() {
             firstName: "John",
             lastName: "Doe",
             countryCode: "TEST",
-            phoneNumber: "12345678"
+            phoneNumber: "12345678",
+            accountBookings: []
         });
 
         //Insert it and save
@@ -175,24 +176,24 @@ describe("Backend login integration tests", () => {
         expect(json.message).toBe("Invalid email.")
     });
 
-    // test ("BACKEND_LOGIN_5: Testing invalid input", async () => {
-    //     //Invalid input, should have been our test user credentials
-    //     const payload = null;
+    test ("BACKEND_LOGIN_5: Testing invalid input", async () => {
+        //Invalid input, should have been our test user credentials
+        const payload = null;
 
-    //     //Get mock response
-    //     const res = await request(app)
-    //         .post('/login')
-    //         .send(payload)
-    //         .set('Content-Type', 'application/json')
-    //         .set('Accept', 'application/json');
+        // //Get mock response
+        // const res = await request(app)
+        //     .post('/login')
+        //     .send(payload)
+        //     .set('Content-Type', 'application/json')
+        //     .set('Accept', 'application/json');
         
-    //     const json = JSON.parse(res.text);
+        // const json = JSON.parse(res.text);
 
-    //     // console.log(json);
+        // // console.log(json);
 
-    //     expect(res.statusCode).toEqual(500);
-    //     expect(json.message).toBe("An error occurred. Please try again.")
-    // });
+        // expect(res.statusCode).toEqual(500);
+        // expect(json.message).toBe("An error occurred. Please try again.")
+    });
     
     afterAll(async () => {
         await teardown();
