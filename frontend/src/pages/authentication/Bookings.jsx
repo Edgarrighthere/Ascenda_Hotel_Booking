@@ -49,7 +49,7 @@ const Bookings = () => {
                     <strong>Name:</strong>{" "}
                     {booking.bookingDetails.leadGuest.firstName} {booking.bookingDetails.leadGuest.lastName}
                   </div>
-                  <div className="bookingDetail">
+                  <div className="bookingDetail" data-testid="email">
                     <strong>Email:</strong>{" "}
                     {booking.bookingDetails.leadGuest.email}
                   </div>
@@ -69,7 +69,7 @@ const Bookings = () => {
                     <strong>Room Type:</strong>{" "}
                     {booking.bookingDetails.roomType}
                   </div>
-                  <div className="bookingDetail">
+                  <div className="bookingDetail" data-testid="roomOnlyPrice">
                     <strong>Room Only Price:</strong>{" "}
                     S${booking.bookingDetails.roomOnlyPrice}
                   </div>
@@ -77,7 +77,7 @@ const Bookings = () => {
                     <strong>Breakfast Price:</strong>{" "}
                     S${booking.bookingDetails.breakfastPrice}
                   </div>
-                  <div className="bookingDetail">
+                  <div className="bookingDetail" data-testid="checkInDate">
                     <strong>Check-in:</strong>{" "}
                     {new Date(
                       booking.searchDetails.checkin
