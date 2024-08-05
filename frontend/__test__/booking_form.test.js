@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import axios from "axios";
-import BookingForm from "/Users/matthewlalonde-low/Desktop/Ascenda_Hotel_Booking/frontend/src/pages/confirmation/BookingForm";
+import BookingForm from "../src/pages/confirmation/BookingForm";
 import '@testing-library/jest-dom';
 
 jest.mock("axios");
