@@ -25,6 +25,7 @@ async function setup() {
             lastName: "Doe",
             countryCode: "TEST",
             phoneNumber: "12345678",
+            accountBookings: []
         });
 
         //Insert it and save

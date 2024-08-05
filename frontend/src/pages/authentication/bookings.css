@@ -1,58 +1,63 @@
-/* Ensure the entire page has some background and padding */
-body {
-    background-color: #ffffff;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
-
-.bookingsContainer {
+.bookingsPage {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 40px 20px; /* Increase padding for better spacing */
+    min-height: 100vh;
+    background-image: url('../../../public/images/background_01.png');
+    background-color: #f0f0f0; /* Set a background color similar to image background */
+    background-size: 40%; /* Adjust to fit the content */
+    background-repeat: no-repeat; /* Prevent repeating the image */
+    background-position: right center; /* Position on the right center */
 }
-
+  
+.bookingsContainer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-family: 'Lato';
+    position: relative;
+    padding-left: 22%; 
+}
+  
 .bookingsContent {
-    width: 100%;
-    max-width: 1000px; /* Increase max-width for a larger container */
-    background-color: #fff;
-    padding: 40px; /* Increase padding inside the container */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Slightly larger shadow for emphasis */
-    border-radius: 10px; /* Slightly larger border radius */
+    width: 30%; /* Adjust width to match accountContainer */
+    background-color: #ffffff; 
+    padding: 20px; /* Adjust padding */
+    border-radius: 10px; 
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Shadow for platform effect */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Gap between elements */
     max-height: 600px;
 }
-
+  
 .bookingsTitle {
-    font-size: 28px; /* Increase font size */
+    color: midnightblue;
+    font-size: 30px; /* Increase font size */
     font-weight: bold;
-    margin-bottom: 30px; /* Increase margin for better spacing */
     text-align: center;
+    align-self: flex-start;
 }
-
-.bookingsList {
-    margin-top: 30px; /* Increase top margin */
-}
-
+  
 .bookingItem {
     margin-bottom: 20px; /* Increase bottom margin */
-    padding: 20px;
-    border-bottom: 1px solid #ddd;
+    padding-top: 15px;
 }
-
+  
 .bookingDetail {
-    margin-bottom: 10px; /* Increase bottom margin */
+    margin-bottom: 8px; /* Increase bottom margin */
     font-size: 18px; /* Increase font size */
     line-height: 1.5;
 }
-
+  
 .error {
     color: red;
-    margin-bottom: 20px;
-    font-size: 18px; /* Increase font size */
+    margin-top: 10px;
     text-align: center;
+    font-family: 'Lato';
+    font-size: medium;
 }
-
+  
 .footerContainer {
     background-color: #fff; /* Ensure the footer has the same background color */
     margin-top: 40px; /* Increase top margin */
@@ -60,9 +65,47 @@ body {
     text-align: center;
     padding: 20px 0;
 }
-
+  
 .noBookings {
     text-align: center;
     font-size: 18px;
     color: #666;
 }
+  
+.navButtonToggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Lato';
+    font-size: large;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: gray;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+  
+.navButtonToggle .navIcon {
+    font-size: 40px;
+    transition: color 0.3s;
+}
+  
+.navButtonToggle:hover .navIcon {
+    color: black;
+}
+  
+.navButtonToggle:disabled .navIcon {
+    color: lightgray;
+    cursor: not-allowed;
+}
+  
+.leftNavButton {
+    left: 14%; /* Adjust as needed */
+}
+  
+.rightNavButton {
+    right: 45.5%; /* Adjust as needed */
+}
+  

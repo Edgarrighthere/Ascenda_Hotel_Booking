@@ -1,6 +1,5 @@
 const request = require('supertest');
-const emailer = require("../controllers/emailer.js");
-
+const emailer = require("../controllers/emailer.js"); 
 
 describe("Backend emailer tests", () => {
     test ("BACKEND_EMAILER_1: Testing sending an email", async () => {
