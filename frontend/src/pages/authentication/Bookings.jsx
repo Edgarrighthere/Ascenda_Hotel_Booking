@@ -8,7 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleArrowLeft,
   faCircleArrowRight,
-  faHouse
+  faHouse,
+  faCircleExclamation
 } from "@fortawesome/free-solid-svg-icons";
 
 const Bookings = () => {
@@ -33,13 +34,13 @@ const Bookings = () => {
           setBookings(response.data);
           if (response.data.length > 0) {
             setCurrentIndex(response.data.length - 1); // Set default to the latest booking
+          } else {
+            setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Only registered users can view their existing bookings. </>);
           }
-        } else {
-          setError("Failed to fetch bookings.");
         }
       } catch (err) {
         console.log(err);
-        setError("An error occurred while fetching bookings.");
+        setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> Only registered users can view their existing bookings. </>);
         console.error("Error fetching bookings:", err);
       }
     };
@@ -63,7 +64,7 @@ const Bookings = () => {
     navigate('/');
   };
 
-  if (currentIndex === null) return <div>Loading...</div>;
+  if (currentIndex === "") return <div>Loading...</div>;
 
   return (
     <div className="bookingsPage">
@@ -152,7 +153,7 @@ const Bookings = () => {
         <button
           className="navButtonToggle leftNavButton"
           onClick={handlePrevious}
-          disabled={currentIndex === bookings.length - 1}
+          disabled={currentIndex === null || currentIndex === bookings.length - 1}
         >
           <FontAwesomeIcon icon={faCircleArrowLeft} className="navIcon" />
           <div>Prev</div>
@@ -160,7 +161,7 @@ const Bookings = () => {
         <button
           className="navButtonToggle rightNavButton"
           onClick={handleNext}
-          disabled={currentIndex === 0}
+          disabled={currentIndex === null || currentIndex === 0}
         >
           <FontAwesomeIcon icon={faCircleArrowRight} className="navIcon" />
           <div>Next</div>
