@@ -201,7 +201,7 @@ describe("Backend Hotel Search API Integration Test", () => {
         expect(json.message).toBe("Invalid Input: Check-in date cannot be before current date.")
     }, 10000)
 
-    test("BACKEND_HOTEL_SEARCH_API_INT_4: Test hotel search route with invalid inputs (check-in date <= check-out date)", async() => {
+    test("BACKEND_HOTEL_SEARCH_API_INT_4: Test hotel search route with invalid inputs (check-out date <= check-in date)", async() => {
         // even if completed is true, hotels should be empty
         const invalid_checkout = "2024-07-22";
         const res = await fetch(`http://localhost:5000/hotel_search/${destinationId}/${checkin}/${invalid_checkout}/${guests}`, {

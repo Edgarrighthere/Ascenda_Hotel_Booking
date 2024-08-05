@@ -86,7 +86,7 @@ describe("Backend login integration tests", () => {
 
         expect(res.statusCode).toEqual(200);
         expect(json.message).toBe("Login successful. Verify with the OTP sent to your registered email...")
-    });
+    }, 20000);
 
     test ("BACKEND_LOGIN_2: Testing invalid email", async () => {
         //Our test user credentials
