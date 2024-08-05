@@ -1,6 +1,6 @@
 import { format, addDays } from 'date-fns';
 
-describe('SearchItem Container Test', () => {
+describe('Search for Hotel Test', () => {
     it('Navigate to listings page with mocked parameters from home search bar, checking for searched hotel components', () => {
         // Visit the home page
         cy.visit('/');

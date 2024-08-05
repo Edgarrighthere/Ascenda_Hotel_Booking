@@ -48,76 +48,76 @@ describe('Hotel Page Test', () => {
 
         cy.wait(10000); // wait to fetch for info from API
 
-        // // Check that Hotel Title exist
-        // cy.get('.hotelTitle').should('exist');
+        // Check that Hotel Title exist
+        cy.get('.hotelTitle').should('exist');
 
-        // // Check that "book now" button exist
-        // cy.get('.bookNow').should('exist').should('contain.text', 'Book Now!');
+        // Check that "book now" button exist
+        cy.get('.bookNow').should('exist').should('contain.text', 'Book Now!');
 
-        // // Check that Hotel address exist
-        // cy.get('.hotelAddress').should('exist');
+        // Check that Hotel address exist
+        cy.get('.hotelAddress').should('exist');
 
-        // // Check that Hotel distance from center exist
-        // cy.get('.hotelDistance').should('exist');
+        // Check that Hotel distance from center exist
+        cy.get('.hotelDistance').should('exist');
 
-        // // Check that Hotel price highlight from center exist
-        // cy.get('.hotelPriceHighlight').should('exist');
+        // Check that Hotel price highlight from center exist
+        cy.get('.hotelPriceHighlight').should('exist');
 
-        // // Check that Hotel images exist
-        // cy.get('.hotelImages').should('exist');
+        // Check that Hotel images exist
+        cy.get('.hotelImages').should('exist');
 
-        // // Click on the first image to open the slider
-        // cy.get('.hotelImgWrapper').first().click();
-        // cy.get('.slider').should('exist'); // Check that slider is opened
+        // Click on the first image to open the slider
+        cy.get('.hotelImgWrapper').first().click();
+        cy.get('.slider').should('exist'); // Check that slider is opened
 
-        // // Click right arrow to move to next image
-        // cy.get('[data-test="arrowRight"]').should('be.visible').click();
+        // Click right arrow to move to next image
+        cy.get('[data-test="arrowRight"]').should('be.visible').click();
 
-        // // Click left arrow to move to previous image
-        // cy.get('[data-test="arrowLeft"]').should('be.visible').click();
+        // Click left arrow to move to previous image
+        cy.get('[data-test="arrowLeft"]').should('be.visible').click();
     
-        // // Click close cross to close the slider
-        // cy.get('.close').should('be.visible').click();
+        // Click close cross to close the slider
+        cy.get('.close').should('be.visible').click();
 
-        // // Check that Hotel Description title exist
-        // cy.get('[data-test="hotelDescTitle"]').should('exist');
+        // Check that Hotel Description title exist
+        cy.get('[data-test="hotelDescTitle"]').should('exist');
 
-        // // Check that Hotel Description exist
-        // cy.get('.hotelDescription').should('exist');
+        // Check that Hotel Description exist
+        cy.get('.hotelDescription').should('exist');
 
-        // // Check that Hotel Details price exist
-        // cy.get('.hotelDetailsPrice').should('exist');
+        // Check that Hotel Details price exist
+        cy.get('.hotelDetailsPrice').should('exist');
 
-        // // Check that "book now" button exist
-        // cy.get('[data-test="bookNow"]').should('exist').should('contain.text', 'Reserve or Book Now!');
+        // Check that "book now" button exist
+        cy.get('[data-test="bookNow"]').should('exist').should('contain.text', 'Reserve or Book Now!');
 
-        // // Check that Trust You Score component exists
-        // cy.get('[data-test="trustYouScore"]').should('exist');
+        // Check that Trust You Score component exists
+        cy.get('[data-test="trustYouScore"]').should('exist');
 
-        // // Check that each subcomponent exists within the Trust You Score component
-        // cy.get('[data-test="trustYouScore"]')
-        //     .should('contain.text', 'Overall')
-        //     .and('contain.text', 'Kaligo Overall')
-        //     .and('contain.text', 'Solo')
-        //     .and('contain.text', 'Couple')
-        //     .and('contain.text', 'Family')
-        //     .and('contain.text', 'Business');
+        // Check that each subcomponent exists within the Trust You Score component
+        cy.get('[data-test="trustYouScore"]')
+            .should('contain.text', 'Overall')
+            .and('contain.text', 'Kaligo Overall')
+            .and('contain.text', 'Solo')
+            .and('contain.text', 'Couple')
+            .and('contain.text', 'Family')
+            .and('contain.text', 'Business');
 
-        // // Check that Categories component exists
-        // cy.get('[data-test="categories"]').should('exist');
+        // Check that Categories component exists
+        cy.get('[data-test="categories"]').should('exist');
 
-        // // Check that each subcomponent exists within the Categories component
-        // cy.get('[data-test="categories"]')
-        //     .should('contain.text', 'Overall')
-        //     .and('contain.text', 'Romantic Hotel')
-        //     .and('contain.text', 'Family Hotel')
-        //     .and('contain.text', 'Business Hotel');
+        // Check that each subcomponent exists within the Categories component
+        cy.get('[data-test="categories"]')
+            .should('contain.text', 'Overall')
+            .and('contain.text', 'Romantic Hotel')
+            .and('contain.text', 'Family Hotel')
+            .and('contain.text', 'Business Hotel');
 
-        // // Check that Categories component exists
-        // cy.get('[data-test="amenities"]').should('exist');
+        // Check that Categories component exists
+        cy.get('[data-test="amenities"]').should('exist');
 
-        // // Check that Categories component exists
-        // cy.get('[data-test="rooms"]').should('exist');
+        // Check that Categories component exists
+        cy.get('[data-test="rooms"]').should('exist');
 
         // Check that Categories component exists
         cy.get('[data-test="maps"]').should('exist');
