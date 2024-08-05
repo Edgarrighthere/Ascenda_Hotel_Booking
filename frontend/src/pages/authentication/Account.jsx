@@ -6,7 +6,7 @@ import Modal from "../../components/modal/Modal";
 import axios from 'axios';
 import './account.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { faCircleExclamation, faHouse } from "@fortawesome/free-solid-svg-icons";
 
 const Account = () => {
     const location = useLocation();
@@ -93,11 +93,22 @@ const Account = () => {
         }
     };
 
+    const handleNavigateHome = () => {
+        navigate('/');
+    };
+
     if (loading) return <div data-testid="loading">Loading...</div>;
 
     return (
         <div className="accountPage">
             <Navbar onLogout={handleLogout}/>
+            <button
+                className="navButtonAccToHome"
+                onClick={handleNavigateHome}
+                >
+                <FontAwesomeIcon icon={faHouse} className="navIcon" />
+                <div>Back Home</div>
+            </button>
             <div className="account">
                 <div data-test="accountContainer" data-testid="accountContainer" className="accountContainer" >
                     <div data-test="accontTitle" data-testid="accountTitle" className="accountTitle">Account Information</div>

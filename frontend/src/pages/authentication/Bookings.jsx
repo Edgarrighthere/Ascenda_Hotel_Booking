@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
@@ -6,13 +7,16 @@ import "./bookings.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleArrowLeft,
-  faCircleArrowRight
+  faCircleArrowRight,
+  faHouse
 } from "@fortawesome/free-solid-svg-icons";
 
 const Bookings = () => {
   const [bookings, setBookings] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(null); // Start with null to handle default state
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
   const userEmail = localStorage.getItem("email"); // Replace with the actual user email
   console.log("EMAIL", userEmail);
 
@@ -55,12 +59,21 @@ const Bookings = () => {
     }
   };
 
+  const handleNavigateHome = () => {
+    navigate('/');
+  };
+
   if (currentIndex === null) return <div>Loading...</div>;
 
   return (
     <div className="bookingsPage">
       <Navbar />
+      
       <div className="bookingsContainer">
+        <button className="navButtonBookToHome" onClick={handleNavigateHome}>
+          <FontAwesomeIcon icon={faHouse} className="navIcon1" />
+          <div>Back Home</div>
+        </button>
         <div className="bookingsContent">
           <div className="bookingsTitle">Current Bookings</div>
           {bookings.length > 0 ? (
