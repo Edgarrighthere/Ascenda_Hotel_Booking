@@ -2,6 +2,8 @@ const request = require('supertest');
 // const emailer = require("../controllers/emailer.js");
 const app = require('../app.js');
 
+jest.setTimeout(10000); 
+
 describe("Backend confirmation email tests", () => {
     test ("BACKEND_CONFIRMATION_EMAIL_1: Testing sending a confirmation email", async () => {
         //Our test mail options
