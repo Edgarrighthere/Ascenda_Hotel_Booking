@@ -1,38 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from "react";
+import "./amenities.css";
 
-const Amenities = () => {
-  const [amenities, setAmenities] = useState(null);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchAmenities = async () => {
-      try {
-        const response = await axios.get('/api/amenities'); // Replace with relevant API
-        setAmenities(response.data);
-      } catch (error) {
-        setError('Failed to load amenities');
-      }
-    };
-
-    fetchAmenities();
-  }, []);
-
-  if (error) {
-    return <div>{error}</div>;
-  }
-
-  if (!amenities || Object.keys(amenities).length === 0) {
-    return <div>No Amenities Available</div>;
-  }
-
+const Amenities = ({ amenities }) => {
   return (
-    <div>
+    <div className="amenities-container">
       <h1 className="amenities-title">Amenities</h1>
       <ul className="amenities-list">
         {Object.entries(amenities).map(([key, value]) => (
           <li key={key} className="amenities-item">
             {key}
+            {/* {value && key.replace(/([A-Z])/g, " $1").trim()} Convert camelCase to words */}
           </li>
         ))}
       </ul>

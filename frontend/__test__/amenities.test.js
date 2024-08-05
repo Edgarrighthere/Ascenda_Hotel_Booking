@@ -1,87 +1,34 @@
-import React from 'react';
-import { render, screen, cleanup, act, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import userEvent from '@testing-library/user-event';
-import mockAxios from 'jest-mock-axios';
-import Amenities from '../src/components/amenities/Amenities';
+// Amenities.test.js
+import React from "react";
+import { render } from "@testing-library/react";
+import '@testing-library/jest-dom/extend-expect';
+import Amenities from "../src/components/amenities/Amenities";
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: jest.fn(),
-}));
-
-jest.setTimeout(10000);
-
-afterEach(() => {
-  mockAxios.reset();
-  cleanup();
-});
-
-describe('Amenities Component Unit and Integration Test', () => {
-  test('AMENITIES_1: Renders amenities list correctly', async () => {
-    const amenitiesData = {
-      wifi: 'Free Wifi',
-      pool: 'Swimming Pool',
-      gym: 'Gym',
+describe("Amenities component", () => {
+  it("renders without crashing and displays the amenities", () => {
+    const amenities = {
+      pool: true,
+      gym: true,
+      freeBreakfast: true,
+      parking: true,
     };
 
-    mockAxios.get.mockResolvedValueOnce({ data: amenitiesData });
+    const { getByText } = render(<Amenities amenities={amenities} />);
 
-    await act(async () => {
-      render(<Amenities />);
-    });
-
-    await waitFor(() => {
-      Object.entries(amenitiesData).forEach(([key, value]) => {
-        expect(screen.getByText(key)).toBeInTheDocument();
-      });
-    });
+    expect(getByText("Amenities")).toBeInTheDocument();
+    expect(getByText("pool")).toBeInTheDocument();
+    expect(getByText("gym")).toBeInTheDocument();
+    expect(getByText("freeBreakfast")).toBeInTheDocument();
+    expect(getByText("parking")).toBeInTheDocument();
   });
 
-  test('AMENITIES_2: Displays a message when no amenities are available', async () => {
-    mockAxios.get.mockResolvedValueOnce({ data: {} });
+  it("handles empty amenities", () => {
+    const amenities = {};
 
-    await act(async () => {
-      render(<Amenities />);
-    });
+    const { getByText } = render(<Amenities amenities={amenities} />);
 
-    await waitFor(() => {
-      expect(screen.getByText(/No Amenities Available/i)).toBeInTheDocument();
-    });
-  });
-
-  test('AMENITIES_3: Handles errors gracefully', async () => {
-    mockAxios.get.mockRejectedValueOnce(new Error('Network Error'));
-
-    await act(async () => {
-      render(<Amenities />);
-    });
-
-    await waitFor(() => {
-      expect(screen.getByText(/Failed to load amenities/i)).toBeInTheDocument();
-    });
-  });
-
-  test('AMENITIES_4: Displays additional information on clicking "See More"', async () => {
-    const amenitiesData = {
-      wifi: 'Free Wifi',
-      pool: 'Swimming Pool',
-      gym: 'Gym',
-    };
-
-    mockAxios.get.mockResolvedValueOnce({ data: amenitiesData });
-
-    await act(async () => {
-      render(<Amenities />);
-    });
-
-    await waitFor(() => {
-      Object.entries(amenitiesData).forEach(([key, value]) => {
-        const seeMoreButton = screen.getByText(`See More about ${key}`);
-        userEvent.click(seeMoreButton);
-
-        expect(screen.getByText(value)).toBeInTheDocument();
-      });
-    });
+    expect(getByText("Amenities")).toBeInTheDocument();
+    // Checking if the list is empty or if there's a message indicating no amenities available
+    expect(document.querySelector('.amenities-list').children.length).toBe(0);
   });
 });
