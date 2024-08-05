@@ -130,7 +130,7 @@ describe('Bookings Component', () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
+      expect(screen.getByText('Only registered users can view their existing bookings.')).toBeInTheDocument();
     });
   });
 
