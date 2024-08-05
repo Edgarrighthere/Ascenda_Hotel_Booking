@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./register.css";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
@@ -25,6 +26,8 @@ const Register = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+
+    const navigate = useNavigate();
 
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
@@ -63,6 +66,9 @@ const Register = () => {
 
             if (response && response.data) {
                 setSuccess(<> <FontAwesomeIcon icon={faCheck} /> {response.data.message} </>);
+                setTimeout(() => {
+                    navigate("/login",); 
+                }, 2000);
             } else {
                 setError(<> <FontAwesomeIcon icon={faCircleExclamation} /> An unexpected error occurred. Please try again. </>);
             }

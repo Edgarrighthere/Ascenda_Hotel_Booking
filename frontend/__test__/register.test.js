@@ -191,7 +191,7 @@ describe('Frontend Register Integration Test', () => {
         // Mock successful registration response
         axios.post.mockResolvedValueOnce({
             data: {
-                message: 'User successfully created. Please log in.'
+                message: 'User successfully created. Redirecting to Login page now...'
             }
         });
 
@@ -201,6 +201,6 @@ describe('Frontend Register Integration Test', () => {
         // Check if the error message is displayed
         const successMessage = await waitFor(() => screen.getByTestId('success-message'));
         expect(successMessage).toBeInTheDocument();
-        expect(successMessage).toHaveTextContent('User successfully created. Please log in.');
+        expect(successMessage).toHaveTextContent('User successfully created. Redirecting to Login page now...');
     });
 });

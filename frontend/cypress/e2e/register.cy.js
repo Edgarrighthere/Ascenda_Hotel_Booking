@@ -174,7 +174,7 @@ describe('Register Page Test', () => {
         cy.intercept('POST', '/register', {
             statusCode: 201,
             body: {
-                message: 'User successfully created. Please log in.'
+                message: 'User successfully created. Redirecting to Login page now...'
             }
         }).as('registerRequest')
 
@@ -186,7 +186,7 @@ describe('Register Page Test', () => {
 
         // Verify that the success message is displayed
         cy.get('[data-test="registerContainer"]')
-            .should('contain.text', 'User successfully created. Please log in.')
+            .should('contain.text', 'User successfully created. Redirecting to Login page now...')
     })
 
     it('should display error message if user re-registers with the same email', () => {
@@ -204,7 +204,7 @@ describe('Register Page Test', () => {
         cy.intercept('POST', '/register', {
             statusCode: 201,
             body: {
-                message: 'User successfully created. Please log in.'
+                message: 'User successfully created. Redirecting to Login page now...'
             }
         }).as('registerRequest')
 
@@ -216,7 +216,7 @@ describe('Register Page Test', () => {
 
         // Verify the success message
         cy.get('[data-test="registerContainer"]')
-            .should('contain.text', 'User successfully created. Please log in.')
+            .should('contain.text', 'User successfully created. Redirecting to Login page now...')
 
         // Intercept the network request for a registration attempt with an existing email
         cy.intercept('POST', '/register', {
