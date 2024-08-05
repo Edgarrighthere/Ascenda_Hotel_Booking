@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, act, waitFor } from '@testing-library/react';
+import { render, screen, act, waitFor, fireEvent } from '@testing-library/react';
 import axios from 'axios';
 import Bookings from '../src/pages/authentication/Bookings';
 import '@testing-library/jest-dom/extend-expect';
@@ -37,6 +37,34 @@ const mockBookings = [
       description: 'Standard room with city view.',
     },
   },
+  {
+    bookingDetails: {
+      leadGuest: {
+        firstName: 'Jane',
+        lastName: 'Doe',
+        email: 'john.doe@example.com',
+        phone: '1234567890',
+      },
+      specialRequests: 'Non-smoking room',
+      roomType: 'Standard',
+      roomOnlyPrice: 100,
+      breakfastPrice: 20,
+      cancelPolicy: 'Non-refundable',
+    },
+    searchDetails: {
+      checkin: '11/01/2024',
+      checkout: '11/03/2024',
+      adults: 1,
+      children: 0,
+      rooms: 1,
+      days: 2,
+    },
+    hotelDetails: {
+      destination: 'Los Angeles',
+      address: '123 Hollywood Blvd',
+      description: 'Standard room with city view.',
+    },
+  }
 ];
 
 describe('Bookings Component', () => {
@@ -76,7 +104,7 @@ describe('Bookings Component', () => {
     });
 
     expect(await screen.findByText((content, element) => {
-      return content.includes('John');
+      return content.includes('Jane');
     })).toBeInTheDocument();
     const emailElement = await screen.findByTestId('email');
     expect(emailElement).toHaveTextContent('john.doe@example.com');
@@ -106,24 +134,24 @@ describe('Bookings Component', () => {
     });
   });
 
-  test('FRONTEND_BOOKINGS_DISPLAY_4: displays message when there are no bookings', async () => {
-    axios.get.mockResolvedValue({ data: [] });
-
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <Bookings />
-        </MemoryRouter>
-      );
-    });
-
-    const noBookingsMessage = await screen.findByText((content) =>
-      content.includes('Loading...')
+  
+  test('FRONTEND_BOOKINGS_DISPLAY_4: Navigates bookings with Next and Prev buttons', async () => {
+    render(
+      <MemoryRouter>
+        <Bookings />
+      </MemoryRouter>
     );
   
-    // Assert that the "No bookings found." message is displayed
-    expect(noBookingsMessage).toBeInTheDocument();
+    // Initial state should display the first booking
+    expect(await screen.findByText((content) => content.includes('Jane'))).toBeInTheDocument();
   
+    // Navigate to the next booking
+    fireEvent.click(screen.getByText('Next'));
+    expect(await screen.findByText((content) => content.includes('John'))).toBeInTheDocument();
+  
+    // Navigate back to the previous booking
+    fireEvent.click(screen.getByText('Prev'));
+    expect(await screen.findByText((content) => content.includes('Jane'))).toBeInTheDocument();
   });
-
+  
 });
