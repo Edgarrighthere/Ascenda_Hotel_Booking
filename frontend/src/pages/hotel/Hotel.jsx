@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import "./hotel.css";
 import Navbar from "../../components/navbar/Navbar";
@@ -47,6 +47,8 @@ const Hotel = () => {
   const [loadingRawInfo, setLoadingRawInfo] = useState(true);
   const [loadingRooms, setLoadingRooms] = useState(true);
   const [differenceinDays, setDifferenceInDays] = useState(0);
+  const roomListRef = useRef(null);
+  
 
   useEffect(() => {
     const fetchRawInfo = async () => {
@@ -119,6 +121,7 @@ const Hotel = () => {
         : [];
       setRooms(loadedRooms);
       setLoadingRooms(false);
+      setIsRoomListReady(true);
     }
   }, [rawinfo]);
 
@@ -174,6 +177,16 @@ const Hotel = () => {
 
   const amenities = rawinfo?.amenities || [];
 
+  const [isRoomListReady, setIsRoomListReady] = useState(false);
+
+  const scrollToRooms = () => {
+    if (isRoomListReady && roomListRef.current) {
+      roomListRef.current.scrollIntoView({ behavior: "smooth" });
+    } else {
+      console.error("Room list is not ready or roomListRef.current is null");
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -213,7 +226,7 @@ const Hotel = () => {
               </div>
             )}
             <div className="hotelWrapper">
-              <button className="bookNow">Book Now!</button>
+              <button className="bookNow" onClick={scrollToRooms}>Book Now!</button>
               <h1 className="hotelTitle">{rawinfo.name}</h1>
               <div className="hotelAddress">
                 <FontAwesomeIcon icon={faLocationDot} />
@@ -261,7 +274,7 @@ const Hotel = () => {
                   <h2>
                     <b>${(price * differenceinDays).toFixed(2)}</b>
                   </h2>
-                  <button>Reserve or Book Now!</button>
+                  <button onClick={scrollToRooms}>Reserve or Book Now!</button>
                 </div>
               </div>
             </div>

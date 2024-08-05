@@ -183,21 +183,6 @@ const BookingForm = () => {
               />
             </div>
             <div>
-              <label htmlFor="breakfastPackage">
-                Upgrade to Breakfast Package?
-              </label>
-              <div className="checkbox-options">
-                <input
-                  id="breakfastPackage"
-                  type="checkbox"
-                  name="breakfastPackage"
-                  checked={breakfastPackage}
-                  onChange={handleBreakfastChange}
-                />
-                <label htmlFor="breakfastPackage"> Yes</label>
-              </div>
-            </div>
-            <div>
               <label htmlFor="specialRequests">Special Requests:</label>
               <textarea
                 id="specialRequests"
