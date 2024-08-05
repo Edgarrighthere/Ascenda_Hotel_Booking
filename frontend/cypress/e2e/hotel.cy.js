@@ -46,7 +46,7 @@ describe('Hotel Page Test', () => {
             cy.get('.siCheckButton').should('exist').click();
         });
 
-        cy.wait(5000); // wait to fetch for info from API
+        cy.wait(10000); // wait to fetch for info from API
 
         // // Check that Hotel Title exist
         // cy.get('.hotelTitle').should('exist');

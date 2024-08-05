@@ -291,7 +291,7 @@ const Hotel = () => {
               </div>
             </div>
             <div className="centeredContainer roomListContainer">
-              <div className="centeredContent">
+              <div data-test='rooms' className="centeredContent">
                 <RoomList
                   hotelName={hotelName}
                   rooms={rooms}
@@ -306,7 +306,7 @@ const Hotel = () => {
               </div>
             </div>
             <div className="centeredContainer mapContainer">
-              <div className="centeredContent">
+              <div data-test="maps" className="centeredContent">
                 <Map lat={rawinfo.latitude} lng={rawinfo.longitude} />
               </div>
             </div>
