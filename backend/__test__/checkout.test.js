@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const checkoutRouter = require('../routes/checkout');
 const stripe = require('stripe');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 
 // This test verifies that the POST /checkout endpoint correctly processes booking details, 
 // creates a Stripe checkout session, and returns the expected response with session ID and state, 
@@ -26,21 +26,21 @@ const app = express();
 app.use(bodyParser.json());
 app.use('/checkout', checkoutRouter);
 
-beforeAll(async () => {
-    await mongoose.connect('mongodb://localhost:27017/AscendaHotelBookingDB', {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    });
-    console.log('Connected to MongoDB');
-});
+// beforeAll(async () => {
+//     await mongoose.connect('mongodb://localhost:27017/AscendaHotelBookingDB', {
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true
+//     });
+//     console.log('Connected to MongoDB');
+// });
 
-afterAll(async () => {
-    await mongoose.connection.close();
-    console.log('MongoDB connection closed');
-});
+// afterAll(async () => {
+//     await mongoose.connection.close();
+//     console.log('MongoDB connection closed');
+// });
 
 describe('POST /checkout', () => {
-    it('should create a Stripe checkout session and return session id and state', async () => {
+    test ('should create a Stripe checkout session and return session id and state', async () => {
         const requestBody = {
             hotelId: '123',
             roomType: 'Deluxe',
