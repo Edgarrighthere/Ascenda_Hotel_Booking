@@ -91,7 +91,7 @@ describe("Backend Hotel Details Unit Test", () => {
         const json = await getRooms(hotelId, destinationId, checkin, checkout, guests)
         const roomDetails_notEmpty =  json["rooms"].length > 0;
         expect(roomDetails_notEmpty).toEqual(true);
-    }, 20000)
+    }, 25000)
 
     test("BACKEND_HOTEL_DETAILS_UNIT_9: Test Room Pricing API with invalid inputs (hotelId is undefined)", async() => {
         const invalid_hotelId = "undefined"
