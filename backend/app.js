@@ -31,6 +31,7 @@ var destinationSearchRoute = destinationSearch.router;
 var hotelSearch = require('./routes/hotel_search');
 var hotelSearchRoute = hotelSearch.router;
 var roomDetails = require('./routes/room_details')
+var roomDetailsRoute = roomDetails.router;
 var accountRouter = require('./routes/account.js')
 var delAccRouter = require('./routes/send_delete_otp.js')
 
@@ -58,7 +59,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/destination_search', destinationSearchRoute);
 app.use('/hotel_search', hotelSearchRoute);
-app.use('/room_details', roomDetails);
+app.use('/room_details', roomDetailsRoute);
 
 // Register route
 app.use("/register", registerRouter);
