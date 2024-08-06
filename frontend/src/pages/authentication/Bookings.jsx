@@ -79,7 +79,7 @@ const Bookings = () => {
           <div className="bookingsTitle">Current Bookings</div>
           {bookings.length > 0 ? (
             <div className="bookingItem">
-              <div className="bookingDetail">
+              <div className="bookingDetail" data-testid="name">
                 <strong>Name:</strong>{" "}
                 {bookings[currentIndex].bookingDetails.leadGuest.firstName}{" "}
                 {bookings[currentIndex].bookingDetails.leadGuest.lastName}
@@ -88,22 +88,22 @@ const Bookings = () => {
                 <strong>Email:</strong>{" "}
                 {bookings[currentIndex].bookingDetails.leadGuest.email}
               </div>
-              <div className="bookingDetail">
+              <div className="bookingDetail" data-testid="phone_number">
                 <strong>Phone:</strong>{" "}
                 {bookings[currentIndex].bookingDetails.leadGuest.phone}
               </div>
-              <div className="bookingDetail">
+              <div className="bookingDetail" data-testid="destination">
                 <strong>Destination:</strong>{" "}
                 {bookings[currentIndex].hotelDetails.destination}
               </div>
-              <div className="bookingDetail">
+              <div className="bookingDetail" data-testid="hotel_name">
                 <strong>Hotel:</strong>{" "}
                 {bookings[currentIndex].hotelDetails.hotelName}
               </div>
-              <div className="bookingDetail">
+              <div className="bookingDetail" data-testid="hotel_address">
                 <strong>Address:</strong> {bookings[currentIndex].hotelDetails.address}
               </div>
-              <div className="bookingDetail">
+              <div className="bookingDetail" data-testid="room_type">
                 <strong>Room Type:</strong>{" "}
                 {bookings[currentIndex].bookingDetails.roomType}
               </div>
@@ -111,7 +111,7 @@ const Bookings = () => {
                 <strong>Room Only Price:</strong>{" "}
                 S${bookings[currentIndex].bookingDetails.roomOnlyPrice}
               </div>
-              <div className="bookingDetail">
+              <div className="bookingDetail" data-testid="breakfastPrice">
                 <strong>Breakfast Price:</strong>{" "}
                 S${bookings[currentIndex].bookingDetails.breakfastPrice}
               </div>
@@ -121,26 +121,26 @@ const Bookings = () => {
                   bookings[currentIndex].searchDetails.checkin
                 ).toLocaleDateString()}
               </div>
-              <div className="bookingDetail">
+              <div className="bookingDetail" data-testid="checkOutDate">
                 <strong>Check-out:</strong>{" "}
                 {new Date(
                   bookings[currentIndex].searchDetails.checkout
                 ).toLocaleDateString()}
               </div>
-              <div className="bookingDetail">
+              <div className="bookingDetail" data-testid="durationStay">
                 <strong>Duration of stay:</strong> {bookings[currentIndex].searchDetails.days} day(s)
               </div>
-              <div className="bookingDetail">
+              <div className="bookingDetail" data-testid="guestInfo">
                 <strong>Guest Information:</strong>{" "}
                 {bookings[currentIndex].searchDetails.adults} adult(s),{" "}
                 {bookings[currentIndex].searchDetails.children} children,{" "}
                 {bookings[currentIndex].searchDetails.rooms} room(s)
               </div>
-              <div className="bookingDetail">
+              <div className="bookingDetail" data-testid="cancelPolicy">
                 <strong>Cancel Policy:</strong>{" "}
                 {bookings[currentIndex].bookingDetails.cancelPolicy}
               </div>
-              <div className="bookingDetail">
+              <div className="bookingDetail" data-testid="specialRequest">
                 <strong>Special Requests:</strong>{" "}
                 {bookings[currentIndex].bookingDetails.specialRequests}
               </div>
