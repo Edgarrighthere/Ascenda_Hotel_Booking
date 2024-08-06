@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import "./hotel.css";
 import Navbar from "../../components/navbar/Navbar";
@@ -47,6 +47,7 @@ const Hotel = () => {
   const [loadingRawInfo, setLoadingRawInfo] = useState(true);
   const [loadingRooms, setLoadingRooms] = useState(true);
   const [differenceinDays, setDifferenceInDays] = useState(0);
+  const roomListRef = useRef(null);
 
   useEffect(() => {
     const fetchRawInfo = async () => {
@@ -105,6 +106,7 @@ const Hotel = () => {
 
   useEffect(() => {
     if (rawinfo) {
+      
       const loadedRooms = rawinfo.rooms_available
         ? rawinfo.rooms_available.slice(0, 10).map((room_variation) => ({
             roomType: room_variation.roomNormalizedDescription,
@@ -174,6 +176,12 @@ const Hotel = () => {
 
   const amenities = rawinfo?.amenities || [];
 
+  const scrollToRooms = () => {
+    if (roomListRef.current) {
+      roomListRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -213,7 +221,7 @@ const Hotel = () => {
               </div>
             )}
             <div className="hotelWrapper">
-              <button className="bookNow">Book Now!</button>
+              <button className="bookNow" onClick={scrollToRooms}>Book Now!</button>
               <h1 className="hotelTitle">{rawinfo.name}</h1>
               <div className="hotelAddress">
                 <FontAwesomeIcon icon={faLocationDot} />
@@ -264,7 +272,7 @@ const Hotel = () => {
                   <h2>
                     <b>${(price * differenceinDays).toFixed(2)}</b>
                   </h2>
-                  <button>Reserve or Book Now!</button>
+                  <button onClick={scrollToRooms}>Book Now!</button>
                 </div>
               </div>
             </div>
@@ -291,7 +299,7 @@ const Hotel = () => {
               </div>
             </div>
             <div className="centeredContainer roomListContainer">
-              <div data-test='rooms' className="centeredContent">
+              <div data-test='rooms' className="centeredContent" ref={roomListRef}>
                 <RoomList
                   hotelName={hotelName}
                   rooms={rooms}
