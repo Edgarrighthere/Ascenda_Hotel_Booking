@@ -1,7 +1,7 @@
 import { format, addDays } from 'date-fns';
 
 describe('Hotel Page Test', () => {
-    it('Check for components in Hotel page', () => {
+    it('Check for map component in Hotel page', () => {
         // Visit the home page
         cy.visit('/');
 
