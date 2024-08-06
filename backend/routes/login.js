@@ -44,6 +44,7 @@ router.post("/", async (req, res, next) => {
             salutation: user.salutation, // Include salutation in response
             firstName: user.firstName, // Include first name in response
             lastName: user.lastName, // Include last name in response
+            phoneNumber : user.phoneNumber
         });
     } catch (error) {
         console.error("Error during login:", error);
