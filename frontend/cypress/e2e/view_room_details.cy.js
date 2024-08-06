@@ -21,7 +21,7 @@ describe('Room Component Test', () => {
         });
 
         const startDate = new Date();
-        const endDate = addDays(new Date(), 2);
+        const endDate = addDays(new Date(), 10);
 
         cy.get('[data-test="dateSearch"] .headerSearchText').click();
         cy.get('.rdrDayNumber span').contains(startDate.getDate()).click({ force: true });

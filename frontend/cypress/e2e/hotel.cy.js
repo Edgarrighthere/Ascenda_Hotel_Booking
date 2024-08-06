@@ -21,7 +21,7 @@ describe('Hotel Page Test', () => {
         });
 
         const startDate = new Date();
-        const endDate = addDays(new Date(), 2);
+        const endDate = addDays(new Date(), 6);
 
         cy.get('[data-test="dateSearch"] .headerSearchText').click();
         cy.get('.rdrDayNumber span').contains(startDate.getDate()).click({ force: true });
@@ -80,7 +80,7 @@ describe('Hotel Page Test', () => {
         cy.get('.close').should('be.visible').click();
 
         // Check that Hotel Description title exist
-        cy.get('[data-test="hotelDescTitle"]').should('exist');
+        cy.get('.hotelTitle').should('exist');
 
         // Check that Hotel Description exist
         cy.get('.hotelDescription').should('exist');
@@ -89,7 +89,7 @@ describe('Hotel Page Test', () => {
         cy.get('.hotelDetailsPrice').should('exist');
 
         // Check that "book now" button exist
-        cy.get('[data-test="bookNow"]').should('exist').should('contain.text', 'Reserve or Book Now!');
+        cy.get('[data-test="bookNow"]').should('exist').should('contain.text', 'Book Now!');
 
         // Check that Trust You Score component exists
         cy.get('[data-test="trustYouScore"]').should('exist');
@@ -104,17 +104,17 @@ describe('Hotel Page Test', () => {
             .and('contain.text', 'Business');
 
         // Check that Categories component exists
-        cy.get('[data-test="categories"]').should('exist');
+        cy.get('[data-test="categoriesContainer"]').should('exist');
 
         // Check that each subcomponent exists within the Categories component
-        cy.get('[data-test="categories"]')
+        cy.get('[data-test="categoriesContainer"]')
             .should('contain.text', 'Overall')
             .and('contain.text', 'Romantic Hotel')
             .and('contain.text', 'Family Hotel')
             .and('contain.text', 'Business Hotel');
 
         // Check that Categories component exists
-        cy.get('[data-test="amenities"]').should('exist');
+        cy.get('[data-test="amenitiesContainer"]').should('exist');
 
         // Check that Categories component exists
         cy.get('[data-test="rooms"]').should('exist');

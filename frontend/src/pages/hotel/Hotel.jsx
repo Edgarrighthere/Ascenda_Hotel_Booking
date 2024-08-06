@@ -204,6 +204,7 @@ const Hotel = () => {
                 <FontAwesomeIcon
                   icon={faCircleArrowLeft}
                   className="arrow"
+                  data-test="arrowLeft"
                   onClick={() => handleMove("l")}
                 />
                 <div className="sliderWrapper">
@@ -216,6 +217,7 @@ const Hotel = () => {
                 <FontAwesomeIcon
                   icon={faCircleArrowRight}
                   className="arrow"
+                  data-test="arrowRight"
                   onClick={() => handleMove("r")}
                 />
               </div>
@@ -272,12 +274,12 @@ const Hotel = () => {
                   <h2>
                     <b>${(price * differenceinDays).toFixed(2)}</b>
                   </h2>
-                  <button onClick={scrollToRooms}>Book Now!</button>
+                  <button data-test="bookNow" onClick={scrollToRooms}>Book Now!</button>
                 </div>
               </div>
             </div>
             <div className="centeredContainer">
-              <div className="centeredContent">
+              <div data-test="trustYouScore" className="centeredContent">
                 <TrustYouScore
                   overall={rawinfo.trustyou?.score?.overall || 0}
                   kaligo={rawinfo.trustyou?.score?.kaligo_overall || 0}
@@ -289,12 +291,12 @@ const Hotel = () => {
               </div>
             </div>
             <div className="centeredContainer categoriesContainer">
-              <div className="centeredContent">
+              <div data-test="categoriesContainer" className="centeredContent">
                 <Categories categories={categories} />
               </div>
             </div>
             <div className="centeredContainer amenitiesContainer">
-              <div className="centeredContent">
+              <div data-test="amenitiesContainer" className="centeredContent">
                 <AmenitiesList amenities={amenities} />
               </div>
             </div>

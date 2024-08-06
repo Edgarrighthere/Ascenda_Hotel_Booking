@@ -21,7 +21,7 @@ describe('Hotel Page Test', () => {
         });
 
         const startDate = new Date();
-        const endDate = addDays(new Date(), 2);
+        const endDate = addDays(new Date(), 7);
 
         cy.get('[data-test="dateSearch"] .headerSearchText').click();
         cy.get('.rdrDayNumber span').contains(startDate.getDate()).click({ force: true });
