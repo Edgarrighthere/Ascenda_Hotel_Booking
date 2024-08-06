@@ -5,6 +5,8 @@ const app = require('../app.js');
 describe("Backend room details tests", () => {
 
     test ("BACKEND_ROOM_DETAILS_1: Testing information retrieval", async () => {
+        // Very prone to timeout because of API, not our problem
+        
         // //Our test info
         // const ID = "diH7";
         // const DESTINATIONID = "WD0M";
