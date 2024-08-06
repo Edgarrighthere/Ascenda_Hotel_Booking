@@ -81,6 +81,7 @@ const InputOTP = () => {
           localStorage.removeItem("salutation");
           localStorage.removeItem("firstName");
           localStorage.removeItem("lastName");
+          localStorage.removeItem("phoneNumber");
           setSuccess(
             <>
               {" "}
@@ -99,6 +100,7 @@ const InputOTP = () => {
           localStorage.setItem("salutation", salutation);
           localStorage.setItem("firstName", firstName);
           localStorage.setItem("lastName", lastName);
+          localStorage.setItem("phoneNumber", phoneNumber);
           setSuccess(
             <>
               {" "}

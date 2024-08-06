@@ -6,6 +6,11 @@ import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
 
 const BookingForm = () => {
+  const email = localStorage.getItem("email");
+  const salutation = localStorage.getItem("salutation");
+  const firstName = localStorage.getItem("firstName");
+  const lastName = localStorage.getItem("lastName");
+  const phoneNumber = localStorage.getItem("phoneNumber");
   const location = useLocation();
   const [error, setError] = useState("");
   const {
@@ -26,10 +31,10 @@ const BookingForm = () => {
   console.log("ADDRESS:", address);
 
   const [leadGuest, setLeadGuest] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    phone: "",
+    first_name: firstName || "",
+    last_name: lastName || "",
+    email: email || "",
+    phone: phoneNumber || "",
   });
   const [specialRequests, setSpecialRequests] = useState("");
   const [breakfastPackage, setBreakfastPackage] = useState(false);

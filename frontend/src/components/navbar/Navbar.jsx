@@ -146,21 +146,27 @@ const Navbar = ({ onLogout }) => {
                   Log in
                 </div>
               )}
-              <div
-                className="dropdownItem"
-                onClick={() => handleOptionClick("/account")}
-              >
-                Account Info
-              </div>
-              <div
-                className="dropdownItem"
-                onClick={() => handleOptionClick("/bookings")}
-              >
-                Bookings
-              </div>
-              <div className="dropdownItem" onClick={handleLogout}>
-                Log out
-              </div>
+              {currentSalutation !== "Guest" && (
+                <div
+                  className="dropdownItem"
+                  onClick={() => handleOptionClick("/account")}
+                >
+                  Account Info
+                </div>
+              )}
+              {currentSalutation !== "Guest" && (
+                <div
+                  className="dropdownItem"
+                  onClick={() => handleOptionClick("/bookings")}
+                >
+                  Bookings
+                </div>
+              )}
+              {currentSalutation !== "Guest" && (
+                <div className="dropdownItem" onClick={handleLogout}>
+                  Log out
+                </div>
+              )}
             </div>
           </div>
         </div>
