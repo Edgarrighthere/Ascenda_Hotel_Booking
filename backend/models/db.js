@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // mongoose.connect('mongodb://localhost:27017/AscendaHotelBookingDB');
-mongoose.connect("mongodb+srv://escc2g4:ESC_1234567890@ascendacluster.kouwwun.mongodb.net/AscendaHotelBookingDB?retryWrites=true&w=majority&appName=AscendaCluster")
+mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PW}@ascendacluster.kouwwun.mongodb.net/AscendaHotelBookingDB?retryWrites=true&w=majority&appName=AscendaCluster`)
 
 // Check connection
 mongoose.connection.once('open', () => {

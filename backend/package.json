@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node ./bin/www --env-file .env",
     "test": "jest --forceExit --detectOpenHandles"
   },
   "dependencies": {
@@ -15,6 +15,7 @@
     "crypto": "^1.0.1",
     "debug": "~2.6.9",
     "didyoumean2": "^7.0.2",
+    "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
     "http-errors": "~1.6.3",
