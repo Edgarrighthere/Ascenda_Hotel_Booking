@@ -115,11 +115,21 @@ const Register = () => {
                                 className="registerInputSalutation"
                                 data-testid="salutation-dropdown"
                             >
-                                <option value="">Select Salutation</option>
+                                <option value="">Salutation</option>
                                 <option value="Mr">Mr</option>
                                 <option value="Ms">Ms</option>
                                 <option value="Mdm">Mdm</option>
                                 <option value="Dr">Dr</option>
+                                <option value="Mx">Mx</option>
+                                <option value="Ind">Ind</option>
+                                <option value="M">M</option>
+                                <option value="Misc">Misc</option>
+                                <option value="Mre">Mre</option>
+                                <option value="Msr">Msr</option>
+                                <option value="Myr">Myr</option>
+                                <option value="Pr">Pr</option>
+                                <option value="Sai">Sai</option>
+                                <option value="Ser">Ser</option>
                             </select>
                         </div>
                         <input
